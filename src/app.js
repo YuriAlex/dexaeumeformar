@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
-import { View, ScrollView } from 'react-native';
-import { Header, ClassItem, ConfirmButton } from './components';
+// import Router from './Router';
+
+import { View } from 'react-native';
+import SemesterList from './components/SemesterList';
+import Semester from './components/Semester';
+
 // import { ClassItem } from './components/demf';
 // import { Provider } from 'react-redux';
 // import { createStore, applyMiddleware } from 'redux';
@@ -14,24 +18,20 @@ class App extends Component {
         
     }
 
+    // render() {
+    //     return (
+    //         <Router />
+    //     );
+    // }
+
     buttonPress() {
-        console.log('PPRESS');
+        
     }
 
-    renderClasses() {
-        return (<ClassItem />);
-    }
-    
     render() {
         return (
             <View>
-                <Header headerText='Primeiro Semestre' />
-
-                <ScrollView>                    
-                    {this.renderClasses()}
-                </ScrollView>
-
-                <ConfirmButton onPress={this.buttonPress.bind(this)} />
+                <Semester />
             </View>
         );
     }

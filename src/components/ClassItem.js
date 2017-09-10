@@ -2,13 +2,15 @@ import React from 'react';
 import { View } from 'react-native';
 import { ContentText, ClassCheck } from './';
 
-const ClassItem = () => (
-    <View style={styles.containerStyle} >
-        
-            <ClassCheck />
-            <ContentText text="Cadeira Um" />
-    </View>
-);
+const ClassItem = ({ classInfo }) => {
+    const { nome } = classInfo;
+
+    return (<View style={styles.containerStyle} >
+                <ClassCheck />
+                <ContentText text={nome} />
+            </View>
+    );
+};
 
 const styles = {
 

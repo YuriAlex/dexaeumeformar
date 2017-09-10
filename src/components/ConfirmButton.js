@@ -1,12 +1,13 @@
 import React from 'react';
-import { View, TouchableHighlight, Image } from 'react-native';
+import { View, Image, TouchableWithoutFeedback } from 'react-native';
 
 const ConfirmButton = ({ onPress }) => (
-    <View style={styles.containerStyle}>
-        <TouchableHighlight onPress={onPress}>
-        <Image source={require('../assets/images/happy.png')} style={{ width: 20, height: 20 }} />
-        </TouchableHighlight>
-    </ View>
+    <TouchableWithoutFeedback onPress={onPress}>
+        <View style={styles.containerStyle}>
+            <Image source={require('../assets/images/happy.png')} style={{ width: 20, height: 20 }} />
+            
+        </ View>
+    </TouchableWithoutFeedback>
 );
 
 const styles = {

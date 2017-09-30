@@ -44,7 +44,7 @@ const styles = {
     subtextStyle: {
         fontSize: 10,
         marginTop: 5,
-        color: '#C0C0C0',
+        color: '#a8a8aa',
     },
     
     incompleteStyle: {

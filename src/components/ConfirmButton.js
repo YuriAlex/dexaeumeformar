@@ -5,15 +5,14 @@ const ConfirmButton = ({ onPress }) => (
     <TouchableWithoutFeedback onPress={onPress}>
         <View style={styles.containerStyle}>
             <Image source={require('../assets/images/happy.png')} style={{ width: 20, height: 20 }} />
-            
         </ View>
     </TouchableWithoutFeedback>
 );
 
 const styles = {
     containerStyle: {
-        backgroundColor: '#7a32b8',
-        height: 30,
+        backgroundColor: '#6563a4',
+        height: 50,
         justifyContent: 'center',
         alignItems: 'center'
      }

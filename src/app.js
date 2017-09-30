@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 // import Router from './Router';
 
 import { View } from 'react-native';
+import Intro from './components/Intro';
 import SemesterList from './components/SemesterList';
-import Semester from './components/Semester';
 
 // import { ClassItem } from './components/demf';
 // import { Provider } from 'react-redux';
@@ -30,8 +30,9 @@ class App extends Component {
 
     render() {
         return (
+            // <Intro />
             <View>
-                <Semester />
+                <SemesterList />
             </View>
         );
     }

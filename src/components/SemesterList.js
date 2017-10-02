@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { Header, SemesterSquare } from './';
+import { Header, SemesterSquare } from './demf';
 
 const semData = [
     {
@@ -70,9 +70,10 @@ class Semester extends Component {
 
                 <View 
                     style={{
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'center', }}
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}
                 >
                     {this.renderRows(0, 1)}
                     {this.renderRows(2, 3)}

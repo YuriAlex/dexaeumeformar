@@ -21,7 +21,7 @@ const styles = {
         backgroundColor: '#fff',
         justifyContent: 'flex-start',
         flexDirection: 'row',
-        borderColor: '#a8a8aa',
+        borderColor: '#a8a8aa50',
         position: 'relative'
     }
 };

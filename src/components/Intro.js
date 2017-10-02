@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, Image, TouchableWithoutFeedback } from 'react-native';
 import Swiper from 'react-native-swiper';
-import { ConfirmButton } from './';
 
 const Intro = props => (
     <View style={styles.container}>

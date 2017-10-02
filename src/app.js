@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 // import Router from './Router';
 
 import { View } from 'react-native';
-import Intro from './components/Intro';
 import SemesterList from './components/SemesterList';
 
 // import { ClassItem } from './components/demf';

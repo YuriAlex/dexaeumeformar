@@ -24,8 +24,8 @@ const SemesterSquare = ({ semInfo }) => {
 const styles = {
 
     containerStyle: {
-        height: 128,
         padding: 10,
+        height: 130,
         width: '50%',
         backgroundColor: '#fff',
         justifyContent: 'center',

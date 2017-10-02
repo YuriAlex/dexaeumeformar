@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, ScrollView } from 'react-native';
-import { Header, ClassItem, ConfirmButton } from './';
+import { Header, ClassItem, ConfirmButton } from './demf';
 
 const teste = [
     {
@@ -24,6 +24,14 @@ const teste = [
         nome: 'Desenho I'
     },
 ];
+
+const styles = {
+     container: {
+        flexDirection: 'column',
+        height: '100%',
+        justifyContent: 'space-between',
+    }
+ }; 
 
 class Semester extends Component {
     
@@ -49,7 +57,7 @@ class Semester extends Component {
     
     render() {
         return (
-            <View>
+            <View style={styles.container}>
                 <Header headerText='Primeiro Semestre' />
 
                 <ScrollView>                    

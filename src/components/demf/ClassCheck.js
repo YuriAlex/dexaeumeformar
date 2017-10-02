@@ -2,7 +2,7 @@ import React from 'react';
 import { Image } from 'react-native';
 
 const ClassCheck = () => (
-    <Image source={require('../assets/images/happy.png')} style={styles.imageStyle} />
+    <Image source={require('../../assets/images/happy.png')} style={styles.imageStyle} />
 );
 
 const styles = {

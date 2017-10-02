@@ -1,14 +1,17 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, TouchableWithoutFeedback } from 'react-native';
 import { ContentText, ClassCheck } from './';
 
-const ClassItem = ({ classInfo }) => {
+const ClassItem = ({ classInfo }, { onPress }) => {
     const { nome } = classInfo;
 
-    return (<View style={styles.containerStyle} >
+    return (
+        <TouchableWithoutFeedback onPress={onPress} >
+            <View style={styles.containerStyle} >
                 <ClassCheck />
                 <ContentText text={nome} />
             </View>
+        </TouchableWithoutFeedback>
     );
 };
 

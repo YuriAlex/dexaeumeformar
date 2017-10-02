@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, TextInput } from 'react-native';
-import { ContentText, ContentTextMinor, ContentSubtext } from './';
 
 const ProfileItem = ({ label, value, placeholder }) => {
     const { inputStyle, labelStyle, containerStyle } = styles;

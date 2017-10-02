@@ -9,3 +9,7 @@ export * from './SemesterSquare';
 export * from './HomeItem';
 export * from './ProfilePic';
 export * from './ProfileItem';
+export * from './Obrigatorias';
+export * from './Eletivas';
+export * from './Optativas';
+export * from './PurpleTab';

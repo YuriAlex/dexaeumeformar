@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 // import Router from './Router';
 
 import { View } from 'react-native';
-import SemesterList from './components/SemesterList';
+import Atividades from './components/Atividades';
 
 // import { ClassItem } from './components/demf';
 // import { Provider } from 'react-redux';
@@ -31,7 +31,7 @@ class App extends Component {
         return (
             // <Intro />
             <View>
-                <SemesterList />
+                <Atividades />
             </View>
         );
     }

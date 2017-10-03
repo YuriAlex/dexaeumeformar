@@ -63,7 +63,7 @@ class Atividades extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Header headerText='Primeiro Semestre' />
+                <Header headerText='Atividades Complementares' />
 
                 <ScrollView>                    
                     {this.renderClasses()}

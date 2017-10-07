@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { Header, HomeItem, ProfilePic } from './demf';
+import Drawer from 'react-native-drawer';
+import { Header, HomeItem, ProfilePic, DrawerContent } from './demf';
 
 class Home extends Component {
 
-    componentWillMount() {
-        
-    }
+    state={
+        drawerOpen: false,
+        drawerDisabled: false,
+    };
+    closeDrawer = () => {
+    this._drawer.close()
+    };
+    openDrawer = () => {
+    this._drawer.open()
+    };
 
     render() {
         const { 
@@ -15,49 +23,69 @@ class Home extends Component {
         } = styles;
         
         return (
-            <View style={container}>
-                
-                <Header headerText='DEXA EUME FORMAR' />
-                
-                <View style={whiteArea}>
-                    <ProfilePic />
-                    <Text style={welcomeText1}>Bem-vindo, Fulano!</Text>
-                    <Text style={welcomeText2}>Aproveita o aplicativo e deixa tudo em ordem!</Text>
-                </View>
-
-                <View style={purpleArea1}>
-                    <View style={purpleArea2}>
-                        <Text style={classesText}>DISCIPLINAS CONCLUÍDAS</Text>
-                        <Text style={classesNum}>0</Text>
+            <Drawer
+                ref={(ref) => this._drawer = ref}
+                type="overlay"
+                content={
+                    <DrawerContent closeDrawer={this.closeDrawer} />
+                }
+                acceptDoubleTap
+                styles={{ main: { shadowColor: '#000000', shadowOpacity: 0.3, shadowRadius: 15 } }}
+                onOpen={() => {
+                  this.setState({ drawerOpen: true });
+                }}
+                onClose={() => {
+                  this.setState({ drawerOpen: false });
+                }}
+                captureGestures={false}
+                tweenDuration={200}
+                disabled={this.state.drawerDisabled}
+                negotiatePan
+            >
+                <View style={container}>
+                    
+                    <Header iconPress={this.openDrawer.bind(this)} headerText='DEXA EUME FORMAR' />
+                    
+                    <View style={whiteArea}>
+                        <ProfilePic />
+                        <Text style={welcomeText1}>Bem-vindo, Fulano!</Text>
+                        <Text style={welcomeText2}>Aproveita o aplicativo e deixa tudo em ordem!</Text>
                     </View>
-                    <View style={purpleArea2}>
-                        <Text style={classesText}>DISCIPLINAS RESTANTES</Text>
-                        <Text style={classesNum}>0</Text>
+
+                    <View style={purpleArea1}>
+                        <View style={purpleArea2}>
+                            <Text style={classesText}>DISCIPLINAS CONCLUÍDAS</Text>
+                            <Text style={classesNum}>0</Text>
+                        </View>
+                        <View style={purpleArea2}>
+                            <Text style={classesText}>DISCIPLINAS RESTANTES</Text>
+                            <Text style={classesNum}>0</Text>
+                        </View>
+                    </View>
+
+                    <View style={greenArea}>
+                        <Text style={matrizText}>JÁ CONFERIU A QUANTAS ANDA A MATRIZ?</Text>
+                    </View>
+
+                    <View>
+                        <HomeItem
+                            text1='Disciplinas Obrigatórias Concluídas'
+                            text2='Vai dar certo!'
+                            num='5'
+                        />
+                        <HomeItem
+                            text1='Disciplinas Eletivas Concluídas'
+                            text2='Vai dar certo!'
+                            num='5'
+                        />
+                        <HomeItem
+                            text1='Disciplinas Optativas Concluídas'
+                            text2='Vai dar certo!'
+                            num='5'
+                        />
                     </View>
                 </View>
-
-                <View style={greenArea}>
-                    <Text style={matrizText}>JÁ CONFERIU A QUANTAS ANDA A MATRIZ?</Text>
-                </View>
-
-                <View>
-                    <HomeItem
-                        text1='Disciplinas Obrigatórias Concluídas'
-                        text2='Vai dar certo!'
-                        num='5'
-                    />
-                    <HomeItem
-                        text1='Disciplinas Eletivas Concluídas'
-                        text2='Vai dar certo!'
-                        num='5'
-                    />
-                    <HomeItem
-                        text1='Disciplinas Optativas Concluídas'
-                        text2='Vai dar certo!'
-                        num='5'
-                    />
-                </View>
-            </View>
+            </Drawer>
         );
     }    
 }

@@ -1,23 +1,17 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableWithoutFeedback } from 'react-native';
-import { Header, ProfileItem, ProfilePic, ContentTextMinor } from './demf';
+import { ProfileItem, ProfilePic, ContentTextMinor, Header } from './demf';
+
 
 class Profile extends Component {
-
-    componentWillMount() {
-        
-    }
 
     render() {
         const { 
             container, picArea, greenText, backupArea, backupArea2, btnView
         } = styles;
-        
+
         return (
             <View style={container}>
-                
-                <Header headerText='DEXA EUME FORMAR' />
-                
                 <View style={picArea}>
                     <ProfilePic />
                     <Text style={greenText}>Alterar foto</Text>

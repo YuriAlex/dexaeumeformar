@@ -52,13 +52,12 @@ class Semester extends Component {
                 />
             )
         );
-        // return (<ClassItem />);
     }
     
     render() {
         return (
             <View style={styles.container}>
-                <Header headerText='Primeiro Semestre' />
+                {/* <Header headerText='Primeiro Semestre' /> */}
 
                 <ScrollView>                    
                     {this.renderClasses()}

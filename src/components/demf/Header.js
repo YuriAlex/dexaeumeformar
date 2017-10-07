@@ -1,13 +1,16 @@
 //Importar library pra fazer o component
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, Image, TouchableWithoutFeedback } from 'react-native';
 
 //fazer o componente
 const Header = (props) => {
-    const { textStyle, viewStyle } = styles;
+    const { textStyle, imageStyle, viewStyle } = styles;
 
     return (
         <View style={viewStyle}>
+            <TouchableWithoutFeedback onPress={props.iconPress}>
+                <Image source={require('../../assets/images/logo.png')} style={imageStyle} />
+            </TouchableWithoutFeedback>
             <Text style={textStyle}>{props.headerText}</Text>
         </View>
     );
@@ -18,16 +21,20 @@ const styles = {
 
     viewStyle: {
         backgroundColor: '#F8F8F8',
-        justifyContent: 'center',
         alignItems: 'center',
-        height: 50,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.2
+        flexDirection: 'row',
+        width: '100%',
+        alignContent: 'center',
+        justifyContent: 'flex-start',
+        padding: 10,
     },
-
     textStyle: {
-        fontSize: 20
+        fontSize: 20,
+        paddingLeft: 75
+    },
+    imageStyle: {
+        height: 20,
+        width: 20
     }
 };
 

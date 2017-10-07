@@ -66,7 +66,7 @@ class Semester extends Component {
     render() {
         return (
             <View>
-                <Header headerText='Semestres' />
+                {/* <Header headerText='Semestres' /> */}
 
                 <View 
                     style={{

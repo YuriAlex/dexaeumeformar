@@ -13,3 +13,4 @@ export * from './Obrigatorias';
 export * from './Eletivas';
 export * from './Optativas';
 export * from './PurpleTab';
+export * from './DrawerContent';

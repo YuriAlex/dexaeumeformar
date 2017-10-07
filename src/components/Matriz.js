@@ -40,7 +40,7 @@ class Matriz extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Header headerText='Primeiro Semestre' />
+                {/* <Header headerText='Matriz Curricular' /> */}
 
                 <TabViewAnimated
                 navigationState={this.state}

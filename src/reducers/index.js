@@ -8,6 +8,6 @@ import AtivSelectionReducer from './AtivSelectionReducer';
 export default combineReducers(
     {
         atividades: AtividadesReducer,
-        ativSelection: AtivSelectionReducer
+        atividadeSelectedId: AtivSelectionReducer
     }
 );

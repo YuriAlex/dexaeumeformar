@@ -6,7 +6,6 @@ const ContentText = (props) => (
         {props.text}
     </Text>
 );
-
 const styles = {
 
     textStyle: {

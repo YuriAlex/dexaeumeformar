@@ -16,29 +16,57 @@ class AtividadeItem extends Component {
         LayoutAnimation.linear();
     }
 
-    renderDescription() {
+    manageCurrentId() {
+        if (this.props.expanded) {
+            this.props.selectAtividade(-1);
+        } else {
+            this.props.selectAtividade(this.props.atividade.id);
+        }
+    }
+
+    renderQuestion() {
+        const { atividade, expanded } = this.props;
+
+        if (!expanded) {
+            return (
+                <ContentText text={atividade.pergunta} />
+            );
+        }
+
+        return (
+            <Text style={{ fontSize: 15, color: '#171721', flex: 1, fontWeight: 'bold' }}>
+                    {atividade.pergunta}
+            </Text>
+        );
+    }
+
+    renderAnswer() {
         const { atividade, expanded } = this.props;
 
         if (expanded) {
             return (
+                <View style={styles.containerStyle} >
+                <Text style={styles.purpleStyle}>R.</Text>
                 <ContentText text={atividade.resposta} />
+            </View>
             );
         }
     }
 
     render() {
-        const { id, pergunta } = this.props.atividade;
         return (
-            <TouchableWithoutFeedback onPress={() => this.props.selectAtividade(id)} >
-                <View style={styles.containerStyle} >
-                    <Text style={styles.numberStyle}>{id}.</Text>
-                    <ContentText text={pergunta} />
-                    {this.renderDescription()}
+            <TouchableWithoutFeedback onPress={this.manageCurrentId.bind(this)} >
+                <View>
+                    <View style={styles.containerStyle} >
+                        <Text style={styles.purpleStyle}>{this.props.atividade.id}.</Text>
+                        {this.renderQuestion()}
+                    </View>
+                    {this.renderAnswer()}
                 </View>
             </TouchableWithoutFeedback>
         );
     }
-};
+}
 
 const styles = {
 
@@ -50,7 +78,7 @@ const styles = {
         flexDirection: 'row',
         borderColor: '#a8a8aa50'
     },
-    numberStyle: {
+    purpleStyle: {
         fontSize: 14,
         color: '#6563a4',
         fontWeight: 'bold',
@@ -60,8 +88,7 @@ const styles = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-    const expanded = state.ativSelection === ownProps.atividade.id;
-    console.log(state);
+    const expanded = state.atividadeSelectedId === ownProps.atividade.id;
 
     return { expanded };
 };

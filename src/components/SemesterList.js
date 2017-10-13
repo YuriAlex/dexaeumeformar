@@ -86,16 +86,6 @@ class Semester extends Component {
     }    
 }
 
-/* <View style={rowStyle}>
-    {semData.map(info =>
-        <SemesterSquare 
-        onPress={this.semPress.bind(this)}
-        key={info.id}
-        semInfo={info}
-        />
-    )}
-</View> */
-
 const styles = {
 
     rowStyle: {

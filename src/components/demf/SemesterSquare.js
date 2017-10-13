@@ -1,17 +1,18 @@
 import React from 'react';
 import { View, Text, TouchableWithoutFeedback } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 
-const SemesterSquare = ({ semInfo }) => {
+const gotoSemester = (id) => {
+    console.log(id);
+    Actions.semester();
+}
+
+const SemesterSquare = ({ semInfo }, squarePress) => {
     const { containerStyle, titleStyle, subtextStyle, incompleteStyle } = styles;
-    const { key, semesterOrder, doneNum } = semInfo;
-    this.state = key;
-
-    const semPress = () => {
-        console.log('PPRREESS');
-    };
+    const { id, semesterOrder, doneNum } = semInfo;
 
     return (
-        <TouchableWithoutFeedback onPress={semPress}>
+        <TouchableWithoutFeedback onPress={() => {gotoSemester(id)}} >
             <View style={containerStyle} >
                 <Text style={titleStyle}>{semesterOrder}</Text>
                 <Text style={subtextStyle}>{doneNum} de 5 CONCLUÍDOS</Text>

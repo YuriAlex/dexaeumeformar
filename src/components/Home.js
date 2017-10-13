@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import Drawer from 'react-native-drawer';
+import { Actions } from 'react-native-router-flux';
 import { Header, HomeItem, ProfilePic, DrawerContent } from './demf';
 
 class Home extends Component {

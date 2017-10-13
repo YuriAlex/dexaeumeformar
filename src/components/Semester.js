@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, ScrollView } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 import { Header, ClassItem, ConfirmButton } from './demf';
 
 const teste = [
@@ -40,7 +41,7 @@ class Semester extends Component {
     }
 
     buttonPress() {
-        console.log('PPRESS');
+        Actions.pop();
     }
 
     renderClasses() {
@@ -57,7 +58,6 @@ class Semester extends Component {
     render() {
         return (
             <View style={styles.container}>
-                {/* <Header headerText='Primeiro Semestre' /> */}
 
                 <ScrollView>                    
                     {this.renderClasses()}

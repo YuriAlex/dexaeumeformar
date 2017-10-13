@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, Image, TouchableWithoutFeedback } from 'react-native';
 import Swiper from 'react-native-swiper';
+import { Actions } from 'react-native-router-flux';
 
 const Intro = props => (
     <View style={styles.container}>
@@ -103,10 +104,15 @@ export default class extends Component {
     }
 
     next() {
+        if(this.state.current === 3) {
+            Actions.home();
+            return;
+        }
+
         this.refs.swiper.scrollBy(1);
         this.state.current++;
-        if (this.state.current === 2) {
-            this.state.btnText = 'aaa';
+        if (this.state.current === 3) {
+            this.setState(previousState => {return {btnText: 'INICIAR'}});
         }
 
         this.render();

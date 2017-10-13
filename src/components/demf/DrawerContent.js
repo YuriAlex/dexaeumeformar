@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { View, Text, TouchableWithoutFeedback, Image } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 import { ProfilePic } from './';
 
 const items = [
@@ -29,7 +30,7 @@ class DrawerContent extends Component {
 
     static propTypes = {
         closeDrawer: PropTypes.func.isRequired
-      };
+    };
 
     ExitButton = () => {
         return (
@@ -48,6 +49,7 @@ class DrawerContent extends Component {
                 <MenuButton
                     key={info.id}
                     title={info.nome}
+                    closeFunc={this.props.closeDrawer}
                 />
             )
         );
@@ -74,9 +76,29 @@ class DrawerContent extends Component {
     
 }
 
-const MenuButton = ({ title }) => {
+const MenuButton = ({ title, closeFunc }) => {
+
+    gotoPage = () => {
+        console.log(closeFunc);
+
+        switch (title) {
+            case 'Atividades Complementares':
+                Actions.atividadesList();
+                break;
+            case 'Matriz Curricular':
+                Actions.matriz();
+                break;
+            case 'Semestres':
+                Actions.semesterList();
+                break;
+            case 'Perfil':
+                Actions.profile();
+                break;
+        }
+    };
+    
     return (
-        <TouchableWithoutFeedback onPress={() => {}} >
+        <TouchableWithoutFeedback onPress={this.gotoPage.bind(this)} >
             <View style={styles.btnStyle} >
                 <Image source={require('../../assets/images/logo.png')} style={styles.imageStyle} />
                 <Text style={styles.txtStyle}>{title}</Text>

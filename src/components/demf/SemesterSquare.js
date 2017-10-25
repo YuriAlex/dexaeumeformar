@@ -7,7 +7,7 @@ const gotoSemester = (id) => {
     Actions.semester();
 }
 
-const SemesterSquare = ({ semInfo }, squarePress) => {
+const SemesterSquare = ({ semInfo }) => {
     const { containerStyle, titleStyle, subtextStyle, incompleteStyle } = styles;
     const { id, semesterOrder, doneNum } = semInfo;
 

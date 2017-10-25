@@ -45,9 +45,10 @@ const semData = [
     },
 ];
 
+let w, h;
 
-class Semester extends Component {
-    
+class Semester extends Component {    
+
     componentWillMount() {
         
     }
@@ -65,25 +66,28 @@ class Semester extends Component {
 
     render() {
         return (
-            <View>
-                {/* <Header headerText='Semestres' /> */}
+            <View 
+                style={{
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }}
 
-                <View 
-                    style={{
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                    }}
-                >
-                    {this.renderRows(0, 1)}
-                    {this.renderRows(2, 3)}
-                    {this.renderRows(4, 5)}
-                    {this.renderRows(6, 7)}
-                </View>
-                
+                onLayout={this.onLayout}    
+            >
+                {this.renderRows(0, 1)}
+                {this.renderRows(2, 3)}
+                {this.renderRows(4, 5)}
+                {this.renderRows(6, 7)}
             </View>
         );
-    }    
+    }
+    
+    onLayout = event => {
+        const { width, height } = event.nativeEvent.layout;
+        this.setState({width, height})
+        console.log(this.state);
+    }
 }
 
 const styles = {

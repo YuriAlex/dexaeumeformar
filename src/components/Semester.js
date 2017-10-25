@@ -36,8 +36,13 @@ const styles = {
 
 class Semester extends Component {
     
+    state = { disciplinas: [] };
+
     componentWillMount() {
         
+        fetch('http://104.41.36.75:3070/disciplina/')
+        .then(response => response.json())
+        .then(data => this.setState({ disciplinas: data }));
     }
 
     buttonPress() {
@@ -46,9 +51,9 @@ class Semester extends Component {
 
     renderClasses() {
         return (
-            teste.map(info =>
+            this.state.disciplinas.map(info =>
                 <ClassItem
-                key={info.id}
+                key={info.Id}
                 classInfo={info}
                 />
             )

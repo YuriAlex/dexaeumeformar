@@ -1,51 +1,48 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
-import Drawer from 'react-native-drawer';
+import { View, Text, Dimensions } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { Header, HomeItem, ProfilePic, DrawerContent } from './demf';
+import SideMenu from 'react-native-side-menu';
 
 class Home extends Component {
 
-    state={
-        drawerOpen: false,
-        drawerDisabled: false,
-    };
-    closeDrawer = () => {
-    this._drawer.close()
-    };
-    openDrawer = () => {
-    this._drawer.open()
-    };
+    constructor(props) {
+        super(props);
+    
+        this.toggle = this.toggle.bind(this);
+    
+        this.state = { sOpen: false };
+    }
+
+    toggle() {
+        this.setState({
+          isOpen: !this.state.isOpen,
+        });
+      }
+    
+    updateMenuState(isOpen) {
+        this.setState({ isOpen });
+    }
 
     render() {
+        const {height, width} = Dimensions.get('window');
+        const menu = <DrawerContent closeDrawer={this.toggle.bind(this)} />;
+
         const { 
             container, whiteArea, purpleArea1, purpleArea2, greenArea,
             welcomeText1, welcomeText2, matrizText, classesText, classesNum
         } = styles;
-        
+
         return (
-            <Drawer
-                ref={(ref) => this._drawer = ref}
-                type="overlay"
-                content={
-                    <DrawerContent closeDrawer={this.closeDrawer} />
-                }
-                acceptDoubleTap
-                styles={{ main: { shadowColor: '#000000', shadowOpacity: 0.3, shadowRadius: 15 } }}
-                onOpen={() => {
-                  this.setState({ drawerOpen: true });
-                }}
-                onClose={() => {
-                  this.setState({ drawerOpen: false });
-                }}
-                captureGestures={false}
-                tweenDuration={200}
-                disabled={this.state.drawerDisabled}
-                negotiatePan
+            <SideMenu
+            menu={menu}
+            isOpen={this.state.isOpen}
+            onChange={isOpen => this.updateMenuState(isOpen)}
+            openMenuOffset={width}
             >
                 <View style={container}>
                     
-                    <Header iconPress={this.openDrawer.bind(this)} headerText='DEXA EUME FORMAR' />
+                    <Header iconPress={this.toggle.bind(this)} headerText='DEXA EUME FORMAR' />
                     
                     <View style={whiteArea}>
                         <ProfilePic />
@@ -86,7 +83,7 @@ class Home extends Component {
                         />
                     </View>
                 </View>
-            </Drawer>
+            </ SideMenu>
         );
     }    
 }

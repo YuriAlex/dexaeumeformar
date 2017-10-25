@@ -3,13 +3,13 @@ import { View, TouchableWithoutFeedback } from 'react-native';
 import { ContentText, ClassCheck } from './';
 
 const ClassItem = ({ classInfo }, { onPress }) => {
-    const { nome } = classInfo;
+    const { Nome } = classInfo;
 
     return (
         <TouchableWithoutFeedback onPress={onPress} >
             <View style={styles.containerStyle} >
                 <ClassCheck />
-                <ContentText text={nome} />
+                <ContentText text={Nome} />
             </View>
         </TouchableWithoutFeedback>
     );

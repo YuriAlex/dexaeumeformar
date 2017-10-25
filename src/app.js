@@ -5,6 +5,8 @@ import { Router, Scene } from 'react-native-router-flux';
 import reducers from './reducers';
 import RouterComponent from './RouterComponent';
 
+import Home from './components/Home';
+
 class App extends Component {
     render() {
         return (

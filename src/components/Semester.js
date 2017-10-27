@@ -47,23 +47,28 @@ class Semester extends Component {
         // else 
         //     newdisciplinasFeitas = disciplinasFeitas.filter(classDone => classDone !== classId)        
 
-        const newdisciplinasFeitas = disciplinasFeitas.find(classDone => classDone == classId) //disciplinasFeitas.indexOf(classId) == -1
-            ? [...disciplinasFeitas, classId]
-            : disciplinasFeitas.filter(classDone => classDone !== classId)
-            
+        const newdisciplinasFeitas = disciplinasFeitas.some(classDone => classDone == classId) //disciplinasFeitas.indexOf(classId) == -1
+            ? disciplinasFeitas.filter(classDone => classDone !== classId)
+            : [...disciplinasFeitas, classId]
+
         this.setState({ disciplinasFeitas: newdisciplinasFeitas })
     }
 
     renderClasses() {
         return (
-            this.state.disciplinas.map(info =>
-                <ClassItem
-                key={info.Id}
-                classInfo={info}
-                onPress={() => this.handleClassItemPress(info.Id)}
-                done={false}
-                />
-            )
+            this.state.disciplinas.map(info => {
+                
+                const done = disciplinasFeitas.some(classDone => classDone == info.Id)
+
+                return (
+                    <ClassItem
+                    key={info.Id}
+                    classInfo={info}
+                    onPress={() => this.handleClassItemPress(info.Id)}
+                    done={done}
+                    />
+                )
+            })
         );
     }
     

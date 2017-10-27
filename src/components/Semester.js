@@ -15,7 +15,10 @@ const styles = {
 
 class Semester extends Component {
     
-    state = { disciplinas: [] };
+    state = { 
+        disciplinas: [],
+        disciplinasFeitas: []
+    };
 
     componentWillMount() {
         
@@ -32,12 +35,33 @@ class Semester extends Component {
         Actions.pop();
     }
 
+    handleClassItemPress = classId => {
+
+        const { disciplinasFeitas } = this.state
+
+        //let newdisciplinasFeitas = []
+
+        // if(disciplinasFeitas.indexOf(classId) == -1)
+        //     newdisciplinasFeitas = [...disciplinasFeitas, classId]
+
+        // else 
+        //     newdisciplinasFeitas = disciplinasFeitas.filter(classDone => classDone !== classId)        
+
+        const newdisciplinasFeitas = disciplinasFeitas.find(classDone => classDone == classId) //disciplinasFeitas.indexOf(classId) == -1
+            ? [...disciplinasFeitas, classId]
+            : disciplinasFeitas.filter(classDone => classDone !== classId)
+            
+        this.setState({ disciplinasFeitas: newdisciplinasFeitas })
+    }
+
     renderClasses() {
         return (
             this.state.disciplinas.map(info =>
                 <ClassItem
                 key={info.Id}
                 classInfo={info}
+                onPress={() => this.handleClassItemPress(info.Id)}
+                done={false}
                 />
             )
         );

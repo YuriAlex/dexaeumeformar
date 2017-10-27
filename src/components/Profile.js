@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableWithoutFeedback } from 'react-native';
-import { ProfileItem, ProfilePic, ContentTextMinor, Header } from './demf';
+import { View, Text, TouchableWithoutFeedback, Image } from 'react-native';
+import { ProfileItem, ProfilePic, ContentTextMinor, HeaderRegular } from './demf';
 
 
 class Profile extends Component {
@@ -12,6 +12,7 @@ class Profile extends Component {
 
         return (
             <View style={container}>
+                <HeaderRegular headerText='Perfil' />
                 <View style={picArea}>
                     <ProfilePic />
                     <Text style={greenText}>Alterar foto</Text>
@@ -34,7 +35,9 @@ class Profile extends Component {
                 </View>
 
                 <TouchableWithoutFeedback onPress={() => {}}>
-                    <View style={btnView} />
+                    <View style={btnView}>
+                        <Image source={require('../assets/images/confirm.png')} style={{ width: 40, height: 40 }} />
+                    </View>
                 </TouchableWithoutFeedback>
             </View>
         );
@@ -46,6 +49,7 @@ const styles = {
     container: {
         flexDirection: 'column',
         justifyContent: 'space-between',
+        backgroundColor: '#fff',
         height: '100%'
     },
 
@@ -77,6 +81,7 @@ const styles = {
         backgroundColor: '#05b9c4',
         height: 50,
         justifyContent: 'center',
+        alignItems: 'center'
     },
 };
 

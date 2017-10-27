@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { Header, SemesterSquare } from './demf';
+import { HeaderRegular, SemesterSquare } from './demf';
 
 const semData = [
     {
@@ -75,6 +75,7 @@ class Semester extends Component {
 
                 onLayout={this.onLayout}    
             >
+            <HeaderRegular headerText='Semestres' />
                 {this.renderRows(0, 1)}
                 {this.renderRows(2, 3)}
                 {this.renderRows(4, 5)}

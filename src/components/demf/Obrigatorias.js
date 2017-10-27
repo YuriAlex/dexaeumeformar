@@ -4,24 +4,24 @@ import { ClassItem, PurpleTab } from './';
 
 const teste = [
     {
-        id: 0,
-        nome: 'Obrigatória 1'
+        Id: 0,
+        Nome: 'Obrigatória 1'
     },
     {
-        id: 1,
-        nome: 'Obrigatória 2'
+        Id: 1,
+        Nome: 'Obrigatória 2'
     },
     {
-        id: 2,
-        nome: 'Obrigatória 3'
+        Id: 2,
+        Nome: 'Obrigatória 3'
     },
     {
-        id: 3,
-        nome: 'Obrigatória 4'
+        Id: 3,
+        Nome: 'Obrigatória 4'
     },
     {
-        id: 4,
-        nome: 'Obrigatória 5'
+        Id: 4,
+        Nome: 'Obrigatória 5'
     },
 ];
 
@@ -37,6 +37,7 @@ const renderClasses = () => {
 };
 
 const Obrigatorias = () => {
+
     return (
         <View style={styles.containerStyle} >
             <ScrollView>

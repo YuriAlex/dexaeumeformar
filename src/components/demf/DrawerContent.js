@@ -62,7 +62,7 @@ class DrawerContent extends Component {
             <View style={containerStyle} >
                 <View style={headerStyle}>
                     <TouchableWithoutFeedback onPress={this.props.closeDrawer}>
-                        <Image source={require('../../assets/images/logo.png')} style={{ width: 20, height: 20 }} />
+                        <Image source={require('../../assets/images/menuclose.png')} style={{ width: 40, height: 40 }} />
                     </TouchableWithoutFeedback>
                 </View>
                 <ProfilePic />

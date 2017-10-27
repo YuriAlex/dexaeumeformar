@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { TabViewAnimated, TabBar, SceneMap } from 'react-native-tab-view';
-import { Header, Obrigatorias, Eletivas, Optativas } from './demf';
+import { HeaderRegular, Obrigatorias, Eletivas, Optativas } from './demf';
 
 const FirstRoute = () => <Obrigatorias />;
 const SecondRoute = () => <Eletivas />;
@@ -40,7 +40,7 @@ class Matriz extends Component {
     render() {
         return (
             <View style={styles.container}>
-                {/* <Header headerText='Matriz Curricular' /> */}
+                <HeaderRegular headerText='Matriz Curricular' />
 
                 <TabViewAnimated
                 navigationState={this.state}

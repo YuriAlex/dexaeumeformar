@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, Dimensions } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import { Header, HomeItem, ProfilePic, DrawerContent } from './demf';
+import { HeaderHome, HomeItem, ProfilePic, DrawerContent } from './demf';
 import SideMenu from 'react-native-side-menu';
 
 class Home extends Component {
@@ -26,7 +26,6 @@ class Home extends Component {
 
     render() {
         const {height, width} = Dimensions.get('window');
-        const menu = <DrawerContent closeDrawer={this.toggle.bind(this)} />;
 
         const { 
             container, whiteArea, purpleArea1, purpleArea2, greenArea,
@@ -35,14 +34,14 @@ class Home extends Component {
 
         return (
             <SideMenu
-            menu={menu}
+            menu={<DrawerContent closeDrawer={this.toggle.bind(this)} />}
             isOpen={this.state.isOpen}
             onChange={isOpen => this.updateMenuState(isOpen)}
             openMenuOffset={width}
             >
                 <View style={container}>
                     
-                    <Header iconPress={this.toggle.bind(this)} headerText='DEXA EUME FORMAR' />
+                    <HeaderHome iconPress={this.toggle.bind(this)} headerText='DEXA EUME FORMAR' />
                     
                     <View style={whiteArea}>
                         <ProfilePic />
@@ -91,7 +90,8 @@ class Home extends Component {
 const styles = {
 
     container: {
-        flexDirection: 'column',
+        height: '100%',
+        flexDirection: 'column'
     },
 
     whiteArea: {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, TouchableWithoutFeedback, Text, LayoutAnimation, UIManager, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
-import { ContentText, ClassItem } from './';
+import { ContentText } from './';
 
 class AtividadeItem extends Component {
 

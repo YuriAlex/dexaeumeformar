@@ -1,19 +1,45 @@
-import React from 'react';
-import { View, TouchableWithoutFeedback } from 'react-native';
-import { ContentText, ClassCheck } from './';
+import React, { Component } from 'react';
+import { View, TouchableWithoutFeedback, Image } from 'react-native';
+import { ContentText } from './';
 
-const ClassItem = ({ classInfo }, { onPress }) => {
-    const { Nome } = classInfo;
+class ClassItem extends Component{
 
-    return (
-        <TouchableWithoutFeedback onPress={onPress} >
-            <View style={styles.containerStyle} >
-                <ClassCheck />
-                <ContentText text={Nome} />
-            </View>
-        </TouchableWithoutFeedback>
-    );
-};
+    state = { done: false};
+    
+    manageCurrentState () {
+        if (this.state.done === false) {
+           this.setState({ done: true });
+        } else {
+            this.setState({ done: false });
+        }
+    }
+
+    renderIcon() {
+        if(this.state.done === true) {
+            return(
+            <Image source={require('../../assets/images/check.png')} style={styles.imageStyle} />
+            );
+        }
+        else {
+            return(
+            <Image source={require('../../assets/images/uncheck.png')} style={styles.imageStyle} />
+            );
+        }
+    }
+
+    render() {
+        return (
+            <TouchableWithoutFeedback onPress={this.manageCurrentState.bind(this)} >
+                <View style={styles.containerStyle} >
+                    {this.renderIcon()}
+                    <View style={styles.textStyle}>
+                        <ContentText text={this.props.classInfo.Nome}/>
+                    </View>
+                </View>
+            </TouchableWithoutFeedback>
+        );
+    }
+}
 
 const styles = {
 
@@ -25,7 +51,16 @@ const styles = {
         flexDirection: 'row',
         borderColor: '#a8a8aa50',
         position: 'relative'
+    },
+    textStyle: {
+        paddingTop: 10,
+        paddingLeft: 20
+    },
+    imageStyle: {
+        height: 40,
+        width: 40,
+        marginRight: 10
     }
 };
 
-export { ClassItem };
+export default ClassItem;

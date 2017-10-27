@@ -20,7 +20,7 @@ const styles = {
 
     containerStyle: {
         borderBottomWidth: 1,
-        height: 62,
+        height: 60,
         padding: 10,
         backgroundColor: '#fff',
         justifyContent: 'flex-start',

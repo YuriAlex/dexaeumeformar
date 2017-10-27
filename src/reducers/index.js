@@ -1,13 +1,12 @@
 import { combineReducers } from 'redux';
 import AtividadesReducer from './AtividadesReducer';
 import AtivSelectionReducer from './AtivSelectionReducer';
-
-//atividadesReducer
-//atvSelectionaReducer
+import ClassCheckedReducer from './ClassCheckedReducer';
 
 export default combineReducers(
     {
         atividades: AtividadesReducer,
-        atividadeSelectedId: AtivSelectionReducer
+        atividadeSelectedId: AtivSelectionReducer,
+        classChecked: ClassCheckedReducer
     }
 );

@@ -5,3 +5,11 @@ export const selectAtividade = (atividadeId) => {
         payload: atividadeId
     };
 };
+
+export const selectClass = (doneClass) => {
+    
+    return{ 
+        type:'select_class',
+        payload: doneClass
+    };
+};

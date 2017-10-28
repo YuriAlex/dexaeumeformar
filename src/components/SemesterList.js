@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
-import { HeaderRegular, SemesterSquare } from './demf';
+import { View, Dimensions } from 'react-native';
+import SideMenu from 'react-native-side-menu';
+import { HeaderRegular, SemesterSquare, DrawerContent } from './demf';
 
 const semData = [
     {
@@ -45,42 +46,56 @@ const semData = [
     },
 ];
 
-let w, h;
-
 class Semester extends Component {    
 
+    state = {
+        toggle: () => {this.setState({ isOpen: !this.state.isOpen })},
+        menuState: (isOpen) => {this.setState({ isOpen })}
+    };
+
     componentWillMount() {
-        
+        this.setState({ screenWidth: Dimensions.get('window').width });
     }
 
     renderRows = (a, b) => {
         const { rowStyle } = styles;
+        const h = (Dimensions.get('window').height / 4) - 20;
 
         return (
             <View style={rowStyle}>
-                <SemesterSquare semInfo={semData[a]} />
-                <SemesterSquare semInfo={semData[b]} />
+                <SemesterSquare semInfo={semData[a]} semHeight={h} />
+                <SemesterSquare semInfo={semData[b]} semHeight={h} />
             </View>
         );
     }
 
     render() {
-        return (
-            <View 
-                style={{
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                }}
 
-                onLayout={this.onLayout}    
+        const { toggle, screenWidth, menuState, isOpen } = this.state;
+
+        return (
+            <SideMenu
+                menu={<DrawerContent closeDrawer={toggle.bind(this)} />}
+                isOpen={isOpen}
+                onChange={(isOpen) => menuState}
+                openMenuOffset={screenWidth}
             >
-            <HeaderRegular headerText='Semestres' />
-                {this.renderRows(0, 1)}
-                {this.renderRows(2, 3)}
-                {this.renderRows(4, 5)}
-                {this.renderRows(6, 7)}
-            </View>
+                <View 
+                    style={{
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}
+
+                    onLayout={this.onLayout}    
+                >
+                <HeaderRegular iconPress={toggle.bind(this)} headerText='Semestres' />
+                    {this.renderRows(0, 1)}
+                    {this.renderRows(2, 3)}
+                    {this.renderRows(4, 5)}
+                    {this.renderRows(6, 7)}
+                </View>
+            </SideMenu>
         );
     }
     

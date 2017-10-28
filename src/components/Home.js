@@ -1,31 +1,23 @@
 import React, { Component } from 'react';
 import { View, Text, Dimensions } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import { HeaderHome, HomeItem, ProfilePic, DrawerContent } from './demf';
 import SideMenu from 'react-native-side-menu';
+import { HeaderHome, HomeItem, ProfilePic, DrawerContent } from './demf';
 
 class Home extends Component {
 
-    constructor(props) {
-        super(props);
-    
-        this.toggle = this.toggle.bind(this);
-    
-        this.state = { sOpen: false };
-    }
+    state = {
+        toggle: () => {this.setState({ isOpen: !this.state.isOpen })},
+        menuState: (isOpen) => {this.setState({ isOpen })}
+    };
 
-    toggle() {
-        this.setState({
-          isOpen: !this.state.isOpen,
-        });
-      }
-    
-    updateMenuState(isOpen) {
-        this.setState({ isOpen });
+    componentWillMount() {
+        this.setState({ screenWidth: Dimensions.get('window').width })
     }
 
     render() {
-        const {height, width} = Dimensions.get('window');
+
+        const { toggle, screenWidth, menuState, isOpen } = this.state;
 
         const { 
             container, whiteArea, purpleArea1, purpleArea2, greenArea,
@@ -34,14 +26,14 @@ class Home extends Component {
 
         return (
             <SideMenu
-            menu={<DrawerContent closeDrawer={this.toggle.bind(this)} />}
-            isOpen={this.state.isOpen}
-            onChange={isOpen => this.updateMenuState(isOpen)}
-            openMenuOffset={width}
+                menu={<DrawerContent closeDrawer={toggle.bind(this)} />}
+                isOpen={isOpen}
+                onChange={(isOpen) => menuState}
+                openMenuOffset={screenWidth}
             >
                 <View style={container}>
                     
-                    <HeaderHome iconPress={this.toggle.bind(this)} headerText='DEXA EUME FORMAR' />
+                    <HeaderHome iconPress={toggle.bind(this)} headerText='DEXA EUME FORMAR' />
                     
                     <View style={whiteArea}>
                         <ProfilePic />

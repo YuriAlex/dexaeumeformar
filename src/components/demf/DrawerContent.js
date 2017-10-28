@@ -79,9 +79,12 @@ class DrawerContent extends Component {
 const MenuButton = ({ title, closeFunc }) => {
 
     gotoPage = () => {
-        console.log(closeFunc);
+        closeFunc();
 
         switch (title) {
+            case 'Início':
+                Actions.home();
+                break;
             case 'Atividades Complementares':
                 Actions.atividadesList();
                 break;

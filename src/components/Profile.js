@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableWithoutFeedback, Image } from 'react-native';
-import { ProfileItem, ProfilePic, ContentTextMinor, HeaderRegular } from './demf';
+import { Actions } from 'react-native-router-flux';
+import { ProfileItem, ProfilePic, ContentTextMinor, HeaderSemester } from './demf';
 
 
 class Profile extends Component {
+
+    backToHome() {
+        Actions.pop();
+    }
 
     render() {
         const { 
@@ -12,7 +17,7 @@ class Profile extends Component {
 
         return (
             <View style={container}>
-                <HeaderRegular headerText='Perfil' />
+                <HeaderSemester headerText='Perfil' iconPress={this.backToHome.bind(this)} />
                 <View style={picArea}>
                     <ProfilePic />
                     <Text style={greenText}>Alterar foto</Text>

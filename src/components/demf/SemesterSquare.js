@@ -7,13 +7,13 @@ const gotoSemester = (id) => {
     Actions.semester();
 }
 
-const SemesterSquare = ({ semInfo }) => {
+const SemesterSquare = ({ semInfo, semHeight }) => {
     const { containerStyle, titleStyle, subtextStyle, incompleteStyle } = styles;
     const { id, semesterOrder, doneNum } = semInfo;
 
     return (
         <TouchableWithoutFeedback onPress={() => {gotoSemester(id)}} >
-            <View style={containerStyle} >
+            <View style={[containerStyle, {height: semHeight}]} >
                 <Text style={titleStyle}>{semesterOrder}</Text>
                 <Text style={subtextStyle}>{doneNum} de 5 CONCLUÍDOS</Text>
                 <View style={incompleteStyle} />
@@ -26,7 +26,6 @@ const styles = {
 
     containerStyle: {
         padding: 10,
-        height: 130,
         width: '50%',
         backgroundColor: '#fff',
         justifyContent: 'center',

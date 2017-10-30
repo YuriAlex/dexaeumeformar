@@ -13,6 +13,14 @@ const styles = {
     }
  }; 
 
+const holder = [
+    {
+        Id: 'asdasda',
+        IdSemestre: 'dasd[paidqwp'
+    }
+];
+
+
 class Semester extends Component {
     
     state = { 
@@ -39,19 +47,19 @@ class Semester extends Component {
 
         const { disciplinasFeitas } = this.state
 
-        //let newdisciplinasFeitas = []
+        //classdoneid eh da disciplinasfeitas
+        //classid eh o da disciplinas
 
-        // if(disciplinasFeitas.indexOf(classId) == -1)
-        //     newdisciplinasFeitas = [...disciplinasFeitas, classId]
+        //SOME: retorna "classDoneId" se "classDoneId" é igual a "classId"
+        //? if
+        //: else
 
-        // else 
-        //     newdisciplinasFeitas = disciplinasFeitas.filter(classDone => classDone !== classId)        
+        const newdisciplinasFeitas = disciplinasFeitas.some(classDoneId => classDoneId == classId) //disciplinasFeitas.indexOf(classId) == -1
+        ? disciplinasFeitas.filter(classDoneId => classDoneId !== classId)
+        : [...disciplinasFeitas, classId]
 
-        const newdisciplinasFeitas = disciplinasFeitas.some(classDone => classDone == classId) //disciplinasFeitas.indexOf(classId) == -1
-            ? disciplinasFeitas.filter(classDone => classDone !== classId)
-            : [...disciplinasFeitas, classId]
-
-        this.setState({ disciplinasFeitas: newdisciplinasFeitas })
+    this.setState({ disciplinasFeitas: newdisciplinasFeitas })
+    
     }
 
     renderClasses() {

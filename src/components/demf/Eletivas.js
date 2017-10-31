@@ -1,26 +1,27 @@
 import React from 'react';
 import { View, ScrollView } from 'react-native';
-import { ClassItem, PurpleTab } from './';
+import { PurpleTab } from './';
+import ClassItem from './ClassItem';
 
 const teste = [
     {
-        id: 0,
+        Id: 0,
         nome: 'Eletiva 1'
     },
     {
-        id: 1,
+        Id: 1,
         nome: 'Eletiva 2'
     },
     {
-        id: 2,
+        Id: 2,
         nome: 'Eletiva 3'
     },
     {
-        id: 3,
+        Id: 3,
         nome: 'Eletiva 4'
     },
     {
-        id: 4,
+        Id: 4,
         nome: 'Eletiva 5'
     },
 ];
@@ -29,8 +30,10 @@ const renderClasses = () => {
     return (
         teste.map(info =>
             <ClassItem
-            key={info.id}
-            classInfo={info}
+                key={info.Id}
+                classInfo={info}
+                onPress={() => {}}
+                done={false}
             />
         )
     );

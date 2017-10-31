@@ -83,7 +83,8 @@ const styles = {
 
     container: {
         height: '100%',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        backgroundColor: '#fff'
     },
 
     whiteArea: {

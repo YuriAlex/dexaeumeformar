@@ -1,7 +1,6 @@
 export * from './HeaderHome';
 export * from './HeaderRegular';
 export * from './HeaderSemester';
-export * from './ClassItem';
 export * from './ContentText';
 export * from './ContentTextMinor';
 export * from './ContentSubtext';

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, ScrollView } from 'react-native';
-import { ClassItem, PurpleTab } from './';
+import { PurpleTab } from './';
+import ClassItem from './ClassItem';
 
 const teste = [
     {
@@ -29,8 +30,10 @@ const renderClasses = () => {
     return (
         teste.map(info =>
             <ClassItem
-            key={info.id}
-            classInfo={info}
+                key={info.Id}
+                classInfo={info}
+                onPress={() => {}}
+                done={false}
             />
         )
     );
@@ -41,11 +44,11 @@ const Obrigatorias = () => {
     return (
         <View style={styles.containerStyle} >
             <ScrollView>
-                <PurpleTab text='1º SEMESTRE' />
+                <PurpleTab text= '1º SEMESTRE' />
                 {renderClasses()}
-                <PurpleTab text='2º SEMESTRE' />
+                <PurpleTab text= '2º SEMESTRE' />
                 {renderClasses()}
-                <PurpleTab text='3º SEMESTRE' />
+                <PurpleTab text= '3º SEMESTRE' />
                 {renderClasses()}
             </ScrollView>
         </View>

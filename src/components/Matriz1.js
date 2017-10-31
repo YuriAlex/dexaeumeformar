@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import SideMenu from 'react-native-side-menu';
 import { TabViewAnimated, TabBar, SceneMap } from 'react-native-tab-view';
 import { HeaderRegular, Obrigatorias, Eletivas, Optativas } from './demf';
 
@@ -15,15 +14,8 @@ class Matriz extends Component {
         routes: [
           { key: '1', title: 'OBRIGATORIAS' },
           { key: '2', title: 'ELETIVAS' },
-          { key: '3', title: 'OPTATIVAS' }
+          { key: '3', title: 'LIVRES' },
         ],
-
-        toggle: () => {this.setState({ isOpen: !this.state.isOpen })},
-        menuState: (isOpen) => {this.setState({ isOpen })}
-    };
-
-    componentWillMount() {
-        this.setState({ screenWidth: Dimensions.get('window').width });
     };
 
     mudarState = index => this.setState({ index });
@@ -46,26 +38,16 @@ class Matriz extends Component {
     });
 
     render() {
-
-        const { toggle, screenWidth, menuState, isOpen } = this.state;
-
         return (
-            <SideMenu
-                menu={<DrawerContent closeDrawer={toggle.bind(this)} />}
-                isOpen={isOpen}
-                onChange={(isOpen) => menuState}
-                openMenuOffset={screenWidth}
-            >
-                <View style={styles.container}>
+            <View style={styles.container}>
 
-                    <TabViewAnimated
-                        navigationState={this.state}
-                        renderScene={this.renderizarCena}
-                        renderHeader={this.renderizarHeader}
-                        onIndexChange={this.mudarState}
-                    />
-                </View>
-            </SideMenu>
+                <TabViewAnimated
+                    navigationState={this.state}
+                    renderScene={this.renderizarCena}
+                    renderHeader={this.renderizarHeader}
+                    onIndexChange={this.mudarState}
+                />
+            </View>
             
         );
     }

@@ -4,18 +4,8 @@ import { ContentText } from './';
 
 class ClassItem extends Component{
 
-    state = { done: false};
-    
-    manageCurrentState () {
-        if (this.state.done === false) {
-           this.setState({ done: true });
-        } else {
-            this.setState({ done: false });
-        }
-    }
-
     renderIcon() {
-        if(this.state.done === true) {
+        if(this.props.done === true) {
             return(
             <Image source={require('../../assets/images/check.png')} style={styles.imageStyle} />
             );
@@ -29,7 +19,7 @@ class ClassItem extends Component{
 
     render() {
         return (
-            <TouchableWithoutFeedback onPress={this.manageCurrentState.bind(this)} >
+            <TouchableWithoutFeedback onPress={this.props.onPress} >
                 <View style={styles.containerStyle} >
                     {this.renderIcon()}
                     <View style={styles.textStyle}>

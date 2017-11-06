@@ -14,10 +14,10 @@ const RouterComponent = () => {
     return (
         <Router >
             <Scene key="root" hideNavBar={true}>
-                <Scene key="intro" component={Intro} title="Intro" initial />
-                <Scene key="home" component={Home} title="Home"  />
+                <Scene key="intro" component={Intro} title="Intro" />
+                <Scene key="home" component={Home} title="Home" />
                 <Scene key="profile" component={Profile} title="Profile" />
-                <Scene key="matriz" component={Matriz} title="Matriz" />
+                <Scene key="matriz" component={Matriz} title="Matriz" initial />
                 <Scene key="home" component={Home} title="Home" />
                 <Scene key="semesterList" component={SemesterList} title="SemestreList" />
                 <Scene key="semester" component={Semester} title="Semestre" />

@@ -31,7 +31,7 @@ class Semester extends Component {
         disciplinas: [],
         disciplinasFeitas: holder
     };
-
+    
     componentWillMount() {
         
         fetch('http://104.41.36.75:3070/disciplina/curso-semestre?idCurso=f7c44ded-9fc7-604b-94db-6d72446a10bb&idSemestre=4f8a5602-4bd9-a5d8-ba35-c0c9727f7055')
@@ -60,10 +60,9 @@ class Semester extends Component {
 
         const newdisciplinasFeitas = disciplinasFeitas.some(item => item.Id == classId) //disciplinasFeitas.indexOf(classId) == -1
         ? disciplinasFeitas.filter(item => item.Id !== classId)
-        : [...disciplinasFeitas, classId];
-
+        : [...disciplinasFeitas, { Id: classId, IdSemestre: "4f8a5602-4bd9-a5d8-ba35-c0c9727f7055" }];
+        
         this.setState({ disciplinasFeitas: newdisciplinasFeitas });
-    
     }
 
     renderClasses() {

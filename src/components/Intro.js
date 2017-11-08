@@ -110,12 +110,17 @@ export default class extends Component {
         }
 
         this.refs.swiper.scrollBy(1);
-        this.state.current++;
-        if (this.state.current === 3) {
-            this.setState(previousState => {return {btnText: 'INICIAR'}});
-        }
+    }
 
-        this.render();
+    renderButton() {
+        return(<NextButton onPress={this.next.bind(this)} tit={this.state.btnText} />);
+    }
+
+    lastSlide() {
+        if(this.state.current != 3)
+            this.state.current++;
+        if(this.state.current === 3)
+            this.setState({btnText: 'INICIAR'});
     }
 
     render() {
@@ -125,6 +130,7 @@ export default class extends Component {
                     activeDotColor={'rgba(101,99,164,1)'}
                     ref='swiper'
                     loop={false}
+                    onIndexChanged={() => this.lastSlide()}
                 >
                     {
                         this.state.imageSlider.map((item, i) => <Intro 
@@ -135,8 +141,8 @@ export default class extends Component {
                         />)
                     }
                 </Swiper>
-
-                <NextButton onPress={this.next.bind(this)} tit={this.state.btnText} />
+                
+                {this.renderButton()}
             </View>
         );
     }

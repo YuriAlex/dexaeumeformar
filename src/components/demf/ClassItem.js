@@ -4,8 +4,17 @@ import { ContentText } from './';
 
 class ClassItem extends Component{
 
-    renderIcon() {
-        if(this.props.done === true) {
+    state = { 
+        checked: false
+    };
+
+    componentWillMount() {
+        this.setState({checked: this.props.done});
+    }
+
+    renderIcon(done) {
+
+        if(done === true) {
             return(
             <Image source={require('../../assets/images/check.png')} style={styles.imageStyle} />
             );
@@ -21,7 +30,7 @@ class ClassItem extends Component{
         return (
             <TouchableWithoutFeedback onPress={this.props.onPress} >
                 <View style={styles.containerStyle} >
-                    {this.renderIcon()}
+                    {this.renderIcon(this.props.done)}
                     <View style={styles.textStyle}>
                         <ContentText text={this.props.classInfo.Nome}/>
                     </View>

@@ -1,65 +1,61 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { View, ScrollView } from 'react-native';
 import { PurpleTab } from './';
 import ClassItem from './ClassItem';
 
-const teste = [
-    {
-        Id: 0,
-        Nome: 'Obrigatória 1'
-    },
-    {
-        Id: 1,
-        Nome: 'Obrigatória 2'
-    },
-    {
-        Id: 2,
-        Nome: 'Obrigatória 3'
-    },
-    {
-        Id: 3,
-        Nome: 'Obrigatória 4'
-    },
-    {
-        Id: 4,
-        Nome: 'Obrigatória 5'
-    },
-];
+class Obrigatorias extends Component {
 
-const renderClasses = () => {
-    return (
-        teste.map(info =>
-            <ClassItem
-                key={info.Id}
-                classInfo={info}
-                onPress={() => {}}
-                done={false}
-            />
-        )
-    );
-};
+    state = { 
+        disciplinas: []
+    };
+    
+    componentWillMount() {
+        fetch(this.props.url)
+        .then(response => response.json())
+        .then(data => this.setState({ disciplinas: data }));
+    }
 
-const Obrigatorias = () => {
+    renderClasses(idSemestre) {
+        let disc = this.state.disciplinas.filter(item => item.IdSemestre === idSemestre);
 
-    return (
-        <View style={styles.containerStyle} >
-            <ScrollView>
+        return (
+            disc.map(info =>
+                <ClassItem
+                    key={info.Id}
+                    classInfo={info}
+                    onPress={() => {}}
+                    done={false}
+                />
+            )
+        );
+    };
+
+    renderPurpleBar(idSemestre) {
+        if(idSemestre === "4f8a5602-4bd9-a5d8-ba35-c0c9727f7055") {
+            return(
                 <PurpleTab text= '1º SEMESTRE' />
-                {renderClasses()}
-                <PurpleTab text= '2º SEMESTRE' />
-                {renderClasses()}
-                <PurpleTab text= '3º SEMESTRE' />
-                {renderClasses()}
-            </ScrollView>
-        </View>
-    );
-};
+            );
+        }
+    }
+
+    render() {
+        return (
+            <View style={styles.containerStyle} >
+                <ScrollView>
+                    {this.renderPurpleBar("4f8a5602-4bd9-a5d8-ba35-c0c9727f7055")}
+                    {this.renderClasses("4f8a5602-4bd9-a5d8-ba35-c0c9727f7055")}
+                </ScrollView>
+            </View>
+        );
+    }
+}
 
 const styles = {
 
     containerStyle: {
         flexDirection: 'column',
         height: '100%',
+        backgroundColor: '#fff'
     }
 };
 

@@ -24,6 +24,8 @@ class Matriz extends Component {
 
     componentWillMount() {
         this.setState({ screenWidth: Dimensions.get('window').width });
+        // if(this.props.startingTab !== undefined)
+        //     index: this.props.startingTab
     };
 
     componentDidMount() {
@@ -60,6 +62,7 @@ class Matriz extends Component {
                 isOpen={isOpen}
                 onChange={(isOpen) => menuState}
                 openMenuOffset={screenWidth}
+                disableGestures={true}
             >
                 <View style={styles.container}>
                     <HeaderRegular iconPress={toggle.bind(this)} headerText='Matriz Curricular' />

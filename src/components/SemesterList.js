@@ -79,6 +79,7 @@ class Semester extends Component {
                 isOpen={isOpen}
                 onChange={(isOpen) => menuState}
                 openMenuOffset={screenWidth}
+                disableGestures={true}
             >
                 <View 
                     style={{

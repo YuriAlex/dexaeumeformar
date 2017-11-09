@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Dimensions } from 'react-native';
+import { View, Text, Dimensions, TouchableWithoutFeedback } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import SideMenu from 'react-native-side-menu';
 import { HeaderHome, HomeItem, ProfilePic, DrawerContent } from './demf';
@@ -13,6 +13,14 @@ class Home extends Component {
 
     componentWillMount() {
         this.setState({ screenWidth: Dimensions.get('window').width })
+    }
+
+    goToSemesterList() {
+        Actions.semesterList();
+    }
+
+    goToMatriz() {
+        Actions.matriz();
     }
 
     render() {
@@ -30,6 +38,7 @@ class Home extends Component {
                 isOpen={isOpen}
                 onChange={(isOpen) => menuState}
                 openMenuOffset={screenWidth}
+                disableGestures={true}
             >
                 <View style={container}>
                     
@@ -40,34 +49,39 @@ class Home extends Component {
                         <Text style={welcomeText1}>Bem-vindo, Fulano!</Text>
                         <Text style={welcomeText2}>Aproveita o aplicativo e deixa tudo em ordem!</Text>
                     </View>
-
-                    <View style={purpleArea1}>
-                        <View style={purpleArea2}>
-                            <Text style={classesText}>DISCIPLINAS CONCLUÍDAS</Text>
-                            <Text style={classesNum}>0</Text>
+                    
+                    <TouchableWithoutFeedback onPress={this.goToSemesterList.bind(this)}>
+                        <View style={purpleArea1}>
+                            <View style={purpleArea2}>
+                                <Text style={classesText}>DISCIPLINAS CONCLUÍDAS</Text>
+                                <Text style={classesNum}>0</Text>
+                            </View>
+                            <View style={purpleArea2}>
+                                <Text style={classesText}>DISCIPLINAS RESTANTES</Text>
+                                <Text style={classesNum}>0</Text>
+                            </View>
                         </View>
-                        <View style={purpleArea2}>
-                            <Text style={classesText}>DISCIPLINAS RESTANTES</Text>
-                            <Text style={classesNum}>0</Text>
-                        </View>
-                    </View>
+                    </TouchableWithoutFeedback>
 
                     <View style={greenArea}>
                         <Text style={matrizText}>JÁ CONFERIU A QUANTAS ANDA A MATRIZ?</Text>
                     </View>
 
                     <View>
-                        <HomeItem
+                        <HomeItem 
+                            onPress={this.goToMatriz.bind(this)}
                             text1='Disciplinas Obrigatórias Concluídas'
                             text2='Vai dar certo!'
                             num='5'
                         />
                         <HomeItem
+                            onPress={this.goToMatriz.bind(this)}
                             text1='Disciplinas Eletivas Concluídas'
                             text2='Vai dar certo!'
                             num='5'
                         />
                         <HomeItem
+                            onPress={this.goToMatriz.bind(this)}
                             text1='Disciplinas Optativas Concluídas'
                             text2='Vai dar certo!'
                             num='5'
@@ -91,6 +105,7 @@ const styles = {
         backgroundColor: '#fff',
         flexDirection: 'column',
         width: '100%',
+        height: '35%',
         justifyContent: 'space-between',
         alignItems: 'center',
         padding: 20

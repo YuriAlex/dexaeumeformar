@@ -1,18 +1,20 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableWithoutFeedback } from 'react-native';
 import { ContentText, ContentTextMinor, ContentSubtext } from './';
 
 const HomeItem = (props) => {
     const { containerStyle, dotStyle, textAreaStyle } = styles;
 
-    return (<View style={containerStyle} >
-                <Text style={dotStyle}>•</Text>
-                <View style={textAreaStyle} >
-                    <ContentTextMinor text={props.text1} />
-                    <ContentSubtext text={props.text2} />
+    return (<TouchableWithoutFeedback onPress={props.onPress} >
+                <View style={containerStyle} >
+                    <Text style={dotStyle}>•</Text>
+                    <View style={textAreaStyle} >
+                        <ContentTextMinor text={props.text1} />
+                        <ContentSubtext text={props.text2} />
+                    </View>
+                        <ContentText text={props.num} />
                 </View>
-                    <ContentText text={props.num} />
-            </View>
+            </TouchableWithoutFeedback>
     );
 };
 

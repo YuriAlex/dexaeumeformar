@@ -45,6 +45,7 @@ class AtividadesList extends Component {
                 isOpen={isOpen}
                 onChange={(isOpen) => menuState}
                 openMenuOffset={screenWidth}
+                disableGestures={true}
             >
                 <View style={styles.container}>
                     <HeaderRegular iconPress={toggle.bind(this)} headerText='Atividades Complementares' />

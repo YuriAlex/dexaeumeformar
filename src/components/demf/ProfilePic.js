@@ -1,9 +1,11 @@
 import React from 'react';
 import { View, Image } from 'react-native';
 
-const ProfilePic = () => (
+const placeHolder = '../../assets/images/batman.jpg';
+
+const ProfilePic = (props) => (
     <Image 
-        source={require('../../assets/images/batman.jpg')} style={styles.imageStyle}
+        source={require(props.imageUri)} style={styles.imageStyle}
         resizeMode="cover"
     />
 );

@@ -15,8 +15,8 @@ const RouterComponent = () => {
         <Router >
             <Scene key="root" hideNavBar={true}>
                 <Scene key="intro" component={Intro} title="Intro" />
-                <Scene key="home" component={Home} title="Home" initial />
-                <Scene key="profile" component={Profile} title="Profile" />
+                <Scene key="home" component={Home} title="Home"  />
+                <Scene key="profile" component={Profile} title="Profile" initial/>
                 <Scene key="matriz" component={Matriz} title="Matriz" />
                 <Scene key="home" component={Home} title="Home" />
                 <Scene key="semesterList" component={SemesterList} title="SemestreList" />

@@ -3,7 +3,6 @@ import { View, Text, TouchableWithoutFeedback } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 const gotoSemester = (id) => {
-    console.log(id);
     Actions.semester();
 }
 

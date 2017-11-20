@@ -5,7 +5,7 @@ const placeHolder = '../../assets/images/batman.jpg';
 
 const ProfilePic = (props) => (
     <Image 
-        source={require(props.imageUri)} style={styles.imageStyle}
+        source={require('../../assets/images/batman.jpg')} style={styles.imageStyle}
         resizeMode="cover"
     />
 );

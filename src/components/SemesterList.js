@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Dimensions } from 'react-native';
+import { View, Dimensions, AsyncStorage } from 'react-native';
 import SideMenu from 'react-native-side-menu';
 import { HeaderRegular, SemesterSquare, DrawerContent } from './demf';
 
@@ -50,11 +50,33 @@ class Semester extends Component {
 
     state = {
         toggle: () => {this.setState({ isOpen: !this.state.isOpen })},
-        menuState: (isOpen) => {this.setState({ isOpen })}
+        menuState: (isOpen) => {this.setState({ isOpen })},
+
+        semestres:[]
     };
 
     componentWillMount() {
         this.setState({ screenWidth: Dimensions.get('window').width });
+
+        fetch('http://104.41.36.75:3070/semestre?idCurso=f7c44ded-9fc7-604b-94db-6d72446a10bb')
+        .then(response => response.json())
+        .then(data => this.setState({ semestres: data }));
+
+        
+    }
+
+    componentDidMount() {
+        var s = this.state.semestres;
+        console.log(s);
+        // AsyncStorage.setItem('semestres', JSON.stringify(this.state.semestres));
+        AsyncStorage.setItem('teste', 'teste');
+    }
+
+    sortByOrdem(array, key) {
+        return array.sort(function(a, b) {
+            var x = a[key]; var y = b[key];
+            return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+        });
     }
 
     renderRows = (a, b) => {
@@ -70,6 +92,11 @@ class Semester extends Component {
     }
 
     render() {
+        // console.log(this.state.semestres);
+        // var a = JSON.stringify(this.state.semestres);
+        // console.log(a);
+        // var b = JSON.parse(a);
+        // console.log(b);
 
         const { toggle, screenWidth, menuState, isOpen } = this.state;
 
@@ -103,7 +130,6 @@ class Semester extends Component {
     onLayout = event => {
         const { width, height } = event.nativeEvent.layout;
         this.setState({width, height})
-        console.log(this.state);
     }
 }
 

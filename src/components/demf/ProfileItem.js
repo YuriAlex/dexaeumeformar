@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TextInput } from 'react-native';
 
-const ProfileItem = ({ label, value, placeholder }) => {
+const ProfileItem = ({ label, value, placeholder, onChangeText }) => {
     const { inputStyle, labelStyle, containerStyle } = styles;
 
     return (
@@ -13,6 +13,7 @@ const ProfileItem = ({ label, value, placeholder }) => {
                 autoCorrect={false}
                 style={inputStyle}
                 value={value}
+                onChangeText={onChangeText}
                 underlineColorAndroid={'transparent'}
             />
         </View>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableWithoutFeedback, Image } from 'react-native';
+import { View, Text, TouchableWithoutFeedback, Image, Keyboard } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 // import CameraRollPicker from 'react-native-camera-roll-picker';
 import { ProfileItem, ProfilePic, ContentTextMinor, HeaderSemester } from './demf';
@@ -12,17 +12,50 @@ class Profile extends Component {
         imagePath: '',
         imageHeight: '',
         imageWidth: '',
-        imagePlaceHolder: '../assets/images/batman.jpg'
+        imagePlaceHolder: '../assets/images/batman.jpg',
+
+        nome: '',
+        curso: '',
     }
 
-    backToHome() {
-        Actions.pop();
+    backToLogin() {
+        Actions.login();
     }
 
-    // getSelectedImages(image) {
-    //     if(image[0])
-    //         alert(image[0].uri);
-    // }
+    tryHome() {
+        console.log("teste");
+        let { nome } = this.state;
+
+        if(nome === undefined)
+            nome = '';
+            console.log(nome);
+        if(nome === '' || nome.length > 20)
+            return;
+            
+            console.log("action");
+        Actions.home();
+    }
+
+    renderButton() {
+        let { nome } = this.state;
+
+        if(nome === undefined)
+            nome = '';
+
+        if(nome === '' || nome.length > 20) {
+            return(
+                <View style={styles.btnView2}>
+                    <Image source={require('../assets/images/confirm.png')} style={{ width: 40, height: 40 }} />
+                </View>
+            );
+        }
+
+        return (
+            <View style={styles.btnView}>
+                <Image source={require('../assets/images/confirm.png')} style={{ width: 40, height: 40 }} />
+            </View>
+        );
+    }
 
     openImagePicker() {
         const options = {
@@ -57,14 +90,12 @@ class Profile extends Component {
 
         return (
             <View style={container}>
-                <HeaderSemester headerText='Perfil' iconPress={this.backToHome.bind(this)} />
+                <HeaderSemester headerText='Perfil' iconPress={this.tryHome.bind(this)} />
                 
                 <View style={picArea}>
-                    {/* <CameraRollPicker callback={this.getSelectedImages} /> */}
-                    {/* <ProfilePic imageUri='../../assets/images/batman.jpg' /> */}
-                    { this.state.imagePath ? <Image style={styles.picStyle} source={{uri: this.state.imagePath}} /> : null }
+                    { this.state.imagePath ? <Image style={styles.picStyle} source={{uri: this.state.imagePath}} /> : <ProfilePic />}
                     <TouchableWithoutFeedback onPress={this.openImagePicker.bind(this)}>
-                        <View>
+                        <View style={{ paddingTop: 10 }}>
                             <Text style={greenText}>Alterar foto</Text>
                         </View>
                     </TouchableWithoutFeedback>
@@ -72,9 +103,16 @@ class Profile extends Component {
                 </View>
                 
                 <View>
-                    <ProfileItem label='QUAL SEU NOME?' placeholder='Nome' />
-                    <ProfileItem label='CURSO?' placeholder='Curso' />
-                    <ProfileItem label='QUANDO INGRESSOU NO CURSO?' placeholder='Ano' />
+                    <ProfileItem 
+                        label='QUAL SUA NOME?' placeholder='Nome'
+                        value={this.state.nome}
+                        onChangeText={nome => this.setState({ nome })}
+                    />
+                    <ProfileItem 
+                        label='QUAL SEU CURSO?' placeholder='Curso'
+                        value={this.state.curso}
+                        onChangeText={curso => this.setState({ curso })}
+                    />
                 </View>
 
                 <View style={backupArea}>
@@ -88,10 +126,8 @@ class Profile extends Component {
                     </View>
                 </View>
 
-                <TouchableWithoutFeedback onPress={() => {}}>
-                    <View style={btnView}>
-                        <Image source={require('../assets/images/confirm.png')} style={{ width: 40, height: 40 }} />
-                    </View>
+                <TouchableWithoutFeedback onPress={this.tryHome.bind(this)}  onPressOut={Keyboard.dismiss}>
+                    {this.renderButton()}
                 </TouchableWithoutFeedback>
             </View>
         );
@@ -133,6 +169,13 @@ const styles = {
 
     btnView: {
         backgroundColor: '#05b9c4',
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+    btnView2: {
+        backgroundColor: '#6563a4',
         height: 50,
         justifyContent: 'center',
         alignItems: 'center'

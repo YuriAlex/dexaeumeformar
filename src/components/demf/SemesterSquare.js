@@ -1,21 +1,28 @@
 import React from 'react';
 import { View, Text, TouchableWithoutFeedback } from 'react-native';
-import { Actions } from 'react-native-router-flux';
+import { selectAtividade } from '../../actions/index';
 
-const gotoSemester = (id) => {
-    Actions.semester();
+const setNome = semInfo => {
+    if(semInfo === undefined)
+        return;
+
+    let nome = "";
+    nome = semInfo.Nome;
+    nome = nome.substring(0, nome.length - 9).trim();
+    return nome;
 }
 
-const SemesterSquare = ({ semInfo, semHeight }) => {
+const SemesterSquare = ({ semInfo, semHeight, onPress}) => {
     const { containerStyle, titleStyle, subtextStyle, incompleteStyle } = styles;
-    const { id, semesterOrder, doneNum } = semInfo;
 
     return (
-        <TouchableWithoutFeedback onPress={() => {gotoSemester(id)}} >
+        <TouchableWithoutFeedback onPress={onPress} >
             <View style={[containerStyle, {height: semHeight}]} >
-                <Text style={titleStyle}>{semesterOrder}</Text>
-                <Text style={subtextStyle}>{doneNum} de 5 CONCLUÍDOS</Text>
+
+                <Text style={titleStyle}>{setNome(semInfo)}</Text>
+                <Text style={subtextStyle}>0 de 5 CONCLUÍDOS</Text>
                 <View style={incompleteStyle} />
+
             </ View>
         </ TouchableWithoutFeedback>
     );

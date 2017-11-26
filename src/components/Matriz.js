@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Dimensions } from 'react-native';
+import { View, Dimensions, AsyncStorage } from 'react-native';
 import SideMenu from 'react-native-side-menu';
 import { TabViewAnimated, TabBar, SceneMap } from 'react-native-tab-view';
 import { HeaderRegular, Obrigatorias, Eletivas, Optativas, DrawerContent } from './demf';

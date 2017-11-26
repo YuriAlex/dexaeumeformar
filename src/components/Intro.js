@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, Image, TouchableWithoutFeedback } from 'react-native';
+import { Text, View, Image, TouchableWithoutFeedback, BackHandler } from 'react-native';
 import Swiper from 'react-native-swiper';
 import { Actions } from 'react-native-router-flux';
 
@@ -70,26 +70,22 @@ const images = [
     {
         img: require('../assets/images/logo.png'),
         title: '',
-        txt: 'Experimente uma nova forma de administrar sua matriz curricular.',
-        btn: 'AVANÇAR'
+        txt: 'Experimente uma nova forma de administrar sua matriz curricular.'
     },
     {
         img: require('../assets/images/walk01.png'),
         title: 'SINTA-SE EM CASA',
-        txt: 'Mantenha suas cadeiras organizadas.',
-        btn: 'AVANÇAR'
+        txt: 'Mantenha suas cadeiras organizadas.'
     },
     {
         img: require('../assets/images/walk02.png'),
         title: 'ESCOLHA O SEU DESTINO',
-        txt: 'Saiba quais cadeiras são recomendadas para as trilhas do curso.',
-        btn: 'AVANÇAR'
+        txt: 'Saiba quais cadeiras são recomendadas para as trilhas do curso.'
     },
     {
         img: require('../assets/images/walk03.png'),
         title: 'NÃO SE PERCA',
-        txt: 'Gerencie suas atividades complementares de forma rápida eficiente.',
-        btn: 'INICIAR'
+        txt: 'Gerencie suas atividades complementares de forma rápida eficiente.'
     }
 ];
 
@@ -103,9 +99,21 @@ export default class extends Component {
         };
     }
 
+    componentDidMount() {
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+    }
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+    }
+
+    handleBackButton() {
+        BackHandler.exitApp();
+    }
+
     next() {
         if(this.state.current === 3) {
-            Actions.home();
+            Actions.login();
             return;
         }
 

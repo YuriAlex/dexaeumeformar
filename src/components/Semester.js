@@ -28,20 +28,27 @@ class Semester extends Component {
     
     state = { 
         disciplinas: [],
-        disciplinasFeitas: holder
+        disciplinasFeitas: holder,
+        token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4M2IyYTc5YS0xNmExLWYwY2QtYTM0OS0yOWYzNjE1MjI5MjkiLCJOb21lIjoiTHVjYXMiLCJNYXRyaWN1bGEiOjM1Nzk1MSwiaWF0IjoxNTExNTUzMjMxLCJleHAiOjE1MTE1NTY4MzF9.QiD-_-N59c0QhqKZ7aISBLyfqf1dRFQ0u4Hnh903vwM"
     };
     
     componentWillMount() {
         // var a = JSON.parse(AsyncStorage.getItem('semestres'));
         // console.log(a);
 
-        fetch('http://104.41.36.75:3070/disciplina/curso-semestre?idCurso=f7c44ded-9fc7-604b-94db-6d72446a10bb&idSemestre=4f8a5602-4bd9-a5d8-ba35-c0c9727f7055')
+        fetch('http://104.41.36.75:3070/disciplina/curso-semestre?idCurso=f7c44ded-9fc7-604b-94db-6d72446a10bb&idSemestre=4f8a5602-4bd9-a5d8-ba35-c0c9727f7055',
+        {
+            method: 'GET',
+            headers: {
+                'authorization': this.state.token
+            }
+        }
+        )
         .then(response => response.json())
         .then(data => this.setState({ disciplinas: data }));
     }
 
     componentDidMount() {
-        console.log(AsyncStorage.getItem('teste'));
     }
 
     buttonPress() {
@@ -71,6 +78,7 @@ class Semester extends Component {
     }
 
     renderClasses() {
+        console.log(this.props.semestreId);
         return (
             this.state.disciplinas.map(info => {
                 

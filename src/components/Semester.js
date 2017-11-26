@@ -49,7 +49,6 @@ class Semester extends Component {
     }
 
     componentDidMount() {
-        console.log(AsyncStorage.getItem('teste'));
     }
 
     buttonPress() {
@@ -79,7 +78,7 @@ class Semester extends Component {
     }
 
     renderClasses() {
-        console.log(this.state);
+        console.log(this.props.semestreId);
         return (
             this.state.disciplinas.map(info => {
                 

@@ -111,7 +111,7 @@ class Profile extends Component {
                     <ProfileItem 
                         label='QUAL SEU CURSO?' placeholder='Curso'
                         value={this.state.curso}
-                        onChangeText={nome => this.setState({ nome })}
+                        onChangeText={curso => this.setState({ curso })}
                     />
                 </View>
 

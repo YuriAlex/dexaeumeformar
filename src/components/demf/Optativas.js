@@ -1,23 +1,29 @@
 import React, { Component } from 'react';
 import { View, ScrollView } from 'react-native';
-import ClassItem from './ClassItem';
+import ClassItemMatriz from './ClassItemMatriz';
 
 class Optativas extends Component {
 
-    state = { 
+    state = {
         disciplinas: []
     };
     
     componentWillMount() {
-        fetch(this.props.url)
-        .then(response => response.json())
-        .then(data => this.setState({ disciplinas: data }));
+        this.setState({ disciplinas: this.sortByNome(this.props.disciplinas) });
+    }
+
+    sortByNome(array) {
+        array = array.sort((a, b) => a.Nome.localeCompare(b.Nome));
+        return array;
     }
 
     renderClasses() {
+        if(this.state.disciplinas.length === 0)
+            return;
+
         return (
             this.state.disciplinas.map(info =>
-                <ClassItem
+                <ClassItemMatriz
                     key={info.Id}
                     classInfo={info}
                     onPress={() => {}}

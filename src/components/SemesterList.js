@@ -28,10 +28,19 @@ class Semester extends Component {
             return ((x < y) ? -1 : ((x > y) ? 1 : 0));
         });
     }
-
     
-    gotoSemester = id => {
-        Actions.semester({semestreId: id});
+    gotoSemester = semestre => {
+        let disc = [];
+
+        AsyncStorage.getItem('disciplinas')
+        .then(data => {
+            JSON.parse(data).map(item =>{
+                if(item.IdSemestre === semestre.Id)
+                    disc.push(item)
+            })
+            
+            Actions.semester({ semestre: semestre, disciplinas: disc })
+        })
     }
 
     renderRows = (a, b) => {
@@ -45,8 +54,8 @@ class Semester extends Component {
 
         return (
             <View style={rowStyle}>
-                <SemesterSquare semInfo={semestres[a]} semHeight={h} onPress={() => this.gotoSemester(semestres[a].Id)} />
-                <SemesterSquare semInfo={semestres[b]} semHeight={h} onPress={() => this.gotoSemester(semestres[b].Id)} />
+                <SemesterSquare semInfo={semestres[a]} semHeight={h} onPress={() => this.gotoSemester(semestres[a])} />
+                <SemesterSquare semInfo={semestres[b]} semHeight={h} onPress={() => this.gotoSemester(semestres[b])} />
             </View>
         );
     }
@@ -65,13 +74,11 @@ class Semester extends Component {
                 <View 
                     style={{
                         flexDirection: 'column',
-                        justifyContent: 'center',
-                        alignItems: 'center',
                         height: '100%',
                         backgroundColor: '#fff'
                     }}
 
-                    onLayout={this.onLayout}    
+                    onLayout={this.onLayout}        
                 >
                     <HeaderRegular iconPress={toggle.bind(this)} headerText='Semestres' />
                     {this.renderRows(0, 1)}

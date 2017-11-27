@@ -4,19 +4,25 @@ import SideMenu from 'react-native-side-menu';
 import { TabViewAnimated, TabBar, SceneMap } from 'react-native-tab-view';
 import { HeaderRegular, Obrigatorias, Eletivas, Optativas, DrawerContent } from './demf';
 
-const FirstRoute = () => <Obrigatorias url='http://104.41.36.75:3070/disciplina/curso/f7c44ded-9fc7-604b-94db-6d72446a10bb'/>;
-const SecondRoute = () => <Eletivas url='http://104.41.36.75:3070/disciplina/curso/eletivas/f7c44ded-9fc7-604b-94db-6d72446a10bb'/>;
-const ThirdRoute = () => <Optativas url='http://104.41.36.75:3070/disciplina/curso/optativas/f7c44ded-9fc7-604b-94db-6d72446a10bb'/>;
-
 class Matriz extends Component {
 
     state = {
         index: 0,
         routes: [
-          { key: '1', title: 'OBRIGATORIAS' },
-          { key: '2', title: 'ELETIVAS' },
-          { key: '3', title: 'OPTATIVAS' }
+            { key: '1', title: 'OBRIGATÓRIAS' },
+            { key: '2', title: 'ELETIVAS' },
+            { key: '3', title: 'OPTATIVAS' }
         ],
+
+        obrigatorias: {},
+        eletivas: {},
+        optativas: {},
+
+        firstRoute: () => <Obrigatorias disciplinas={this.state.obrigatorias}/>,
+        secondRoute: () => <Eletivas disciplinas={this.state.eletivas}/>,
+        thirdRoute: () => <Optativas disciplinas={this.state.optativas}/>,
+
+        ready: false,
 
         toggle: () => {this.setState({ isOpen: !this.state.isOpen })},
         menuState: (isOpen) => {this.setState({ isOpen })}
@@ -26,16 +32,37 @@ class Matriz extends Component {
         this.setState({ screenWidth: Dimensions.get('window').width });
         // if(this.props.startingTab !== undefined)
         //     index: this.props.startingTab
-    };
+    
+        AsyncStorage.getItem('disciplinas')
+        .then(data => {
 
-    componentDidMount() {
-        console.log(this.state);
+            let ob = [];
+            let el = [];
+            let op = [];
+            console.log("a");
+            JSON.parse(data).map(item =>{
+                if(item.Tipo === 1)
+                    ob.push(item)
+                else if(item.Tipo === 2)
+                    el.push(item)
+                else if(item.Tipo === 3)
+                    op.push(item)
+            })
+            console.log('asdasd')
+
+            this.setState({ obrigatorias: ob });
+            this.setState({ eletivas: el });
+            this.setState({ optativas: op });
+
+            this.setState({ ready:  true });
+
+            console.log(this.state);
+        })
     };
 
     mudarState = index => this.setState({ index });
 
     renderizarHeader = props => {
-        console.log(this.state);
         return (
           <TabBar
             {...props}
@@ -47,10 +74,23 @@ class Matriz extends Component {
     };
 
     renderizarCena = SceneMap({
-        '1': FirstRoute,
-        '2': SecondRoute,
-        '3': ThirdRoute,
+        '1': this.state.firstRoute,
+        '2': this.state.secondRoute,
+        '3': this.state.thirdRoute
     });
+
+    renderTabView () {
+        if(this.state.ready) {
+            return (
+                <TabViewAnimated
+                    navigationState={this.state}
+                    renderScene={this.renderizarCena}
+                    renderHeader={this.renderizarHeader}
+                    onIndexChange={this.mudarState}
+                />
+            )
+        }
+    }
 
     render() {
 
@@ -66,12 +106,7 @@ class Matriz extends Component {
             >
                 <View style={styles.container}>
                     <HeaderRegular iconPress={toggle.bind(this)} headerText='Matriz Curricular' />
-                    <TabViewAnimated
-                        navigationState={this.state}
-                        renderScene={this.renderizarCena}
-                        renderHeader={this.renderizarHeader}
-                        onIndexChange={this.mudarState}
-                    />
+                    {this.renderTabView()}
                 </View>
             </SideMenu>
             
@@ -83,7 +118,7 @@ const styles = {
     container: {
        flexDirection: 'column',
        height: '100%',
-       justifyContent: 'space-between',
+       backgroundColor: '#fff'
    },
    tabbar: {
     backgroundColor: '#fff',

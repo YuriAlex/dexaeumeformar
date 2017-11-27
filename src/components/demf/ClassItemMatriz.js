@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, TouchableWithoutFeedback, Image } from 'react-native';
 import { ContentText } from './';
 
-class ClassItem extends Component{
+class ClassItemMatriz extends Component{
 
     state = { 
         checked: false
@@ -16,12 +16,12 @@ class ClassItem extends Component{
 
         if(done === true) {
             return(
-            <Image source={require('../../assets/images/check.png')} style={styles.imageStyle} />
+            <Image source={require('../../assets/images/happy.png')} style={styles.happyStyle} />
             );
         }
         else {
             return(
-            <Image source={require('../../assets/images/uncheck.png')} style={styles.imageStyle} />
+            <Image source={require('../../assets/images/sad.png')} style={styles.sadStyle} />
             );
         }
     }
@@ -55,11 +55,17 @@ const styles = {
         paddingTop: 10,
         paddingLeft: 20
     },
-    imageStyle: {
+    happyStyle: {
         height: 40,
         width: 40,
         marginRight: 10
+    },
+    sadStyle: {
+        height: 40,
+        width: 40,
+        marginRight: 10,
+        tintColor: 'rgba(0,0,0,0.4)'
     }
 };
 
-export default ClassItem;
+export default ClassItemMatriz;

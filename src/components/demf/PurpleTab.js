@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 
 const PurpleTab = (props) => {
+    console.log('purple');
     return (
         <View style={styles.containerStyle} >
                 <Text style={styles.matrizText}>{props.text}</Text>

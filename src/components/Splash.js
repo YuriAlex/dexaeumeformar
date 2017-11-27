@@ -11,8 +11,9 @@ class Splash extends Component {
     componentWillMount() {
         // AsyncStorage.clear().then(this.setState({ loaded: true }));
 
-        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4M2IyYTc5YS0xNmExLWYwY2QtYTM0OS0yOWYzNjE1MjI5MjkiLCJOb21lIjoiTHVjYXMiLCJNYXRyaWN1bGEiOjM1Nzk1MSwiaWF0IjoxNTExNjYzMjM4LCJleHAiOjE1MTE2NjY4Mzh9.cWMmuWED8vI-OQi7yYyubpOafgTRw6D7fnm-XBWPHCM";
-        AsyncStorage.setItem('token', token);
+        // return;
+        // const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4M2IyYTc5YS0xNmExLWYwY2QtYTM0OS0yOWYzNjE1MjI5MjkiLCJOb21lIjoiTHVjYXMiLCJNYXRyaWN1bGEiOjM1Nzk1MSwiaWF0IjoxNTExNjYzMjM4LCJleHAiOjE1MTE2NjY4Mzh9.cWMmuWED8vI-OQi7yYyubpOafgTRw6D7fnm-XBWPHCM";
+        // AsyncStorage.setItem('token', token);
 
         fetch('http://104.41.36.75:3070/semestre?idCurso=f7c44ded-9fc7-604b-94db-6d72446a10bb')
         .then(response => response.json())
@@ -70,7 +71,7 @@ class Splash extends Component {
                     if(value === null || value === undefined)
                         Actions.intro();
                     else
-                        Actions.atividadesList();
+                        Actions.login();
                 }
             );
     }

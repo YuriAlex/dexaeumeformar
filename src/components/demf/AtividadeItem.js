@@ -71,13 +71,14 @@ class AtividadeItem extends Component {
 const styles = {
 
     containerStyle: {
-        borderBottomWidth: 1,
+        borderTopWidth: 1,
         padding: 10,
         backgroundColor: '#fff',
         justifyContent: 'flex-start',
         flexDirection: 'row',
         borderColor: '#a8a8aa50'
     },
+    
     purpleStyle: {
         fontSize: 14,
         color: '#6563a4',

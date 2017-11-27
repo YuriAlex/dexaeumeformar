@@ -7,6 +7,66 @@ class Login extends Component {
 
     state = { email: '', password: '', error: '', loading: false };
 
+    componentWillMount(){
+
+        //LOGIN
+        // fetch('http://104.41.36.75:3070/usuario/signin', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Accept': 'application/json',
+        //         'Content-Type': 'application/json',
+        //     },
+        //     body: JSON.stringify({
+        //         login: "357951",
+        //         senha: "12345678",
+        //     })
+        // })
+        // .then(response => response.json())
+        // .then(data => {
+        //    console.log(data);
+        // });
+
+        //CADASTRO
+        // fetch('http://104.41.36.75:3070/usuario/saveUsuario', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Accept': 'application/json',
+        //         'Content-Type': 'application/json',
+        //     },
+        //     body: JSON.stringify({
+        //         matricula 	: "357979",
+        //         senha 		: "qwewqwe",
+        //         tipo: 2,
+        //         nome: 'asdasd'
+        //     })
+        // })
+        // .then(response => response.json())
+        // .then(data => {
+        //    console.log(data);
+        // });
+
+        //EDITAR PERFIL
+        // fetch('http://104.41.36.75:3070/usuario/saveUsuario', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Accept': 'application/json',
+        //         'Content-Type': 'application/json',
+        //     },
+        //     body: JSON.stringify({
+        //         Id : 'dasdas dad kaspo'
+        //         matricula 	: "357979",
+        //         senha 		: "qwewqwe",
+        //         tipo: 2,
+        //         nome: 'asdasd'
+        //     })
+        // })
+        // .then(response => response.json())
+        // .then(data => {
+        //    console.log(data);
+        // });
+
+    }
+
     backToHome() {
         Actions.intro();
     }
@@ -48,6 +108,7 @@ class Login extends Component {
 
         if(matricula.length < 6 || !isnum || password.length < 6)
             return;
+
         
         Actions.profile();
     }

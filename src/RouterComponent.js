@@ -16,11 +16,11 @@ const RouterComponent = () => {
     return (
         <Router >
             <Scene key="root" hideNavBar={true}>
-                <Scene key="splash" component={Splash} title="Splash" initial/>
+                <Scene key="splash" component={Splash} title="Splash" />
                 <Scene key="intro" component={Intro} title="Intro" />
                 <Scene key="home" component={Home} title="Home" />
                 <Scene key="profile" component={Profile} title="Profile" />
-                <Scene key="login" component={Login} title="Login" />
+                <Scene key="login" component={Login} title="Login" initial/>
                 <Scene key="matriz" component={Matriz} title="Matriz" />
                 <Scene key="home" component={Home} title="Home" />
                 <Scene key="semesterList" component={SemesterList} title="SemestreList" />

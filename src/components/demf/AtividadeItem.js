@@ -20,7 +20,7 @@ class AtividadeItem extends Component {
         if (this.props.expanded) {
             this.props.selectAtividade(-1);
         } else {
-            this.props.selectAtividade(this.props.atividade.id);
+            this.props.selectAtividade(this.props.atividade.Id);
         }
     }
 
@@ -29,13 +29,13 @@ class AtividadeItem extends Component {
 
         if (!expanded) {
             return (
-                <ContentText text={atividade.pergunta} />
+                <ContentText text={atividade.Pergunta} />
             );
         }
 
         return (
             <Text style={{ fontSize: 15, color: '#171721', flex: 1, fontWeight: 'bold' }}>
-                    {atividade.pergunta}
+                    {atividade.Pergunta}
             </Text>
         );
     }
@@ -47,7 +47,7 @@ class AtividadeItem extends Component {
             return (
                 <View style={styles.containerStyle} >
                 <Text style={styles.purpleStyle}>R.</Text>
-                <ContentText text={atividade.resposta} />
+                <ContentText text={atividade.Resposta} />
             </View>
             );
         }
@@ -58,7 +58,7 @@ class AtividadeItem extends Component {
             <TouchableWithoutFeedback onPress={this.manageCurrentId.bind(this)} >
                 <View>
                     <View style={styles.containerStyle} >
-                        <Text style={styles.purpleStyle}>{this.props.atividade.id}.</Text>
+                        <Text style={styles.purpleStyle}>{this.props.ordem}.</Text>
                         {this.renderQuestion()}
                     </View>
                     {this.renderAnswer()}
@@ -88,7 +88,7 @@ const styles = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-    const expanded = state.atividadeSelectedId === ownProps.atividade.id;
+    const expanded = state.atividadeSelectedId === ownProps.atividade.Id;
 
     return { expanded };
 };

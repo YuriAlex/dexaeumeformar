@@ -39,7 +39,7 @@ class Matriz extends Component {
             let ob = [];
             let el = [];
             let op = [];
-            console.log("a");
+            
             JSON.parse(data).map(item =>{
                 if(item.Tipo === 1)
                     ob.push(item)
@@ -48,7 +48,6 @@ class Matriz extends Component {
                 else if(item.Tipo === 3)
                     op.push(item)
             })
-            console.log('asdasd')
 
             this.setState({ obrigatorias: ob });
             this.setState({ eletivas: el });

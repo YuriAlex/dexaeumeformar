@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ListView, Dimensions } from 'react-native';
+import { View, ListView, Dimensions, AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
 import SideMenu from 'react-native-side-menu';
 import { HeaderRegular, DrawerContent } from './demf';
@@ -24,15 +24,34 @@ class AtividadesList extends Component {
     componentWillMount() {
         this.setState({ screenWidth: Dimensions.get('window').width });
 
+        AsyncStorage.getItem('faq')
+        .then(data => {
+            let f = JSON.parse(data);
+            this.setState({ faq: f });
+        })
+    }
+
+    renderList () {
+        if (this.state.faq === undefined)
+            return;
+        
         const ds = new ListView.DataSource({
             rowHasChanged: (r1, r2) => r1 !== r2
         });
 
-        this.dataSource = ds.cloneWithRows(this.props.atividades);
+        let dataSource = ds.cloneWithRows(this.state.faq);
+
+        return (
+            <ListView 
+                dataSource={dataSource}
+                renderRow={this.renderQuestions}
+                renderRow={(rowData, sectionID, rowID, higlightRow) => this.renderQuestions(rowData, rowID)}
+            />
+        )
     }
 
-    renderQuestions(atividade) {
-        return (<AtividadeItem atividade={atividade} />);
+    renderQuestions(atividade, ordem) {
+        return (<AtividadeItem atividade={atividade} ordem={ordem}/>);
     }
     
     render() {
@@ -49,19 +68,16 @@ class AtividadesList extends Component {
             >
                 <View style={styles.container}>
                     <HeaderRegular iconPress={toggle.bind(this)} headerText='Atividades Complementares' />
-
-                    <ListView 
-                        dataSource={this.dataSource}
-                        renderRow={this.renderQuestions}
-                    />
+                    {this.renderList()}
                 </View>
             </SideMenu>
         );
     }
 }
 
-const mapStateToProps = state => {
-    return { atividades: state.atividades };
-};
+// const mapStateToProps = state => {
+//     return { atividades: state.atividades };
+// };
 
-export default connect(mapStateToProps)(AtividadesList);
+// export default connect(mapStateToProps)(AtividadesList);
+export default AtividadesList;

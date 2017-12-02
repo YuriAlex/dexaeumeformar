@@ -1,28 +1,33 @@
 import React, { Component, PropTypes } from 'react';
-import { View, Text, TouchableWithoutFeedback, Image } from 'react-native';
+import { View, Text, TouchableNativeFeedback, Image } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { ProfilePic } from './';
 
 const items = [
     {
         id: 0,
-        nome: 'Início'
+        nome: 'Início',
+        icon: require('../../assets/images/iconHome.png')
     },
     {
         id: 1,
-        nome: 'Atividades Complementares'
+        nome: 'Atividades Complementares',
+        icon: require('../../assets/images/iconFaq.png')
     },
     {
         id: 2,
-        nome: 'Matriz Curricular'
+        nome: 'Matriz Curricular',
+        icon: require('../../assets/images/iconMatriz.png')
     },
     {
         id: 3,
-        nome: 'Semestres'
+        nome: 'Semestres',
+        icon: require('../../assets/images/iconSemestres.png')
     },
     {
         id: 4,
-        nome: 'Perfil'
+        nome: 'Perfil',
+        icon: require('../../assets/images/iconPerfil.png')
     },
 ];
 
@@ -34,22 +39,23 @@ class DrawerContent extends Component {
 
     ExitButton = () => {
         return (
-            <TouchableWithoutFeedback onPress={this.props.closeDrawer} >
+            <TouchableNativeFeedback onPress={this.props.closeDrawer} >
                 <View style={styles.exitStyle} >
-                    <Image source={require('../../assets/images/logo.png')} style={{ height: 20, width: 20 }} />
+                    <Image source={require('../../assets/images/iconSair.png')} style={{ height: 20, width: 20 }} />
                     <Text style={{ fontSize: 10, color: '#fff' }}>SAIR</Text>
                 </View>
-            </TouchableWithoutFeedback>
+            </TouchableNativeFeedback>
         );
     };
 
     renderButtons() {
         return (
-            items.map(info =>
+            items.map(item =>
                 <MenuButton
-                    key={info.id}
-                    title={info.nome}
+                    key={item.id}
+                    title={item.nome}
                     closeFunc={this.props.closeDrawer}
+                    icon={item.icon}
                 />
             )
         );
@@ -61,9 +67,9 @@ class DrawerContent extends Component {
         return (
             <View style={containerStyle} >
                 <View style={headerStyle}>
-                    <TouchableWithoutFeedback onPress={this.props.closeDrawer}>
+                    <TouchableNativeFeedback onPress={this.props.closeDrawer}>
                         <Image source={require('../../assets/images/menuclose.png')} style={{ width: 40, height: 40 }} />
-                    </TouchableWithoutFeedback>
+                    </TouchableNativeFeedback>
                 </View>
                 <ProfilePic />
                 <View style={btnContainer} >
@@ -76,7 +82,7 @@ class DrawerContent extends Component {
     
 }
 
-const MenuButton = ({ title, closeFunc }) => {
+const MenuButton = ({ title, closeFunc, icon}) => {
 
     gotoPage = () => {
         closeFunc();
@@ -99,14 +105,14 @@ const MenuButton = ({ title, closeFunc }) => {
                 break;
         }
     };
-    
+    const teste = '../../assets/images/iconPerfil.png'
     return (
-        <TouchableWithoutFeedback onPress={this.gotoPage.bind(this)} >
+        <TouchableNativeFeedback onPress={this.gotoPage.bind(this)} >
             <View style={styles.btnStyle} >
-                <Image source={require('../../assets/images/logo.png')} style={styles.imageStyle} />
+                <Image source={icon} style={styles.imageStyle} />
                 <Text style={styles.txtStyle}>{title}</Text>
             </View>
-        </TouchableWithoutFeedback>
+        </TouchableNativeFeedback>
     );
 };
 

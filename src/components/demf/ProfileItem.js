@@ -36,13 +36,14 @@ const styles = {
         paddingRight: 5,
         paddingLeft: 20,
         paddingTop: -20,
-        fontSize: 12
+        fontSize: 14
     },
 
     labelStyle: {
         fontSize: 8,
         paddingLeft: 20,
         paddingTop: 20,
+        paddingBottom: 5,
         color: '#17172150'
     }
 };

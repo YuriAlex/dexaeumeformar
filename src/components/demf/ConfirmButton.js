@@ -1,12 +1,12 @@
 import React from 'react';
-import { View, Image, TouchableWithoutFeedback } from 'react-native';
+import { View, Image, TouchableNativeFeedback } from 'react-native';
 
 const ConfirmButton = ({ onPress }) => (
-    <TouchableWithoutFeedback onPress={onPress} >
+    <TouchableNativeFeedback onPress={onPress} >
         <View style={styles.containerStyle}>
             <Image source={require('../../assets/images/confirm.png')} style={{ width: 40, height: 40 }} />
         </ View>
-    </TouchableWithoutFeedback>
+    </TouchableNativeFeedback>
 );
 
 const styles = {

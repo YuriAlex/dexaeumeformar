@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, TouchableNativeFeedback } from 'react-native';
 import { selectAtividade } from '../../actions/index';
 
 const setNome = semInfo => {
@@ -16,15 +16,15 @@ const SemesterSquare = ({ semInfo, semHeight, onPress}) => {
     const { containerStyle, titleStyle, subtextStyle, incompleteStyle } = styles;
 
     return (
-        <TouchableWithoutFeedback onPress={onPress} >
+        <TouchableNativeFeedback onPress={onPress} >
             <View style={[containerStyle, {height: semHeight}]} >
 
                 <Text style={titleStyle}>{setNome(semInfo)}</Text>
-                <Text style={subtextStyle}>0 de 5 CONCLUÍDOS</Text>
+                <Text style={subtextStyle}>0 DE 5 CONCLUÍDOS</Text>
                 <View style={incompleteStyle} />
 
             </ View>
-        </ TouchableWithoutFeedback>
+        </ TouchableNativeFeedback>
     );
 };
 

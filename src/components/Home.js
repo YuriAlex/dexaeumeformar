@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Dimensions, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, Dimensions, TouchableNativeFeedback, AsyncStorage, BackHandler } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import SideMenu from 'react-native-side-menu';
 import { HeaderHome, HomeItem, ProfilePic, DrawerContent } from './demf';
@@ -8,24 +8,53 @@ class Home extends Component {
 
     state = {
         toggle: () => {this.setState({ isOpen: !this.state.isOpen })},
-        menuState: (isOpen) => {this.setState({ isOpen })}
+        menuState: (isOpen) => {this.setState({ isOpen })},
+        pointerEvents: 'auto',
+
+        userName: '', userPic: ''
     };
 
     componentWillMount() {
         this.setState({ screenWidth: Dimensions.get('window').width })
+
+        AsyncStorage.getItem('userData')
+        .then(data => { this.handleUser(JSON.parse(data)) })
+    }
+
+    componentDidMount() {
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+    }
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+    }
+
+    handleBackButton() {
+        return true
+    }
+
+    handleUser(data) {
+        console.log(data)
+        this.setState({ userName: data.Nome })
     }
 
     goToSemesterList() {
+        console.log(this.state.pointerEvents)
+        this.setState({pointerEvents: 'none'});
+        console.log(this.state.pointerEvents)
         Actions.semesterList();
     }
 
     goToMatriz() {
+        console.log(this.state.pointerEvents)
+        this.setState({pointerEvents: 'none'});
+        console.log(this.state.pointerEvents)
         Actions.matriz();
     }
 
     render() {
 
-        const { toggle, screenWidth, menuState, isOpen } = this.state;
+        const { toggle, screenWidth, menuState, isOpen, pointerEvents, userName, userPic } = this.state;
 
         const { 
             container, whiteArea, purpleArea1, purpleArea2, greenArea,
@@ -40,17 +69,17 @@ class Home extends Component {
                 openMenuOffset={screenWidth}
                 disableGestures={true}
             >
-                <View style={container}>
+                <View style={container} pointerEvents={pointerEvents} >
                     
                     <HeaderHome iconPress={toggle.bind(this)} headerText='DEXA EUME FORMAR' />
                     
                     <View style={whiteArea}>
                         <ProfilePic />
-                        <Text style={welcomeText1}>Bem-vindo, Fulano!</Text>
+                        <Text style={welcomeText1}>Bem-vindo, {userName}</Text>
                         <Text style={welcomeText2}>Aproveita o aplicativo e deixa tudo em ordem!</Text>
                     </View>
                     
-                    <TouchableWithoutFeedback onPress={this.goToSemesterList.bind(this)}>
+                    <TouchableNativeFeedback onPress={this.goToSemesterList.bind(this)}>
                         <View style={purpleArea1}>
                             <View style={purpleArea2}>
                                 <Text style={classesText}>DISCIPLINAS CONCLUÍDAS</Text>
@@ -61,7 +90,7 @@ class Home extends Component {
                                 <Text style={classesNum}>0</Text>
                             </View>
                         </View>
-                    </TouchableWithoutFeedback>
+                    </TouchableNativeFeedback>
 
                     <View style={greenArea}>
                         <Text style={matrizText}>JÁ CONFERIU A QUANTAS ANDA A MATRIZ?</Text>

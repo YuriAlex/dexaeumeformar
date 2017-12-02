@@ -1,29 +1,41 @@
 import React, { Component } from 'react';
-import { Text, View, Image, TouchableWithoutFeedback, BackHandler } from 'react-native';
+import { Text, View, Image, TouchableNativeFeedback, BackHandler } from 'react-native';
 import Swiper from 'react-native-swiper';
 import { Actions } from 'react-native-router-flux';
 
-const Intro = props => (
-    <View style={styles.container}>
-        <Image style={styles.image} source={props.uri} />
-        <Text style={styles.title}> {props.tit} </Text>
-        <Text style={styles.txt}> {props.txt} </Text>
-    </View> 
-);
+const Intro = props => {
+    
+    let s = {}
+    if(props.index === 0)
+        s = styles.imageLogo
+    else
+        s = styles.image
+
+    return(
+        <View style={styles.container}>
+            <View style={{height: '50%', justifyContent: 'center',}}>
+                <Image style={s} source={props.uri} />
+            </View>
+            <Text style={styles.title}> {props.tit} </Text>
+            <Text style={styles.txt}> {props.txt} </Text>
+        </View>
+    )
+};
 
 const NextButton = props => (
-    <TouchableWithoutFeedback onPress={props.onPress}>
+    <TouchableNativeFeedback onPress={props.onPress}>
         <View style={styles.btnView}>
             <Text style={styles.btnTxt}> { props.tit } </Text>
         </ View>
-    </TouchableWithoutFeedback>
+    </TouchableNativeFeedback>
 );
 
 const styles = {
     container: {
         flex: 1,
         justifyContent: 'center',
-        alignContent: 'center'
+        alignContent: 'center',
+        backgroundColor: '#fff'
     },
 
     image: {
@@ -33,8 +45,15 @@ const styles = {
         marginTop: -50
     },
 
+    imageLogo: {
+        width: 250,
+        height: 250,
+        alignSelf: 'center',
+        marginTop: -50
+    },
+
     title: {
-        paddingTop: 30,
+        paddingTop: 10,
         fontSize: 14,
         color: '#171721',
         alignSelf: 'center',
@@ -47,12 +66,13 @@ const styles = {
         color: '#171721',
         alignSelf: 'center',
         textAlign: 'center',
-        width: '75%'
+        width: '75%',
+        height: 50
     },
 
     btnView: {
-        backgroundColor: '#05b9c4',
-        height: 50,
+        backgroundColor: '#6563a4',
+        height: 60,
         justifyContent: 'center',
         
     },
@@ -69,7 +89,7 @@ const styles = {
 const images = [
     {
         img: require('../assets/images/logo.png'),
-        title: '',
+        title: ' ',
         txt: 'Experimente uma nova forma de administrar sua matriz curricular.'
     },
     {
@@ -80,12 +100,12 @@ const images = [
     {
         img: require('../assets/images/walk02.png'),
         title: 'ESCOLHA O SEU DESTINO',
-        txt: 'Saiba quais cadeiras são recomendadas para as trilhas do curso.'
+        txt: 'Veja quais cadeiras estão disponíveis para o seu curso.'
     },
     {
         img: require('../assets/images/walk03.png'),
         title: 'NÃO SE PERCA',
-        txt: 'Gerencie suas atividades complementares de forma rápida eficiente.'
+        txt: 'Tire duvidas sobre suas atividades complementares de forma rápida eficiente.'
     }
 ];
 
@@ -135,7 +155,7 @@ export default class extends Component {
         return (
             <View style={styles.container}>
                 <Swiper
-                    activeDotColor={'rgba(101,99,164,1)'}
+                    activeDotColor={'rgba(5,185,196,1)'}
                     ref='swiper'
                     loop={false}
                     onIndexChanged={() => this.lastSlide()}
@@ -145,6 +165,7 @@ export default class extends Component {
                             uri={item.img}
                             tit={item.title}
                             txt={item.txt}
+                            index={i}
                             key={i}
                         />)
                     }

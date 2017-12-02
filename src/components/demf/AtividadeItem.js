@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TouchableWithoutFeedback, Text, LayoutAnimation, UIManager, Platform } from 'react-native';
+import { View, TouchableNativeFeedback, Text, LayoutAnimation, UIManager, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
 import { ContentText } from './';
@@ -55,7 +55,7 @@ class AtividadeItem extends Component {
 
     render() {
         return (
-            <TouchableWithoutFeedback onPress={this.manageCurrentId.bind(this)} >
+            <TouchableNativeFeedback onPress={this.manageCurrentId.bind(this)} >
                 <View>
                     <View style={styles.containerStyle} >
                         <Text style={styles.purpleStyle}>{this.props.ordem}.</Text>
@@ -63,7 +63,7 @@ class AtividadeItem extends Component {
                     </View>
                     {this.renderAnswer()}
                 </View>
-            </TouchableWithoutFeedback>
+            </TouchableNativeFeedback>
         );
     }
 }

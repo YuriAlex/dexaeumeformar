@@ -1,16 +1,9 @@
 import React, { Component } from 'react';
-import { View, ScrollView, AsyncStorage } from 'react-native';
+import { View, ScrollView, AsyncStorage, Modal, Text, TouchableNativeFeedback } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { ConfirmButton, HeaderSemester } from './demf';
 import ClassItem from './demf/ClassItem';
-
-const styles = {
-     container: {
-        flexDirection: 'column',
-        height: '100%',
-        justifyContent: 'space-between',
-    }
- }; 
+import ClassItemPopup from './demf/ClassItemPopup';
 
 const holder = [
     {
@@ -29,17 +22,19 @@ const holder = [
     }
 ];
 
-
 class Semester extends Component {
-    
+
     state = {
         obrigatorias: [],
         eletivas: [],
+        optativas: [],
         ordem: '',
 
         disciplinasFeitas: holder,
         
-        token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4M2IyYTc5YS0xNmExLWYwY2QtYTM0OS0yOWYzNjE1MjI5MjkiLCJOb21lIjoiTHVjYXMiLCJNYXRyaWN1bGEiOjM1Nzk1MSwiaWF0IjoxNTExNTUzMjMxLCJleHAiOjE1MTE1NTY4MzF9.QiD-_-N59c0QhqKZ7aISBLyfqf1dRFQ0u4Hnh903vwM"
+        // token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4M2IyYTc5YS0xNmExLWYwY2QtYTM0OS0yOWYzNjE1MjI5MjkiLCJOb21lIjoiTHVjYXMiLCJNYXRyaWN1bGEiOjM1Nzk1MSwiaWF0IjoxNTExNTUzMjMxLCJleHAiOjE1MTE1NTY4MzF9.QiD-_-N59c0QhqKZ7aISBLyfqf1dRFQ0u4Hnh903vwM"
+        isModalVisible: false,
+        typeToShow: 2
     };
     
     componentWillMount() {
@@ -66,17 +61,23 @@ class Semester extends Component {
         this.setState({ ordem: str });
 
         let ob = [];
-        let el = [];
 
         this.props.disciplinas.map(item =>{
             if(item.Tipo === 1)
                 ob.push(item)
-            else if(item.Tipo === 2)
-                el.push(item)
+            // else if(item.Tipo === 2)
+            //     el.push(item)
         })
 
         this.setState({ obrigatorias: ob });
+
+        let el = [{ disciplina: null }, { disciplina: null }];
+
         this.setState({ eletivas: el });
+
+        let op = [{ disciplina: null }, { disciplina: null }];
+        
+        this.setState({ optativas: op });
     }
 
     buttonPress() {
@@ -84,7 +85,7 @@ class Semester extends Component {
     }
 
     backToList() {
-        Actions.pop();
+        Actions.semester();
     }
 
     handleClassItemPress = classId => {
@@ -98,8 +99,8 @@ class Semester extends Component {
         this.setState({ disciplinasFeitas: newdisciplinasFeitas });
     }
 
-    renderObrigatorias() {
-        
+    renderObrigatorias() {    
+
         return (
             this.state.obrigatorias.map(info => {
                 
@@ -116,14 +117,74 @@ class Semester extends Component {
             })
         );
     }
+
+    renderEletivaOptativa(tipo) {
+        return (
+            this.state.eletivas.map((data, index, array) => {
+                
+                if(data.disciplina === null){
+                    let text = 'Eletiva';
+                    if(tipo === 3)
+                        text = 'Optativa'
+                    
+                    return (
+                        <ClassItemPopup
+                            key={index}
+                            tipo={tipo}
+                            text={text}
+                            onPress={() => this.setState({isModalVisible: true, typeToShow: tipo})}
+                        />
+                    );
+                }
+                else {
+                    const done = this.state.disciplinasFeitas.some(item => item.Id == info.Id);
+                    
+                        return (
+                            <ClassItem
+                            key={info.Id}
+                            classInfo={info}
+                            onPress={() => this.handleClassItemPress(info.Id)}
+                            done={done}
+                            />
+                        );
+                }
+            })
+        );
+    }
+
+    renderModal() {
+        return(
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={this.state.isModalVisible}
+                onRequestClose={() => {alert("Modal has been closed.")}}
+                >
+                <View style={{marginTop: 22, height: 100, width: 100}}>
+                    <View>
+                        <Text>Hello World!</Text>
+
+                        <TouchableNativeFeedback onPress={() => {
+                            this.setState({ isModalVisible: false })
+                            }}>
+                            <Text>Hide Modal</Text>
+                        </TouchableNativeFeedback>
+
+                    </View>
+                </View>
+            </Modal>
+        )
+    }
     
     render() {
         return (
             <View style={styles.container}>
                 <HeaderSemester headerText={this.state.ordem + ' Semestre'} iconPress={this.backToList.bind(this)} />
-
+                {this.renderModal()}
                 <ScrollView>                    
                     {this.renderObrigatorias()}
+                    {this.renderEletivaOptativa(2)}
+                    {this.renderEletivaOptativa(3)}
                 </ScrollView>
 
                 <ConfirmButton onPress={this.buttonPress.bind(this)} />
@@ -131,5 +192,14 @@ class Semester extends Component {
         );
     }
 }
+
+const styles = {
+    container: {
+       flexDirection: 'column',
+       height: '100%',
+       justifyContent: 'space-between',
+       backgroundColor: '#fff'
+   }
+}; 
 
 export default Semester;

@@ -61,10 +61,11 @@ class Splash extends Component {
         
         this.timeoutHandle = setTimeout(()=>{
             this.gotoPage();
-        }, 1);
+        }, 100);
     }
 
     gotoPage() {
+        // Actions.home();
         AsyncStorage.getItem('token')
             .then(
                 (value) => {
@@ -91,7 +92,8 @@ const styles = {
         flex: 1,
         flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor: '#fff'
     },
     image: {
         width: 300,

@@ -1,30 +1,35 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableWithoutFeedback, Image, Keyboard } from 'react-native';
+import { View, Text, TouchableNativeFeedback, Image, Keyboard, AsyncStorage } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { ProfileItem, HeaderSemester } from './demf';
 
 class Login extends Component {
 
-    state = { email: '', password: '', error: '', loading: false };
+    state = {   
+        email: '', password: '', error: '', loading: false, oktogo: false,
+        userError: false, passwordError: false, 
+    };
 
     componentWillMount(){
 
-        //LOGIN
-        // fetch('http://104.41.36.75:3070/usuario/signin', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Accept': 'application/json',
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify({
-        //         login: "357951",
-        //         senha: "12345678",
-        //     })
-        // })
-        // .then(response => response.json())
-        // .then(data => {
-        //    console.log(data);
-        // });
+        // LOGIN
+        fetch('http://104.41.36.75:3070/usuario/signin', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                login: "357979",
+                senha: "12345678",
+            })
+        })
+        .then(response => response.json())
+        .then(data => this.handleLogin(data))
+        // .then(data => console.log(data.error.message))
+        // .then(data => { console.log(data); })
+        // .catch(error => {console.log(error.messages); console.log(error)})
+        
 
         //CADASTRO
         // fetch('http://104.41.36.75:3070/usuario/saveUsuario', {
@@ -67,8 +72,16 @@ class Login extends Component {
 
     }
 
-    backToHome() {
-        Actions.intro();
+    handleLogin(data)
+    {
+        if(data.status !== undefined)
+        {
+            console.log("FAZER LOGIN OU MENSAGEM DE SENHA");
+            return;
+        }
+        console.log('blz');
+        AsyncStorage.setItem('userData', JSON.stringify(data))
+        .then(this.setState({ oktogo: true }))
     }
 
     renderButton() {
@@ -97,6 +110,9 @@ class Login extends Component {
     }
 
     tryProfile() {
+        if(!this.state.oktogo)
+            return;
+
         let { matricula, password } = this.state;
         if(matricula === undefined || password === undefined)
         {
@@ -106,8 +122,8 @@ class Login extends Component {
 
         const isnum = /^\d+$/.test(matricula);
 
-        if(matricula.length < 6 || !isnum || password.length < 6)
-            return;
+        // if(matricula.length < 6 || !isnum || password.length < 6)
+        //     return;
 
         
         Actions.profile();
@@ -120,18 +136,21 @@ class Login extends Component {
 
         return (
             <View style={container}>
-                <HeaderSemester headerText='Login' iconPress={this.backToHome.bind(this)} />
+                <HeaderSemester headerText='Login' iconPress={() => Actions.intro()} />
             
                 <View style={backupArea}>
                     <View backupArea2>
-                        <Text style={blackText}>Não se preocupe caso você ainda não tenha cadastro.{'\n'}</Text>
+                        <Text style={blackText}>Não se preocupe{'\n'}</Text>
+                    </View>
+                    <View backupArea2>
+                        <Text style={blackText}>caso você ainda não tenha cadastro.{'\n'}</Text>
                     </View>
                     <View backupArea2>
                         <Text style={blackText}>Ele será criado agora. ;)</Text>
                     </View>
                 </View>
 
-                <View style={{ marginTop: -50 }}>
+                <View style={{ marginBottom: 60 }}>
                     <ProfileItem 
                         label='QUAL SUA MATRÍCULA?' placeholder='Matrícula'
                         value={this.state.matricula}
@@ -144,9 +163,9 @@ class Login extends Component {
                     />
                 </View>
 
-                <TouchableWithoutFeedback onPress={this.tryProfile.bind(this)} onPressOut={Keyboard.dismiss}>
+                <TouchableNativeFeedback onPress={this.tryProfile.bind(this)} onPressOut={Keyboard.dismiss}>
                     {this.renderButton()}
-                </TouchableWithoutFeedback>
+                </TouchableNativeFeedback>
             </View>
         );
     }    
@@ -164,6 +183,7 @@ const styles = {
     backupArea: {
         flexDirection: 'column',
         justifyContent: 'space-between',
+        marginBottom: 40
     },
     backupArea2: {
         flexDirection: 'row',
@@ -174,7 +194,7 @@ const styles = {
     blackText: {
         fontSize: 12,
         color: '#171721',
-        textAlign: 'center',
+        textAlign: 'center'
     },
 
     btnView: {
@@ -185,7 +205,7 @@ const styles = {
     },
 
     btnView2: {
-        backgroundColor: '#6563a4',
+        backgroundColor: '#8F8F93',
         height: 50,
         justifyContent: 'center',
         alignItems: 'center'

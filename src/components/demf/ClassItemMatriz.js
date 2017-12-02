@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TouchableWithoutFeedback, Image } from 'react-native';
+import { View, TouchableNativeFeedback, Image } from 'react-native';
 import { ContentText } from './';
 
 class ClassItemMatriz extends Component{
@@ -28,14 +28,14 @@ class ClassItemMatriz extends Component{
 
     render() {
         return (
-            <TouchableWithoutFeedback onPress={this.props.onPress} >
+            <TouchableNativeFeedback onPress={this.props.onPress} >
                 <View style={styles.containerStyle} >
                     {this.renderIcon(this.props.done)}
                     <View style={styles.textStyle}>
                         <ContentText text={this.props.classInfo.Nome}/>
                     </View>
                 </View>
-            </TouchableWithoutFeedback>
+            </TouchableNativeFeedback>
         );
     }
 }

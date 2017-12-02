@@ -30,7 +30,8 @@ const styles = {
     },
     textStyle: {
         fontSize: 20,
-        paddingLeft:50
+        paddingLeft:50,
+        color: '#000'
     },
     imageStyle: {
         height: 40,

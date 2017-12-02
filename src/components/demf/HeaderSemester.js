@@ -1,14 +1,14 @@
 import React from 'react';
-import { Text, View, Image, TouchableWithoutFeedback } from 'react-native';
+import { Text, View, Image, TouchableNativeFeedback } from 'react-native';
 
 const HeaderSemester = (props) => {
     const { textStyle, imageStyle, viewStyle } = styles;
 
     return (
         <View style={viewStyle}>
-            <TouchableWithoutFeedback onPress={props.iconPress}>
+            <TouchableNativeFeedback onPress={props.iconPress}>
                 <Image source={require('../../assets/images/menuclose.png')} style={imageStyle} />
-            </TouchableWithoutFeedback>
+            </TouchableNativeFeedback>
             <Text style={textStyle}>{props.headerText}</Text>
         </View>
     );
@@ -27,7 +27,8 @@ const styles = {
     },
     textStyle: {
         fontSize: 20,
-        paddingLeft:15
+        paddingLeft:15,
+        color: '#000'
     },
     imageStyle: {
         height: 40,

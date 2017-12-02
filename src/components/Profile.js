@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableWithoutFeedback, Image, Keyboard } from 'react-native';
+import { View, Text, TouchableNativeFeedback, Image, Keyboard } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-// import CameraRollPicker from 'react-native-camera-roll-picker';
+// import RNFetchBlob from 'react-native-fetch-blob';
 import { ProfileItem, ProfilePic, ContentTextMinor, HeaderSemester } from './demf';
 
 var ImagePicker = require('react-native-image-picker');
@@ -18,21 +18,15 @@ class Profile extends Component {
         curso: '',
     }
 
-    backToLogin() {
-        Actions.login();
-    }
-
     tryHome() {
-        console.log("teste");
         let { nome } = this.state;
 
-        if(nome === undefined)
-            nome = '';
-            console.log(nome);
-        if(nome === '' || nome.length > 20)
-            return;
-            
-            console.log("action");
+        // if(nome === undefined)
+        //     nome = '';
+        //     console.log(nome);
+        // if(nome === '' || nome.length > 20)
+        //     return;
+
         Actions.home();
     }
 
@@ -90,15 +84,15 @@ class Profile extends Component {
 
         return (
             <View style={container}>
-                <HeaderSemester headerText='Perfil' iconPress={this.tryHome.bind(this)} />
+                <HeaderSemester headerText='Perfil' iconPress={() => Actions.pop()} />
                 
                 <View style={picArea}>
                     { this.state.imagePath ? <Image style={styles.picStyle} source={{uri: this.state.imagePath}} /> : <ProfilePic />}
-                    <TouchableWithoutFeedback onPress={this.openImagePicker.bind(this)}>
+                    <TouchableNativeFeedback onPress={this.openImagePicker.bind(this)}>
                         <View style={{ paddingTop: 10 }}>
                             <Text style={greenText}>Alterar foto</Text>
                         </View>
-                    </TouchableWithoutFeedback>
+                    </TouchableNativeFeedback>
                     
                 </View>
                 
@@ -126,9 +120,9 @@ class Profile extends Component {
                     </View>
                 </View>
 
-                <TouchableWithoutFeedback onPress={this.tryHome.bind(this)}  onPressOut={Keyboard.dismiss}>
+                <TouchableNativeFeedback onPress={this.tryHome.bind(this)}  onPressOut={Keyboard.dismiss}>
                     {this.renderButton()}
-                </TouchableWithoutFeedback>
+                </TouchableNativeFeedback>
             </View>
         );
     }    
@@ -175,7 +169,7 @@ const styles = {
     },
 
     btnView2: {
-        backgroundColor: '#6563a4',
+        backgroundColor: '#8F8F93',
         height: 50,
         justifyContent: 'center',
         alignItems: 'center'

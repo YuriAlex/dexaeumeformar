@@ -1,11 +1,11 @@
 import React from 'react';
-import { View, Text, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, TouchableNativeFeedback } from 'react-native';
 import { ContentText, ContentTextMinor, ContentSubtext } from './';
 
 const HomeItem = (props) => {
     const { containerStyle, dotStyle, textAreaStyle } = styles;
 
-    return (<TouchableWithoutFeedback onPress={props.onPress} >
+    return (<TouchableNativeFeedback onPress={props.onPress} >
                 <View style={containerStyle} >
                     <Text style={dotStyle}>•</Text>
                     <View style={textAreaStyle} >
@@ -14,7 +14,7 @@ const HomeItem = (props) => {
                     </View>
                         <ContentText text={props.num} />
                 </View>
-            </TouchableWithoutFeedback>
+            </TouchableNativeFeedback>
     );
 };
 

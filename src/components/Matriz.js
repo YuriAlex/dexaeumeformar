@@ -9,9 +9,9 @@ class Matriz extends Component {
     state = {
         index: 0,
         routes: [
-            { key: '1', title: 'OBRIGATÓRIAS' },
-            { key: '2', title: 'ELETIVAS' },
-            { key: '3', title: 'OPTATIVAS' }
+            { key: '1', title: this.applyLetterSpacing('OBRIGATÓRIAS')},
+            { key: '2', title: this.applyLetterSpacing('ELETIVAS') },
+            { key: '3', title: this.applyLetterSpacing('OPTATIVAS') }
         ],
 
         obrigatorias: {},
@@ -30,8 +30,9 @@ class Matriz extends Component {
 
     componentWillMount() {
         this.setState({ screenWidth: Dimensions.get('window').width });
-        // if(this.props.startingTab !== undefined)
-        //     index: this.props.startingTab
+        
+        if(this.props.initialTab !== undefined)
+            this.mudarState(this.props.initialTab)
     
         AsyncStorage.getItem('disciplinas')
         .then(data => {
@@ -77,6 +78,10 @@ class Matriz extends Component {
         '2': this.state.secondRoute,
         '3': this.state.thirdRoute
     });
+
+    applyLetterSpacing(string, count = 0.5) {
+        return string.split('').join('\u200A'.repeat(count));
+    }
 
     renderTabView () {
         if(this.state.ready) {

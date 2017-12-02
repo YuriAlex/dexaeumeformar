@@ -51,7 +51,7 @@ class AtividadesList extends Component {
     }
 
     renderQuestions(atividade, ordem) {
-        return (<AtividadeItem atividade={atividade} ordem={ordem}/>);
+        return (<AtividadeItem atividade={atividade} ordem={Number(ordem) + 1}/>);
     }
     
     render() {
@@ -75,9 +75,4 @@ class AtividadesList extends Component {
     }
 }
 
-// const mapStateToProps = state => {
-//     return { atividades: state.atividades };
-// };
-
-// export default connect(mapStateToProps)(AtividadesList);
 export default AtividadesList;

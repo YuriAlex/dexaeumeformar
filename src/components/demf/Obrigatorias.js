@@ -82,9 +82,13 @@ class Obrigatorias extends Component {
 
         return(
             <View>
-                <PurpleTab text= {(pos+1).toString() + 'º SEMESTRE'} />
+                <PurpleTab text= {this.applyLetterSpacing((pos+1).toString() + 'º SEMESTRE')} />
             </View>
         )
+    }
+
+    applyLetterSpacing(string, count = 1) {
+        return string.split('').join('\u200A'.repeat(count));
     }
 
     manageDisciplinas() {

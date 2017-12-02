@@ -12,7 +12,7 @@ const HomeItem = (props) => {
                         <ContentTextMinor text={props.text1} />
                         <ContentSubtext text={props.text2} />
                     </View>
-                        <ContentText text={props.num} />
+                        <ContentText style={{marginTop: 40}} text={props.num} />
                 </View>
             </TouchableNativeFeedback>
     );
@@ -22,23 +22,25 @@ const styles = {
 
     containerStyle: {
         borderBottomWidth: 1,
-        height: 60,
-        padding: 10,
+        height: '26.3%',
+        paddingTop: '4%',
+        paddingBottom: '4%',
+        paddingLeft: '6%',
         backgroundColor: '#fff',
         justifyContent: 'flex-start',
         flexDirection: 'row',
-        borderColor: '#a8a8aa50',
-        position: 'relative'
+        borderColor: '#e7e7e7',
+        position: 'relative',
+        alignItems: 'center'
     },
     dotStyle: {
-        marginTop: -16,
-        paddingLeft: 10,
+        marginBottom: 10,
         fontSize: 40,
         color: '#05b9c4'
     },
     textAreaStyle: {
-        paddingLeft: 20,
-        paddingTop: 2,
+        paddingLeft: '5%',
+        // paddingTop: '1%',
         flexDirection: 'column',
         justifyContent: 'space-between',
         width: '85%',

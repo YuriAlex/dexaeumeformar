@@ -29,13 +29,19 @@ class AtividadeItem extends Component {
 
         if (!expanded) {
             return (
-                <ContentText text={atividade.Pergunta} />
+                <Text style={{lineHeight: 25, paddingLeft: 10 }}>
+                    <Text style={styles.purpleStyle}>{this.props.ordem}.</Text>
+                    <ContentText text={'   ' + atividade.Pergunta} />
+                </Text>
             );
         }
 
         return (
-            <Text style={{ fontSize: 15, color: '#171721', flex: 1, fontWeight: 'bold' }}>
-                    {atividade.Pergunta}
+            <Text style={{lineHeight: 25, paddingLeft: 10 }}>
+                <Text style={styles.purpleStyle}>{this.props.ordem}.</Text>
+                <Text style={{ fontSize: 15, color: '#171721', flex: 1, fontWeight: 'bold' }}>
+                        {'   ' + atividade.Pergunta}
+                </Text>
             </Text>
         );
     }
@@ -45,10 +51,12 @@ class AtividadeItem extends Component {
 
         if (expanded) {
             return (
-                <View style={styles.containerStyle} >
-                <Text style={styles.purpleStyle}>R.</Text>
-                <ContentText text={atividade.Resposta} />
-            </View>
+                <View style={styles.answerStyle} >
+                    <Text style={{lineHeight: 25, paddingLeft: 10 }}>
+                        <Text style={styles.purpleStyle}>R.</Text>
+                        <ContentText text={'   ' + atividade.Resposta} />
+                    </Text>
+                </View>
             );
         }
     }
@@ -58,7 +66,6 @@ class AtividadeItem extends Component {
             <TouchableNativeFeedback onPress={this.manageCurrentId.bind(this)} >
                 <View>
                     <View style={styles.containerStyle} >
-                        <Text style={styles.purpleStyle}>{this.props.ordem}.</Text>
                         {this.renderQuestion()}
                     </View>
                     {this.renderAnswer()}
@@ -72,19 +79,25 @@ const styles = {
 
     containerStyle: {
         borderTopWidth: 1,
-        padding: 10,
+        padding: 15,
         backgroundColor: '#fff',
         justifyContent: 'flex-start',
         flexDirection: 'row',
-        borderColor: '#a8a8aa50'
+        borderColor: '#e7e7e7'
+    },
+
+    answerStyle: {
+        padding: 15,
+        paddingTop: 0,
+        backgroundColor: '#fff',
+        justifyContent: 'flex-start',
+        flexDirection: 'row'
     },
     
     purpleStyle: {
         fontSize: 14,
         color: '#6563a4',
-        fontWeight: 'bold',
-        paddingRight: 20,
-        paddingLeft: 10
+        fontWeight: 'bold'
     }
 };
 

@@ -28,7 +28,7 @@ const styles = {
         backgroundColor: '#fff',
         justifyContent: 'center',
         flexDirection: 'column',
-        borderColor: '#a8a8aa50',
+        borderColor: '#e7e7e7',
         position: 'relative'
     },
     inputStyle: {

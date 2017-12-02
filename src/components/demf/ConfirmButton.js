@@ -12,7 +12,7 @@ const ConfirmButton = ({ onPress }) => (
 const styles = {
     containerStyle: {
         backgroundColor: '#6563a4',
-        height: 50,
+        height: 60,
         justifyContent: 'center',
         alignItems: 'center',
      },

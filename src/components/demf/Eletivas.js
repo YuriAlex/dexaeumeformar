@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, ScrollView } from 'react-native';
 import { PurpleTab } from './';
 import ClassItemMatriz from './ClassItemMatriz';
+import { Actions } from 'react-native-router-flux';
 
 class Eletivas extends Component {
 
@@ -81,9 +82,13 @@ class Eletivas extends Component {
 
         return(
             <View>
-                <PurpleTab text= {(pos+1).toString() + 'º SEMESTRE'} />
+                <PurpleTab text= {this.applyLetterSpacing((pos+1).toString() + 'º SEMESTRE')} />
             </View>
         )
+    }
+
+    applyLetterSpacing(string, count = 1) {
+        return string.split('').join('\u200A'.repeat(count));
     }
 
     manageDisciplinas() {

@@ -33,23 +33,12 @@ class Home extends Component {
         return true
     }
 
-    handleUser(data) {
-        console.log(data)
+    handleUser(data) { 
         this.setState({ userName: data.Nome })
     }
 
-    goToSemesterList() {
-        console.log(this.state.pointerEvents)
-        this.setState({pointerEvents: 'none'});
-        console.log(this.state.pointerEvents)
-        Actions.semesterList();
-    }
-
-    goToMatriz() {
-        console.log(this.state.pointerEvents)
-        this.setState({pointerEvents: 'none'});
-        console.log(this.state.pointerEvents)
-        Actions.matriz();
+    applyLetterSpacing(string, count = 1) {
+        return string.split('').join('\u200A'.repeat(count));
     }
 
     render() {
@@ -79,38 +68,43 @@ class Home extends Component {
                         <Text style={welcomeText2}>Aproveita o aplicativo e deixa tudo em ordem!</Text>
                     </View>
                     
-                    <TouchableNativeFeedback onPress={this.goToSemesterList.bind(this)}>
+                    <TouchableNativeFeedback onPress={() => Actions.semesterList()}>
                         <View style={purpleArea1}>
                             <View style={purpleArea2}>
-                                <Text style={classesText}>DISCIPLINAS CONCLUÍDAS</Text>
-                                <Text style={classesNum}>0</Text>
+                                <Text style={classesText}>{this.applyLetterSpacing('DISCIPLINAS')}</Text>
+                                <Text style={classesText}>{this.applyLetterSpacing('CONCLUÍDAS')}</Text>
+                                <Text style={classesNum}>20</Text>
                             </View>
                             <View style={purpleArea2}>
-                                <Text style={classesText}>DISCIPLINAS RESTANTES</Text>
-                                <Text style={classesNum}>0</Text>
+                            <Text style={classesText}>{this.applyLetterSpacing('DISCIPLINAS')}</Text>
+                            <Text style={classesText}>{this.applyLetterSpacing('RESTANTES')}</Text>
+                                <Text style={classesNum}>20</Text>
                             </View>
                         </View>
                     </TouchableNativeFeedback>
 
-                    <View style={greenArea}>
-                        <Text style={matrizText}>JÁ CONFERIU A QUANTAS ANDA A MATRIZ?</Text>
-                    </View>
+                    <TouchableNativeFeedback onPress={() => Actions.matriz()}>
+                        <View style={greenArea}>
+                            <Text style={[matrizText, {paddingLeft: '7%'}]}>JÁ CONFERIU A QUANTAS ANDA A MATRIZ?</Text>
+                            <Text style={[matrizText, {fontSize:20, paddingRight: '7.5%', paddingBottom: 3}]}>></Text>
+                        </View>
+                    </TouchableNativeFeedback>
 
-                    <View>
+                    <View style={{height: '40%'}}>
                         <HomeItem 
-                            onPress={this.goToMatriz.bind(this)}
+                            onPress={() => Actions.matriz({ initialTab: 0 })}
                             text1='Disciplinas Obrigatórias Concluídas'
                             text2='Vai dar certo!'
                             num='5'
                         />
                         <HomeItem
-                            onPress={this.goToMatriz.bind(this)}
+                            onPress={() => Actions.matriz({ initialTab: 1 })}
                             text1='Disciplinas Eletivas Concluídas'
                             text2='Vai dar certo!'
                             num='5'
                         />
                         <HomeItem
-                            onPress={this.goToMatriz.bind(this)}
+                            onPress={() => Actions.matriz({ initialTab: 2 })}
                             text1='Disciplinas Optativas Concluídas'
                             text2='Vai dar certo!'
                             num='5'
@@ -134,7 +128,7 @@ const styles = {
         backgroundColor: '#fff',
         flexDirection: 'column',
         width: '100%',
-        height: '35%',
+        height: '30%',
         justifyContent: 'space-between',
         alignItems: 'center',
         padding: 20
@@ -152,12 +146,15 @@ const styles = {
         flexDirection: 'column',
         alignItems: 'center',
         width: '50%',
+        marginTop: 10
     },
     greenArea: {
         backgroundColor: '#05b9c4',
         flexDirection: 'row',
         width: '100%',
-        height: '8%'
+        height: '10%',
+        justifyContent: 'space-between',
+        alignItems: 'center'
     },
 
     welcomeText1: {
@@ -177,14 +174,13 @@ const styles = {
     },
     classesNum: {
         fontSize: 36,
-        color: '#fff'
+        color: '#fff',
+        marginTop: -5
     },
     matrizText: {
         fontSize: 10,
         fontWeight: 'bold',
-        color: '#fff',
-        paddingTop: 15,
-        paddingLeft: 25
+        color: '#fff'
     }
 };
 

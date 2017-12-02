@@ -41,8 +41,8 @@ class DrawerContent extends Component {
         return (
             <TouchableNativeFeedback onPress={this.props.closeDrawer} >
                 <View style={styles.exitStyle} >
-                    <Image source={require('../../assets/images/iconSair.png')} style={{ height: 20, width: 20 }} />
-                    <Text style={{ fontSize: 10, color: '#fff' }}>SAIR</Text>
+                    <Image source={require('../../assets/images/iconSair.png')} style={{ height: 24, width: 24 }} />
+                    <Text style={{ fontSize: 12, color: '#fff' }}>SAIR</Text>
                 </View>
             </TouchableNativeFeedback>
         );
@@ -62,7 +62,7 @@ class DrawerContent extends Component {
     }
 
     render() {
-        const { containerStyle, btnContainer, headerStyle } = styles;
+        const { containerStyle, btnContainer, headerStyle, picArea } = styles;
 
         return (
             <View style={containerStyle} >
@@ -71,7 +71,9 @@ class DrawerContent extends Component {
                         <Image source={require('../../assets/images/menuclose.png')} style={{ width: 40, height: 40 }} />
                     </TouchableNativeFeedback>
                 </View>
-                <ProfilePic />
+                <View style={picArea}>
+                    <ProfilePic />
+                </View>
                 <View style={btnContainer} >
                     {this.renderButtons()}
                     {this.ExitButton()}
@@ -108,7 +110,7 @@ const MenuButton = ({ title, closeFunc, icon}) => {
     const teste = '../../assets/images/iconPerfil.png'
     return (
         <TouchableNativeFeedback onPress={this.gotoPage.bind(this)} >
-            <View style={styles.btnStyle} >
+            <View style={[styles.btnStyle]} >
                 <Image source={icon} style={styles.imageStyle} />
                 <Text style={styles.txtStyle}>{title}</Text>
             </View>
@@ -126,8 +128,13 @@ const styles = {
         alignItems: 'center',
         justifyContent: 'space-between' 
     },
+    picArea: {
+        flexDirection: 'column',
+        width: '100%',
+        alignItems: 'center'
+    },
     btnContainer: {
-        paddingTop: '5%',
+        marginTop: '10%',
         width: '100%'
     },
     btnStyle: {
@@ -136,18 +143,19 @@ const styles = {
         paddingLeft: '15%',
         justifyContent: 'flex-start',
         flexDirection: 'row',
-        borderColor: '#a8a8aa50',
+        borderColor: '#e7e7e750',
         position: 'relative'
     },
     txtStyle: {
-        fontSize: 12,
+        fontSize: 14,
         width: '75%',
-        color: '#fff'
+        color: '#fff',
+        marginTop: 3
     },
     imageStyle: {
-        height: 20,
-        width: 20,
-        marginRight: '7.5%',
+        height: 24,
+        width: 24,
+        marginRight: '10%'
     },
     exitStyle: {
         flexDirection: 'column',

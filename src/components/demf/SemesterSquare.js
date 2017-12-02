@@ -20,13 +20,17 @@ const SemesterSquare = ({ semInfo, semHeight, onPress}) => {
             <View style={[containerStyle, {height: semHeight}]} >
 
                 <Text style={titleStyle}>{setNome(semInfo)}</Text>
-                <Text style={subtextStyle}>0 DE 5 CONCLUÍDOS</Text>
+                <Text style={subtextStyle}>{applyLetterSpacing('0 DE 5 CONCLUÍDOS')}</Text>
                 <View style={incompleteStyle} />
 
             </ View>
         </ TouchableNativeFeedback>
     );
 };
+
+function applyLetterSpacing(string, count = 1) {
+    return string.split('').join('\u200A'.repeat(count));
+}
 
 const styles = {
 
@@ -39,12 +43,13 @@ const styles = {
         flexDirection: 'column',
         borderRightWidth: 1,
         borderBottomWidth: 1,
-        borderColor: '#ddd',
+        borderColor: '#e7e7e7',
         position: 'relative'
     },
 
     titleStyle: {
-        fontSize: 15
+        fontSize: 15,
+        color: '#000'
     },
 
     subtextStyle: {
@@ -54,8 +59,8 @@ const styles = {
     },
     
     incompleteStyle: {
-        width: 10,
-        marginTop: 5,
+        width: 12,
+        marginTop: 10,
         borderBottomColor: 'purple',
         borderBottomWidth: 2.5,
     }

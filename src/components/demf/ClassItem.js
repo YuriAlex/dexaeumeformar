@@ -48,7 +48,7 @@ const styles = {
         backgroundColor: '#fff',
         justifyContent: 'flex-start',
         flexDirection: 'row',
-        borderColor: '#a8a8aa50',
+        borderColor: '#e7e7e7',
         position: 'relative'
     },
     textStyle: {

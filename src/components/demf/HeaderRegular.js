@@ -21,13 +21,14 @@ const styles = {
         alignItems: 'center',
         flexDirection: 'row',
         width: '100%',
-        alignContent: 'center',
         justifyContent: 'flex-start',
         padding: 10,
     },
     textStyle: {
-        fontSize: 20,
+        fontFamily: 'sans-serif-light',
+        fontSize: 18,
         paddingLeft:15,
+        paddingBottom: 2,
         color: '#000'
     },
     imageStyle: {

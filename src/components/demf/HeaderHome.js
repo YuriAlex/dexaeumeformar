@@ -29,8 +29,10 @@ const styles = {
         padding: 10,
     },
     textStyle: {
-        fontSize: 20,
-        paddingLeft:50,
+        fontFamily: 'sans-serif-light',
+        fontSize: 18,
+        paddingLeft:'15%',
+        paddingBottom: 2,
         color: '#000'
     },
     imageStyle: {

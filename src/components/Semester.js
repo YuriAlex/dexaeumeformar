@@ -38,24 +38,24 @@ class Semester extends Component {
     };
     
     componentWillMount() {
-        const i = this.props.semestre.Ordem;
+        const index = this.props.semestre.Ordem;
         let str = '';
 
-        if(i === 1)
+        if(index === 1)
             str = 'Primeiro'
-        else if(i === 2)
+        else if(index === 2)
             str = 'Segundo'
-        else if(i === 3)
+        else if(index === 3)
             str = 'Terceiro'
-        else if(i === 4)
+        else if(index === 4)
             str = 'Quarto'
-        else if(i === 5)
+        else if(index === 5)
             str = 'Quinto'
-        else if(i === 6)
+        else if(index === 6)
             str = 'Sexto'
-        else if(i === 7)
+        else if(index === 7)
             str = 'Sétimo'
-        else if(i === 8)
+        else if(index === 8)
             str = 'Oitavo'
 
         this.setState({ ordem: str });
@@ -71,21 +71,32 @@ class Semester extends Component {
 
         this.setState({ obrigatorias: ob });
 
-        let el = [{ disciplina: null }, { disciplina: null }];
+        const numEl = this.props.semestre.QuantidadeEletivas
+        const numOp = this.props.semestre.QuantidadeOptativas
 
-        this.setState({ eletivas: el });
+        if(numEl > 0)
+        {
+            let el = []
 
-        let op = [{ disciplina: null }, { disciplina: null }];
-        
-        this.setState({ optativas: op });
+            for(let i = 0; i < numEl; i++)
+                el.push({ disciplina: null })
+            
+            this.setState({ eletivas: el });
+        }
+    
+        if(numOp > 0)
+        {
+            let op = []
+            
+            for(let i = 0; i < numOp; i++)
+                op.push({ disciplina: null })
+            
+            this.setState({ optativas: op });
+        }
     }
 
     buttonPress() {
         console.log('teste');
-    }
-
-    backToList() {
-        Actions.semester();
     }
 
     handleClassItemPress = classId => {
@@ -118,21 +129,16 @@ class Semester extends Component {
         );
     }
 
-    renderEletivaOptativa(tipo) {
+    renderEletivas() {
         return (
             this.state.eletivas.map((data, index, array) => {
-                
                 if(data.disciplina === null){
-                    let text = 'Eletiva';
-                    if(tipo === 3)
-                        text = 'Optativa'
-                    
                     return (
                         <ClassItemPopup
                             key={index}
-                            tipo={tipo}
-                            text={text}
-                            onPress={() => this.setState({isModalVisible: true, typeToShow: tipo})}
+                            tipo={2}
+                            text={'Eletiva'}
+                            onPress={() => this.setState({isModalVisible: true, typeToShow: 2})}
                         />
                     );
                 }
@@ -141,10 +147,39 @@ class Semester extends Component {
                     
                         return (
                             <ClassItem
-                            key={info.Id}
-                            classInfo={info}
-                            onPress={() => this.handleClassItemPress(info.Id)}
-                            done={done}
+                                key={info.Id}
+                                classInfo={info}
+                                onPress={() => this.handleClassItemPress(info.Id)}
+                                done={done}
+                            />
+                        );
+                }
+            })
+        );
+    }
+
+    renderOptativas() {
+        return (
+            this.state.optativas.map((data, index, array) => {
+                if(data.disciplina === null){
+                    return (
+                        <ClassItemPopup
+                            key={index}
+                            tipo={3}
+                            text={'Optativa'}
+                            onPress={() => this.setState({isModalVisible: true, typeToShow: 3})}
+                        />
+                    );
+                }
+                else {
+                    const done = this.state.disciplinasFeitas.some(item => item.Id == info.Id);
+                    
+                        return (
+                            <ClassItem
+                                key={info.Id}
+                                classInfo={info}
+                                onPress={() => this.handleClassItemPress(info.Id)}
+                                done={done}
                             />
                         );
                 }
@@ -179,12 +214,12 @@ class Semester extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <HeaderSemester headerText={this.state.ordem + ' Semestre'} iconPress={this.backToList.bind(this)} />
+                <HeaderSemester headerText={this.state.ordem + ' Semestre'} iconPress={() => Actions.semesterList()} />
                 {this.renderModal()}
                 <ScrollView>                    
                     {this.renderObrigatorias()}
-                    {this.renderEletivaOptativa(2)}
-                    {this.renderEletivaOptativa(3)}
+                    {this.renderEletivas()}
+                    {this.renderOptativas()}
                 </ScrollView>
 
                 <ConfirmButton onPress={this.buttonPress.bind(this)} />

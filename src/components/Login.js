@@ -199,14 +199,14 @@ const styles = {
 
     btnView: {
         backgroundColor: '#05b9c4',
-        height: 50,
+        height: 60,
         justifyContent: 'center',
         alignItems: 'center'
     },
 
     btnView2: {
         backgroundColor: '#8F8F93',
-        height: 50,
+        height: 60,
         justifyContent: 'center',
         alignItems: 'center'
     }

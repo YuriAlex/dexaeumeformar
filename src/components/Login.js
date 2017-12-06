@@ -43,8 +43,10 @@ class Login extends Component {
             //     body: JSON.stringify({
             //         matricula 	: "357979",
             //         senha 		: "qwewqwe",
-            //         tipo: 2,
-            //         nome: 'asdasd'
+            //         tipo         : 2,
+            //         nome         : 'asdasd'
+            //         IdCurso      : 'asdasdasd'
+            //         Imagem       : null
             //     })
             // })
             // .then(response => response.json())
@@ -60,17 +62,44 @@ class Login extends Component {
             //         'Content-Type': 'application/json',
             //     },
             //     body: JSON.stringify({
-            //         Id : 'dasdas dad kaspo'
+            //         Id           : 'dasdas dad kaspo'
             //         matricula 	: "357979",
             //         senha 		: "qwewqwe",
-            //         tipo: 2,
-            //         nome: 'asdasd'
+            //         tipo         : 2,
+            //         nome         : 'asdasd'
             //     })
             // })
             // .then(response => response.json())
             // .then(data => {
             //    console.log(data);
             // });
+
+        //SALVAR DISCIPLINAS
+            // fetch('http://104.41.36.75:3070/usuario/usuario-disciplina/', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Accept': 'application/json',
+            //         'Content-Type': 'application/json',
+            //     },
+            //     body: JSON.stringify({
+            //          Id: 'dasdas dad kaspo',
+            //          [
+            //              {
+            //                  IdDisciplina,
+            //                  IdSemestre
+            //              },
+            //              {
+            //                  IdDisciplina,
+            //                  IdSemestre
+            //              },
+            //           ]
+            //     })
+            // })
+            // .then(response => response.json())
+            // .then(data => {
+            //    console.log(data);
+            // });
+
 
     }
 

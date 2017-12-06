@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { View, ScrollView, AsyncStorage, Modal, Text, TouchableNativeFeedback } from 'react-native';
+import { View, ScrollView, AsyncStorage, Text, TouchableNativeFeedback } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import Modal from 'react-native-modal';
 import { ConfirmButton, HeaderSemester } from './demf';
 import ClassItem from './demf/ClassItem';
 import ClassItemPopup from './demf/ClassItemPopup';
@@ -30,49 +31,39 @@ class Semester extends Component {
         optativas: [],
         ordem: '',
 
-        disciplinasFeitas: holder,
-        
-        // token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4M2IyYTc5YS0xNmExLWYwY2QtYTM0OS0yOWYzNjE1MjI5MjkiLCJOb21lIjoiTHVjYXMiLCJNYXRyaWN1bGEiOjM1Nzk1MSwiaWF0IjoxNTExNTUzMjMxLCJleHAiOjE1MTE1NTY4MzF9.QiD-_-N59c0QhqKZ7aISBLyfqf1dRFQ0u4Hnh903vwM"
-        isModalVisible: false,
-        typeToShow: 2
+        modalEletivas: [],
+        modalOptativas: [],
+
+        disciplinasFeitas: null,
+
+        typeToShow: 2,
+        isModalVisible: false
     };
     
     componentWillMount() {
-        const index = this.props.semestre.Ordem;
-        let str = '';
+        
+        AsyncStorage.getItem('disciplinasFeitas')
+        .then(data => {
+            console.log(JSON.parse(data))
+            this.setState({ disciplinasFeitas: JSON.parse(data) });
+        })
 
-        if(index === 1)
-            str = 'Primeiro'
-        else if(index === 2)
-            str = 'Segundo'
-        else if(index === 3)
-            str = 'Terceiro'
-        else if(index === 4)
-            str = 'Quarto'
-        else if(index === 5)
-            str = 'Quinto'
-        else if(index === 6)
-            str = 'Sexto'
-        else if(index === 7)
-            str = 'Sétimo'
-        else if(index === 8)
-            str = 'Oitavo'
-
-        this.setState({ ordem: str });
+        this.setNome();
 
         let ob = [];
+        let modEl = [];
 
         this.props.disciplinas.map(item =>{
             if(item.Tipo === 1)
                 ob.push(item)
-            // else if(item.Tipo === 2)
-            //     el.push(item)
+            else if (item.Tipo === 2)
+                modEl.push(item)
         })
 
         this.setState({ obrigatorias: ob });
+        this.setState({ modalEletivas: modEl });
 
         const numEl = this.props.semestre.QuantidadeEletivas
-        const numOp = this.props.semestre.QuantidadeOptativas
 
         if(numEl > 0)
         {
@@ -84,6 +75,8 @@ class Semester extends Component {
             this.setState({ eletivas: el });
         }
     
+        const numOp = this.props.semestre.QuantidadeOptativas
+
         if(numOp > 0)
         {
             let op = []
@@ -91,12 +84,33 @@ class Semester extends Component {
             for(let i = 0; i < numOp; i++)
                 op.push({ disciplina: null })
             
-            this.setState({ optativas: op });
+            this.setState({ optativas: op, modalOptativas: this.props.modalOptativas });
         }
     }
 
-    buttonPress() {
-        console.log('teste');
+    setNome(){
+
+        const i = this.props.semestre.Ordem;
+        let str = '';
+
+        if(i === 1)
+            str = 'Primeiro'
+        else if(i === 2)
+            str = 'Segundo'
+        else if(i === 3)
+            str = 'Terceiro'
+        else if(i === 4)
+            str = 'Quarto'
+        else if(i === 5)
+            str = 'Quinto'
+        else if(i === 6)
+            str = 'Sexto'
+        else if(i === 7)
+            str = 'Sétimo'
+        else if(i === 8)
+            str = 'Oitavo'
+
+        this.setState({ ordem: str });
     }
 
     handleClassItemPress = classId => {
@@ -111,6 +125,9 @@ class Semester extends Component {
     }
 
     renderObrigatorias() {    
+        
+        if(this.state.disciplinasFeitas === null)
+            return;
 
         return (
             this.state.obrigatorias.map(info => {
@@ -130,6 +147,10 @@ class Semester extends Component {
     }
 
     renderEletivas() {
+
+        if(this.state.disciplinasFeitas === null)
+            return;
+
         return (
             this.state.eletivas.map((data, index, array) => {
                 if(data.disciplina === null){
@@ -145,20 +166,24 @@ class Semester extends Component {
                 else {
                     const done = this.state.disciplinasFeitas.some(item => item.Id == info.Id);
                     
-                        return (
-                            <ClassItem
-                                key={info.Id}
-                                classInfo={info}
-                                onPress={() => this.handleClassItemPress(info.Id)}
-                                done={done}
-                            />
-                        );
+                    return (
+                        <ClassItem
+                            key={info.Id}
+                            classInfo={info}
+                            onPress={() => this.handleClassItemPress(info.Id)}
+                            done={done}
+                        />
+                    );
                 }
             })
         );
     }
 
     renderOptativas() {
+        
+        if(this.state.disciplinasFeitas === null)
+            return;
+
         return (
             this.state.optativas.map((data, index, array) => {
                 if(data.disciplina === null){
@@ -187,42 +212,73 @@ class Semester extends Component {
         );
     }
 
-    renderModal() {
+    _showModal = () => this.setState({ isModalVisible: true })
+    
+    _hideModal = () => this.setState({ isModalVisible: false })
+
+    setModal() {
         return(
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={this.state.isModalVisible}
-                onRequestClose={() => {alert("Modal has been closed.")}}
-                >
-                <View style={{marginTop: 22, height: 100, width: 100}}>
-                    <View>
-                        <Text>Hello World!</Text>
-
-                        <TouchableNativeFeedback onPress={() => {
-                            this.setState({ isModalVisible: false })
-                            }}>
-                            <Text>Hide Modal</Text>
-                        </TouchableNativeFeedback>
-
-                    </View>
-                </View>
+            <Modal isVisible={this.state.isModalVisible}>
+                <View style={styles.modalContent}>
+                <ScrollView style={{maxHeight: 300}}>
+                    {this.renderModalClasses()}
+                </ScrollView>
+                <ConfirmButton onPress={() => this.setState({isModalVisible: false})} closeIcon={true}/>
+              </View>
             </Modal>
         )
+    }
+
+    renderModalClasses() {
+
+        if(this.state.typeToShow === 2)
+        {
+            return (
+                this.state.modalEletivas.map(info => {
+                    return (
+                        <ClassItem
+                            key={info.Id}
+                            classInfo={info}
+                            onPress={() => this.selectClass(info.Id)}
+                            done={false}
+                        />
+                    );
+                })
+            );
+        }
+        else if(this.state.typeToShow === 3)
+        {
+            return (
+                this.state.modalOptativas.map(info => {
+                    return (
+                        <ClassItem
+                            key={info.Id}
+                            classInfo={info}
+                            onPress={() => this.selectClass(info.Id)}
+                            done={false}
+                        />
+                    );
+                })
+            );
+        }
+    }
+
+    selectClass(Id) {
+
     }
     
     render() {
         return (
             <View style={styles.container}>
-                <HeaderSemester headerText={this.state.ordem + ' Semestre'} iconPress={() => Actions.semesterList()} />
-                {this.renderModal()}
+                <HeaderSemester headerText={this.state.ordem + ' Semestre'} iconPress={() => Actions.pop()} />
+                {this.setModal()}
                 <ScrollView>                    
                     {this.renderObrigatorias()}
                     {this.renderEletivas()}
                     {this.renderOptativas()}
                 </ScrollView>
 
-                <ConfirmButton onPress={this.buttonPress.bind(this)} />
+                <ConfirmButton onPress={() => {}} />
             </View>
         );
     }
@@ -234,7 +290,14 @@ const styles = {
        height: '100%',
        justifyContent: 'space-between',
        backgroundColor: '#fff'
-   }
+   },
+
+   modalContent: {
+    backgroundColor: 'white',
+    // padding: 22,
+    justifyContent: 'center',
+    borderColor: 'rgba(0, 0, 0, 0.1)',
+  },
 }; 
 
 export default Semester;

@@ -7,7 +7,6 @@ export * from './ContentSubtext';
 export * from './ConfirmButton';
 export * from './SemesterSquare';
 export * from './HomeItem';
-export * from './ProfilePic';
 export * from './ProfileItem';
 export * from './Obrigatorias';
 export * from './Eletivas';

@@ -34,12 +34,20 @@ class Semester extends Component {
 
         AsyncStorage.getItem('disciplinas')
         .then(data => {
+
             JSON.parse(data).map(item =>{
                 if(item.IdSemestre === semestre.Id)
                     disc.push(item)
             })
             
-            Actions.semester({ semestre: semestre, disciplinas: disc })
+            if(semestre.QuantidadeOptativas === 0)
+                Actions.semester({ semestre: semestre, disciplinas: disc })
+            else {
+                AsyncStorage.getItem('optativas')
+                .then(data => {
+                    Actions.semester({ semestre: semestre, disciplinas: disc, modalOptativas: JSON.parse(data) });
+                })
+            }
         })
     }
 

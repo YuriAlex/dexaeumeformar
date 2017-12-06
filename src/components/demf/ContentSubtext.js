@@ -10,8 +10,8 @@ const ContentSubtext = (props) => (
 const styles = {
 
     textStyle: {
-        fontSize: 10,
-        color: '#17172150'
+        fontSize: 11,
+        color: '#00000050'
     }
 };
 

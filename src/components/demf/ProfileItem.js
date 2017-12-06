@@ -1,8 +1,29 @@
 import React from 'react';
-import { View, Text, TextInput } from 'react-native';
+import { View, Text, TextInput, TouchableWithoutFeedback } from 'react-native';
 
-const ProfileItem = ({ label, value, placeholder, onChangeText }) => {
-    const { inputStyle, labelStyle, containerStyle } = styles;
+const ProfileItem = ({ label, value, placeholder, onChangeText, blocked, secured, onPress }) => {
+    const { inputStyle, labelStyle, containerStyle, blockedStyle } = styles;
+
+    if(blocked !== undefined)
+    {
+        return(
+            <TouchableWithoutFeedback onPress={onPress}>
+                <View style={containerStyle}>
+                    <Text style={labelStyle}>{label}</Text>
+                    <TextInput
+                        placeholder={placeholder}
+                        placeholderTextColor={'#17172150'}
+                        autoCorrect={false}
+                        style={inputStyle}
+                        value={value}
+                        onChangeText={onChangeText}
+                        underlineColorAndroid={'transparent'}
+                        editable={false}
+                    />
+                </View>
+            </ TouchableWithoutFeedback>
+        )
+    }
 
     return (
         <View style={containerStyle}>
@@ -15,6 +36,7 @@ const ProfileItem = ({ label, value, placeholder, onChangeText }) => {
                 value={value}
                 onChangeText={onChangeText}
                 underlineColorAndroid={'transparent'}
+                secureTextEntry={secured}
             />
         </View>
     );

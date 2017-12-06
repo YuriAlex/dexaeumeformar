@@ -43,21 +43,16 @@ class Eletivas extends Component {
 
         let temp = [];
         
-        temp.push(this.sortByNome(d1));
-        temp.push(this.sortByNome(d2));
-        temp.push(this.sortByNome(d3));
-        temp.push(this.sortByNome(d4));
-        temp.push(this.sortByNome(d5));
-        temp.push(this.sortByNome(d6));
-        temp.push(this.sortByNome(d7));
-        temp.push(this.sortByNome(d8));
+        temp.push(d1);
+        temp.push(d2);
+        temp.push(d3);
+        temp.push(d4);
+        temp.push(d5);
+        temp.push(d6);
+        temp.push(d7);
+        temp.push(d8);
 
         this.setState({ holder: temp });
-    }
-    
-    sortByNome(array) {
-        array = array.sort((a, b) => a.Nome.localeCompare(b.Nome))
-        return array;
     }
 
     renderClasses(pos) {

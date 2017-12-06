@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { View, Text, TouchableNativeFeedback, Image } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import { ProfilePic } from './';
+import ProfilePic from './ProfilePic';
 
 const items = [
     {
@@ -41,8 +41,8 @@ class DrawerContent extends Component {
         return (
             <TouchableNativeFeedback onPress={this.props.closeDrawer} >
                 <View style={styles.exitStyle} >
-                    <Image source={require('../../assets/images/iconSair.png')} style={{ height: 24, width: 24 }} />
-                    <Text style={{ fontSize: 12, color: '#fff' }}>SAIR</Text>
+                    <Image source={require('../../assets/images/iconSair.png')} style={{ height: 40, width: 40, marginLeft: 5}} />
+                    <Text style={{ fontSize: 10, color: '#fff' }}>SAIR</Text>
                 </View>
             </TouchableNativeFeedback>
         );
@@ -103,7 +103,7 @@ const MenuButton = ({ title, closeFunc, icon}) => {
                 Actions.semesterList();
                 break;
             case 'Perfil':
-                Actions.profile();
+                Actions.profile({goto: 'home'});
                 break;
         }
     };
@@ -131,7 +131,9 @@ const styles = {
     picArea: {
         flexDirection: 'column',
         width: '100%',
-        alignItems: 'center'
+        alignItems: 'center',        
+        position: 'absolute',
+        top:70
     },
     btnContainer: {
         marginTop: '10%',
@@ -139,31 +141,30 @@ const styles = {
     },
     btnStyle: {
         borderBottomWidth: 1,
-        padding: 15,
-        paddingLeft: '15%',
+        padding: 8,
+        paddingLeft: '10%',
         justifyContent: 'flex-start',
         flexDirection: 'row',
-        borderColor: '#e7e7e750',
-        position: 'relative'
+        borderColor: '#e7e7e725',
+        alignItems: 'center',
     },
     txtStyle: {
         fontSize: 14,
         width: '75%',
         color: '#fff',
-        marginTop: 3
     },
     imageStyle: {
-        height: 24,
-        width: 24,
-        marginRight: '10%'
+        height: 40,
+        width: 40,
+        marginRight: '5%'
     },
     exitStyle: {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'space-between',
-        width: '100%',
-        height: '20%',
-        paddingTop: 25
+        // width: '100%',
+        paddingTop: 20,
+        paddingBottom: 20
     },
     headerStyle: {
         flexDirection: 'row',

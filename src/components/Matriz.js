@@ -14,15 +14,13 @@ class Matriz extends Component {
             { key: '3', title: this.applyLetterSpacing('OPTATIVAS') }
         ],
 
-        obrigatorias: {},
-        eletivas: {},
-        optativas: {},
+        obrigatorias: null,
+        eletivas: null,
+        optativas: null,
 
         firstRoute: () => <Obrigatorias disciplinas={this.state.obrigatorias}/>,
         secondRoute: () => <Eletivas disciplinas={this.state.eletivas}/>,
         thirdRoute: () => <Optativas disciplinas={this.state.optativas}/>,
-
-        ready: false,
 
         toggle: () => {this.setState({ isOpen: !this.state.isOpen })},
         menuState: (isOpen) => {this.setState({ isOpen })}
@@ -39,24 +37,22 @@ class Matriz extends Component {
 
             let ob = [];
             let el = [];
-            let op = [];
             
             JSON.parse(data).map(item =>{
                 if(item.Tipo === 1)
                     ob.push(item)
                 else if(item.Tipo === 2)
                     el.push(item)
-                else if(item.Tipo === 3)
-                    op.push(item)
             })
 
             this.setState({ obrigatorias: ob });
             this.setState({ eletivas: el });
+        })
+
+        AsyncStorage.getItem('optativas')
+        .then(data => {
+            let op = JSON.parse(data);
             this.setState({ optativas: op });
-
-            this.setState({ ready:  true });
-
-            console.log(this.state);
         })
     };
 
@@ -84,7 +80,9 @@ class Matriz extends Component {
     }
 
     renderTabView () {
-        if(this.state.ready) {
+        if(this.state.obrigatorias !== null 
+            && this.state.eletivas !== null
+            && this.state.optativas !== null) {
             return (
                 <TabViewAnimated
                     navigationState={this.state}

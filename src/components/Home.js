@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { View, Text, Dimensions, TouchableNativeFeedback, AsyncStorage, BackHandler } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import SideMenu from 'react-native-side-menu';
-import { HeaderHome, HomeItem, ProfilePic, DrawerContent } from './demf';
+import { HeaderHome, HomeItem, DrawerContent } from './demf';
+import ProfilePic from './demf/ProfilePic';
 
 class Home extends Component {
 
@@ -46,8 +47,9 @@ class Home extends Component {
         const { toggle, screenWidth, menuState, isOpen, pointerEvents, userName, userPic } = this.state;
 
         const { 
-            container, whiteArea, purpleArea1, purpleArea2, greenArea,
-            welcomeText1, welcomeText2, matrizText, classesText, classesNum
+            container, whiteArea, whiteArea2, welcomeText1, welcomeText2,
+            purpleArea1, purpleArea2, greenArea, barsArea,
+            matrizText, classesText, classesNum
         } = styles;
 
         return (
@@ -64,8 +66,10 @@ class Home extends Component {
                     
                     <View style={whiteArea}>
                         <ProfilePic />
-                        <Text style={welcomeText1}>Bem-vindo, {userName}</Text>
-                        <Text style={welcomeText2}>Aproveita o aplicativo e deixa tudo em ordem!</Text>
+                        <View style={whiteArea2}>
+                            <Text style={welcomeText1}>Bem-vindo, {userName}!</Text>
+                            <Text style={welcomeText2}>Aproveita o aplicativo e deixa tudo em ordem!</Text>
+                        </View>
                     </View>
                     
                     <TouchableNativeFeedback onPress={() => Actions.semesterList()}>
@@ -90,7 +94,7 @@ class Home extends Component {
                         </View>
                     </TouchableNativeFeedback>
 
-                    <View style={{height: '40%'}}>
+                    <View style={barsArea}>
                         <HomeItem 
                             onPress={() => Actions.matriz({ initialTab: 0 })}
                             text1='Disciplinas Obrigatórias Concluídas'
@@ -129,9 +133,15 @@ const styles = {
         flexDirection: 'column',
         width: '100%',
         height: '30%',
-        justifyContent: 'space-between',
         alignItems: 'center',
-        padding: 20
+        justifyContent: 'space-between',
+        padding: 10
+    },
+    whiteArea2: {
+        flexDirection: 'column',
+        width: '100%',
+        alignItems: 'center',
+        paddingBottom: '2%'
     },
     purpleArea1: {
         backgroundColor: '#6563a4',
@@ -158,12 +168,12 @@ const styles = {
     },
 
     welcomeText1: {
-        fontSize: 20,
-        color: '#171721'
+        fontSize: 22,
+        color: '#000'
     },
     welcomeText2: {
         fontSize: 12,
-        color: '#17172150'
+        color: '#00000050'
     },
     classesText: {
         fontSize: 10,
@@ -181,6 +191,13 @@ const styles = {
         fontSize: 10,
         fontWeight: 'bold',
         color: '#fff'
+    },
+    barsArea: {
+        height: '40%',
+        position: 'absolute',
+        bottom:'-8%',
+        left:0,
+        width: '100%'
     }
 };
 

@@ -31,14 +31,15 @@ class ClassItem extends Component{
             <TouchableNativeFeedback onPress={this.props.onPress} >
                 <View style={styles.containerStyle} >
                     {this.renderIcon(this.props.done)}
-                    <View style={styles.textStyle}>
-                        <ContentText text={this.props.classInfo.Nome}/>
+                    <View style={styles.textContainer}>
+                        <ContentText  text={this.props.classInfo.Nome}/>
                     </View>
                 </View>
             </TouchableNativeFeedback>
         );
     }
 }
+// style={{textAlign: 'center'}}
 
 const styles = {
 
@@ -49,11 +50,14 @@ const styles = {
         justifyContent: 'flex-start',
         flexDirection: 'row',
         borderColor: '#e7e7e7',
-        position: 'relative'
+        position: 'relative',
+        alignItems: 'center'
+
     },
-    textStyle: {
-        paddingTop: 10,
-        paddingLeft: 20
+    textContainer: {
+        paddingLeft: 20,
+        width: '80%',
+        flexDirection: 'row',
     },
     imageStyle: {
         height: 40,

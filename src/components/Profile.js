@@ -1,33 +1,74 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableNativeFeedback, Image, Keyboard } from 'react-native';
+import { View, Text, TouchableNativeFeedback, Image, Keyboard, ToastAndroid, AsyncStorage } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 // import RNFetchBlob from 'react-native-fetch-blob';
-import { ProfileItem, ProfilePic, ContentTextMinor, HeaderSemester } from './demf';
+import { ProfileItem, ContentTextMinor, HeaderSemester } from './demf';
+import ProfilePic from './demf/ProfilePic';
 
 var ImagePicker = require('react-native-image-picker');
 
 class Profile extends Component {
 
     state = {
-        imagePath: '',
+        imageData: '',
         imageHeight: '',
         imageWidth: '',
-        imagePlaceHolder: '../assets/images/batman.jpg',
+        imagePlaceHolder: '../assets/images/perfilPlaceholder.jpg',
+        
+        userData: '',
+        nome: 'Nome',
+        curso: ''
+    }
 
-        nome: '',
-        curso: '',
+    componentWillMount() {
+        AsyncStorage.getItem('userData')
+        .then(data => { this.handleUser(JSON.parse(data)) })
+    }
+
+    handleUser(data) { 
+        console.log(data)
+        this.setState({ nome: data.Nome, userData: data })
     }
 
     tryHome() {
-        let { nome } = this.state;
+        let { nome, nomeOriginal, userData } = this.state;
 
-        // if(nome === undefined)
-        //     nome = '';
-        //     console.log(nome);
-        // if(nome === '' || nome.length > 20)
-        //     return;
+        if(nome === undefined)
+            nome = '';
+        if(nome === '')
+        {
+            ToastAndroid.show('Tá faltando o teu nome, mah!', ToastAndroid.SHORT)
+            return;
+        }
+        if(nome.length > 20)
+        {
+            ToastAndroid.show('Só vale até 20 caractéres. Foi mal...', ToastAndroid.SHORT)
+            return;
+        }
 
-        Actions.home();
+        if(nome === userData.Nome)
+            Actions.home();
+        else {
+            fetch('http://104.41.36.75:3070/usuario/saveUsuario', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    Id : userData.Id,
+                    Matricula 	: userData.Matricula,
+                    senha 		: "123123",
+                    tipo: 2,
+                    nome: nome
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+               console.log(data);
+               Actions.home();
+            });
+        }
     }
 
     renderButton() {
@@ -38,14 +79,14 @@ class Profile extends Component {
 
         if(nome === '' || nome.length > 20) {
             return(
-                <View style={styles.btnView2}>
+                <View style={[styles.btnView, { backgroundColor: '#8F8F93'}]}>
                     <Image source={require('../assets/images/confirm.png')} style={{ width: 40, height: 40 }} />
                 </View>
             );
         }
 
         return (
-            <View style={styles.btnView}>
+            <View style={[styles.btnView, { backgroundColor: '#6563a4'}]}>
                 <Image source={require('../assets/images/confirm.png')} style={{ width: 40, height: 40 }} />
             </View>
         );
@@ -68,8 +109,9 @@ class Profile extends Component {
             } else if(response.customButton){
                 console.log('pressed custom button' + response.customButton);
             } else{
+                // console.log(response.data);
                 this.setState({
-                    imagePath: response.uri,
+                    imageData: response.data,
                     imageHeight: response.height,
                     imageWidth: response.width
                 });
@@ -77,39 +119,49 @@ class Profile extends Component {
         });
     }
 
+    goto(){
+        if(this.props.goto === 'home')
+            Actions.home()
+        else
+            Actions.login()
+    }
+
     render() {
         const { 
-            container, picArea, greenText, backupArea, backupArea2, btnView, picStyle
+            container, picArea, greenText, btnView, picStyle, inputArea
         } = styles;
 
         return (
             <View style={container}>
-                <HeaderSemester headerText='Perfil' iconPress={() => Actions.pop()} />
+                <HeaderSemester headerText='Perfil' iconPress={this.goto.bind(this)} />
                 
                 <View style={picArea}>
-                    { this.state.imagePath ? <Image style={styles.picStyle} source={{uri: this.state.imagePath}} /> : <ProfilePic />}
+                    {/* { this.state.imagePath ? <Image style={styles.picStyle} source={{uri: this.state.imagePath}} /> : <ProfilePic />} */}
+                    { this.state.imageData ? <ProfilePic data={this.state.imageData} /> : <ProfilePic />}
                     <TouchableNativeFeedback onPress={this.openImagePicker.bind(this)}>
                         <View style={{ paddingTop: 10 }}>
-                            <Text style={greenText}>Alterar foto</Text>
+                            <Text style={greenText}>Alterar Foto</Text>
                         </View>
                     </TouchableNativeFeedback>
                     
                 </View>
                 
-                <View>
+                <View style={inputArea}>
                     <ProfileItem 
-                        label='QUAL SUA NOME?' placeholder='Nome'
+                        label='QUAL SEU NOME?' placeholder={this.state.nome}
                         value={this.state.nome}
                         onChangeText={nome => this.setState({ nome })}
                     />
                     <ProfileItem 
-                        label='QUAL SEU CURSO?' placeholder='Curso'
+                        label='QUAL SEU CURSO?' placeholder='Sistemas e Mídias Digitais - UFC'
                         value={this.state.curso}
                         onChangeText={curso => this.setState({ curso })}
+                        blocked={true}
+                        onPress={() =>ToastAndroid.show('Por enquanto é só o SMD!', ToastAndroid.SHORT)}
                     />
                 </View>
 
-                <View style={backupArea}>
+                {/* <View style={backupArea}>
                     <View style={backupArea2}>
                         <Text style={greenText}>Criar um backup das informações?</Text>
                     </View>
@@ -118,9 +170,10 @@ class Profile extends Component {
                         <ContentTextMinor text='Já possui um backup? ' />
                         <Text style={greenText}>Restaurar.</Text>
                     </View>
-                </View>
+                </View> */}
 
-                <TouchableNativeFeedback onPress={this.tryHome.bind(this)}  onPressOut={Keyboard.dismiss}>
+                <TouchableNativeFeedback 
+                    onPress={this.tryHome.bind(this)}  onPressOut={Keyboard.dismiss}>
                     {this.renderButton()}
                 </TouchableNativeFeedback>
             </View>
@@ -132,9 +185,9 @@ const styles = {
 
     container: {
         flexDirection: 'column',
-        justifyContent: 'space-between',
         backgroundColor: '#fff',
-        height: '100%'
+        height: '100%',
+        justifyContent:'space-between',
     },
 
     picArea: {
@@ -142,17 +195,25 @@ const styles = {
         width: '100%',
         justifyContent: 'space-between',
         alignItems: 'center',
-        padding: 20
+        height: '10%',
+        position: 'absolute',
+        top:70
     },
 
-    backupArea: {
+    // backupArea: {
+    //     flexDirection: 'column',
+    //     justifyContent: 'space-between',
+    // },
+    // backupArea2: {
+    //     flexDirection: 'row',
+    //     padding: 5,
+    //     justifyContent: 'center'
+    // },
+
+    inputArea: {
         flexDirection: 'column',
         justifyContent: 'space-between',
-    },
-    backupArea2: {
-        flexDirection: 'row',
-        padding: 5,
-        justifyContent: 'center'
+        marginBottom: 220
     },
 
     greenText: {
@@ -162,17 +223,13 @@ const styles = {
     },
 
     btnView: {
-        backgroundColor: '#05b9c4',
         height: 60,
         justifyContent: 'center',
-        alignItems: 'center'
-    },
-
-    btnView2: {
-        backgroundColor: '#8F8F93',
-        height: 60,
-        justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        position: 'absolute',
+        bottom:0,
+        left:0,
+        width: '100%'
     },
 
     picStyle: {

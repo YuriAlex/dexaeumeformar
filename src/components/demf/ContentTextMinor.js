@@ -11,7 +11,7 @@ const styles = {
 
     textStyle: {
         fontSize: 12,
-        color: '#171721'
+        color: '#000'
     }
 };
 

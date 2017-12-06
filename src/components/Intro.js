@@ -100,12 +100,12 @@ const images = [
     {
         img: require('../assets/images/walk02.png'),
         title: 'ESCOLHA O SEU DESTINO',
-        txt: 'Veja quais cadeiras estão disponíveis para o seu curso.'
+        txt: 'Dê uma olhada nas cadeiras disponíveis para o seu curso.'
     },
     {
         img: require('../assets/images/walk03.png'),
         title: 'NÃO SE PERCA',
-        txt: 'Tire duvidas sobre suas atividades complementares de forma rápida eficiente.'
+        txt: 'Tire dúvidas sobre suas atividades complementares de forma rápida e eficiente.'
     }
 ];
 

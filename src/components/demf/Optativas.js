@@ -4,25 +4,12 @@ import ClassItemMatriz from './ClassItemMatriz';
 
 class Optativas extends Component {
 
-    state = {
-        disciplinas: []
-    };
-    
-    componentWillMount() {
-        this.setState({ disciplinas: this.sortByNome(this.props.disciplinas) });
-    }
-
-    sortByNome(array) {
-        array = array.sort((a, b) => a.Nome.localeCompare(b.Nome));
-        return array;
-    }
-
     renderClasses() {
-        if(this.state.disciplinas.length === 0)
+        if(this.props.disciplinas.length === 0)
             return;
 
         return (
-            this.state.disciplinas.map(info =>
+            this.props.disciplinas.map(info =>
                 <ClassItemMatriz
                     key={info.Id}
                     classInfo={info}

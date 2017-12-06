@@ -1,13 +1,20 @@
 import React from 'react';
 import { View, Image, TouchableNativeFeedback } from 'react-native';
 
-const ConfirmButton = ({ onPress }) => (
+const ConfirmButton = ({ onPress, closeIcon }) => (
     <TouchableNativeFeedback onPress={onPress} >
         <View style={styles.containerStyle}>
-            <Image source={require('../../assets/images/confirm.png')} style={{ width: 40, height: 40 }} />
+            {setImage(closeIcon)}
         </ View>
     </TouchableNativeFeedback>
 );
+
+function setImage(closeIcon) {
+    if(closeIcon === undefined)
+        return (<Image source={require('../../assets/images/confirm.png')} style={styles.iconStyle} />)
+    else
+        return (<Image source={require('../../assets/images/menuclose.png')} style={styles.iconStyle} /> )
+}
 
 const styles = {
     containerStyle: {
@@ -21,6 +28,11 @@ const styles = {
         position: 'absolute',
         bottom: 0,
         left: 0
+    },
+
+    iconStyle: {
+        width: 40,
+        height: 40
     }
  }; 
 

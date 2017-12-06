@@ -10,7 +10,7 @@ const styles = {
 
     textStyle: {
         fontSize: 15,
-        color: '#171721',
+        color: '#000',
         flex: 1
     }
 };

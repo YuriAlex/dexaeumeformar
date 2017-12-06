@@ -22,7 +22,7 @@ const styles = {
 
     containerStyle: {
         borderBottomWidth: 1,
-        height: '26.3%',
+        height: '27%',
         paddingTop: '4%',
         paddingBottom: '4%',
         paddingLeft: '6%',
@@ -36,6 +36,7 @@ const styles = {
     dotStyle: {
         marginBottom: 10,
         fontSize: 40,
+        marginBottom: 16,
         color: '#05b9c4'
     },
     textAreaStyle: {

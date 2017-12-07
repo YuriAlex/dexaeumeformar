@@ -7,7 +7,7 @@ import { ProfileItem, HeaderSemester } from './demf';
 class Login extends Component {
 
     state = {   
-        email: '', password: '', userID: '',
+        email: '', password: '', userID: '', cursoID: 'f7c44ded-9fc7-604b-94db-6d72446a10bb',
         userError: false, passwordError: false, isModalVisible: false,
         disciplinasFeitas: null, semestres: null, disciplinas: null, faq: null, optativas: null
     };
@@ -132,31 +132,61 @@ class Login extends Component {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                login: "357979",
-                senha: "12345678",
+                login: matricula,
+                senha: password,
             })
         })
         .then(response => response.json())
         .then(data => {
             console.log(data)
-            this.setState({userID: data.Id})
-            // console.log(this.state.userID);
             this.handleLogin(data)
         })
     }
 
     handleLogin(data) {
-        if(data.status !== undefined)
-        {
-            console.log("FAZER LOGIN OU MENSAGEM DE SENHA");
-            return;
-        }
+        if(data.status !== undefined){
 
-        AsyncStorage.setItem('userData', JSON.stringify(data))
-        .then(
-            AsyncStorage.setItem('userId', this.state.userID)
-            .then(this.downloadInfo())
-        )
+            if(data.status === 403) {
+                this.setState({isModalVisible: false})
+                ToastAndroid.show('Senha incorreta. ;/', ToastAndroid.SHORT)
+                return;
+            }
+            
+            if (data.status === 401){
+                ToastAndroid.show('Criando usuário... :D', ToastAndroid.SHORT)
+                
+                fetch('http://104.41.36.75:3070/usuario', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: JSON.stringify({
+                        nome         : '',
+                        matricula 	 : parseInt(this.state.matricula),
+                        senha 		 : this.state.password,
+                        tipo         : 2,
+                        idCurso      : this.state.cursoID,
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    // this.handleLogin(data);
+                })
+                .catch(error => console.log(error));
+
+            }    
+        }
+        else{
+            this.setState({userID: data.Id})
+            
+            AsyncStorage.setItem('userData', JSON.stringify(data))
+            .then(
+                AsyncStorage.setItem('userId', this.state.userID)
+                .then(this.downloadInfo())
+            )
+        }
     }
 
     downloadInfo() {

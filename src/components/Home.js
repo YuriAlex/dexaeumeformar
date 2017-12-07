@@ -12,7 +12,8 @@ class Home extends Component {
         menuState: (isOpen) => {this.setState({ isOpen })},
         pointerEvents: 'auto',
 
-        userName: '', userPic: ''
+        userName: '', userPic: '',
+        obFeitas: 0, elFeitas: 0, opFeitas: 0, totalFeitas: 0
     };
 
     componentWillMount() {
@@ -20,6 +21,9 @@ class Home extends Component {
 
         AsyncStorage.getItem('userData')
         .then(data => { this.handleUser(JSON.parse(data)) })
+
+        AsyncStorage.getItem('disciplinasFeitas')
+        .then(data => { this.handleDisciplinas(JSON.parse(data)) })
     }
 
     componentDidMount() {
@@ -38,13 +42,34 @@ class Home extends Component {
         this.setState({ userName: data.Nome })
     }
 
+    handleDisciplinas(data) { 
+        if(data.length === 0){ 
+            console.log("nao tem disciplinas feitas");
+            return;
+        }
+
+        let ob = 0; let el = 0; let op = 0;
+        data.map(item =>{
+            if(item.Tipo === 1)
+                ob++;
+            else if(item.Tipo === 2)
+                el++;
+            else(item.Tipo === 3)
+                op++;
+        })
+
+        this.setState({obFeitas: ob, elFeitas: el, opFeitas: op, totalFeitas: (ob+el+op)})
+    }
+
     applyLetterSpacing(string, count = 1) {
         return string.split('').join('\u200A'.repeat(count));
     }
 
     render() {
 
-        const { toggle, screenWidth, menuState, isOpen, pointerEvents, userName, userPic } = this.state;
+        const { toggle, screenWidth, menuState, isOpen, pointerEvents,
+                userName, userPic, obFeitas, elFeitas, opFeitas, totalFeitas
+        } = this.state;
 
         const { 
             container, whiteArea, whiteArea2, welcomeText1, welcomeText2,
@@ -77,12 +102,12 @@ class Home extends Component {
                             <View style={purpleArea2}>
                                 <Text style={classesText}>{this.applyLetterSpacing('DISCIPLINAS')}</Text>
                                 <Text style={classesText}>{this.applyLetterSpacing('CONCLUÍDAS')}</Text>
-                                <Text style={classesNum}>20</Text>
+                                <Text style={classesNum}>{totalFeitas}</Text>
                             </View>
                             <View style={purpleArea2}>
                             <Text style={classesText}>{this.applyLetterSpacing('DISCIPLINAS')}</Text>
                             <Text style={classesText}>{this.applyLetterSpacing('RESTANTES')}</Text>
-                                <Text style={classesNum}>20</Text>
+                                <Text style={classesNum}>{39 - totalFeitas}</Text>
                             </View>
                         </View>
                     </TouchableNativeFeedback>
@@ -99,19 +124,19 @@ class Home extends Component {
                             onPress={() => Actions.matriz({ initialTab: 0 })}
                             text1='Disciplinas Obrigatórias Concluídas'
                             text2='Vai dar certo!'
-                            num='5'
+                            num={obFeitas}
                         />
                         <HomeItem
                             onPress={() => Actions.matriz({ initialTab: 1 })}
                             text1='Disciplinas Eletivas Concluídas'
                             text2='Vai dar certo!'
-                            num='5'
+                            num={elFeitas}
                         />
                         <HomeItem
                             onPress={() => Actions.matriz({ initialTab: 2 })}
                             text1='Disciplinas Optativas Concluídas'
                             text2='Vai dar certo!'
-                            num='5'
+                            num={opFeitas}
                         />
                     </View>
                 </View>

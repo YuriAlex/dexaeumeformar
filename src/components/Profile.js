@@ -11,8 +11,6 @@ class Profile extends Component {
 
     state = {
         imageData: '',
-        imageHeight: '',
-        imageWidth: '',
         imagePlaceHolder: '../assets/images/perfilPlaceholder.jpg',
         
         userData: '',
@@ -27,11 +25,11 @@ class Profile extends Component {
 
     handleUser(data) { 
         console.log(data)
-        this.setState({ nome: data.Nome, userData: data })
+        this.setState({ userData: data,  nome: data.Nome, imageData: data.Imagem})
     }
 
     tryHome() {
-        let { nome, nomeOriginal, userData } = this.state;
+        let { nome, nomeOriginal, userData, imageData } = this.state;
 
         if(nome === undefined)
             nome = '';
@@ -46,28 +44,27 @@ class Profile extends Component {
             return;
         }
 
-        if(nome === userData.Nome)
+        if(nome === userData.Nome && imageData === userData.Imagem)
             Actions.home();
         else {
-            fetch('http://104.41.36.75:3070/usuario/saveUsuario', {
+            console.log('editando')
+            fetch('http://104.41.36.75:3070/usuario', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/x-www-form-urlencoded',
                 },
                 body: JSON.stringify({
-                    Id : userData.Id,
-                    Matricula 	: userData.Matricula,
-                    senha 		: "123123",
-                    tipo: 2,
-                    nome: nome
+                    Id: userData.Id,
+                    Matricula: "357979",
+                    Tipo: 2,
+                    Imagem: imageData,
+                    Nome: nome
                 })
             })
             .then(response => response.json())
-            .then(data => {
-               console.log(data);
-               Actions.home();
-            });
+            .then(data => console.log(data))
+            .catch(error => console.log(error));
         }
     }
 
@@ -112,8 +109,6 @@ class Profile extends Component {
                 // console.log(response.data);
                 this.setState({
                     imageData: response.data,
-                    imageHeight: response.height,
-                    imageWidth: response.width
                 });
             }
         });
@@ -137,7 +132,7 @@ class Profile extends Component {
                 
                 <View style={picArea}>
                     {/* { this.state.imagePath ? <Image style={styles.picStyle} source={{uri: this.state.imagePath}} /> : <ProfilePic />} */}
-                    { this.state.imageData ? <ProfilePic data={this.state.imageData} /> : <ProfilePic />}
+                    { this.state.imageData !== null ? <ProfilePic data={this.state.imageData} /> : <ProfilePic />}
                     <TouchableNativeFeedback onPress={this.openImagePicker.bind(this)}>
                         <View style={{ paddingTop: 10 }}>
                             <Text style={greenText}>Alterar Foto</Text>

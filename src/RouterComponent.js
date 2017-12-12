@@ -22,8 +22,8 @@ const RouterComponent = () => {
                 <Scene key="profile" component={Profile} title="Profile" />
                 <Scene key="login" component={Login} title="Login" />
                 <Scene key="matriz" component={Matriz} title="Matriz" />
-                <Scene key="home" component={Home} title="Home" initial/>
-                <Scene key="semesterList" component={SemesterList} title="SemestreList" />
+                <Scene key="home" component={Home} title="Home" />
+                <Scene key="semesterList" component={SemesterList} title="SemestreList" initial/>
                 <Scene key="semester" component={Semester} title="Semestre" />
                 <Scene key="atividadesList" component={AtividadesList} title="AtividadesList" />
             </Scene>

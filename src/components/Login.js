@@ -154,12 +154,12 @@ class Login extends Component {
             
             if (data.status === 401){
                 ToastAndroid.show('Criando usuário... :D', ToastAndroid.SHORT)
-                
+                console.log("criar usuario")
                 fetch('http://104.41.36.75:3070/usuario', {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',
-                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
                         nome         : '',
@@ -170,10 +170,7 @@ class Login extends Component {
                     })
                 })
                 .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                    // this.handleLogin(data);
-                })
+                .then(data => this.handleLogin(data))
                 .catch(error => console.log(error));
 
             }    

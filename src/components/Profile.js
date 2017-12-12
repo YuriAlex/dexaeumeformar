@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableNativeFeedback, Image, Keyboard, ToastAndroid, AsyncStorage } from 'react-native';
+import { View, Text, TouchableNativeFeedback, Image, Keyboard, ToastAndroid, AsyncStorage, Alert } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 // import RNFetchBlob from 'react-native-fetch-blob';
 import { ProfileItem, ContentTextMinor, HeaderSemester } from './demf';
@@ -30,7 +30,7 @@ class Profile extends Component {
 
     tryHome() {
         let { nome, nomeOriginal, userData, imageData } = this.state;
-
+        
         if(nome === undefined)
             nome = '';
         if(nome === '')
@@ -47,25 +47,32 @@ class Profile extends Component {
         if(nome === userData.Nome && imageData === userData.Imagem)
             Actions.home();
         else {
-            console.log('editando')
             fetch('http://104.41.36.75:3070/usuario', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
-                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    Id: userData.Id,
-                    Matricula: "357979",
-                    Tipo: 2,
-                    Imagem: imageData,
-                    Nome: nome
+                    nome: nome,
+                    id: userData.Id,
+                    imagem: imageData
                 })
             })
             .then(response => response.json())
-            .then(data => console.log(data))
-            .catch(error => console.log(error));
+            .then(data => this.refreshStorage(data))    
+            .catch(error => console.log(error))
         }
+    }
+
+    refreshStorage(data) {
+        let userData = this.state.userData
+        console.log(userData)
+        userData.Nome = data.Nome
+        userData.Imagem = data.Imagem
+        console.log(userData)
+        AsyncStorage.setItem('userData', JSON.stringify(userData))
+        .then(Actions.home());
     }
 
     renderButton() {

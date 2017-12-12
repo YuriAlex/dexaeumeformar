@@ -13,16 +13,6 @@ class ClassItemMatriz extends Component{
     }
 
     renderIcon(done) {
-        if(this.props.classInfo.Nome === 'Autoração Multimídia I' 
-            || this.props.classInfo.Nome === 'Desenho I'
-            || this.props.classInfo.Nome === 'História do Design'
-            || this.props.classInfo.Nome === 'Banco de Dados II'
-            || this.props.classInfo.Nome === 'Cultura de Jogos'
-            || this.props.classInfo.Nome === 'Desenvolvimento de Jogos Casuais'   
-        ) {
-            done = true;
-        }
-
         if(done === true) {
             return(
             <Image source={require('../../assets/images/happy.png')} style={styles.happyStyle} />

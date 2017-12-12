@@ -34,10 +34,12 @@ class Semester extends Component {
         modalEletivas: [],
         modalOptativas: [],
 
+        originalFeitas: null,
         disciplinasFeitas: null,
 
         typeToShow: 2,
-        isModalVisible: false
+        isModalVisible: false,
+        userData: null
     };
     
     componentWillMount() {
@@ -45,8 +47,11 @@ class Semester extends Component {
         AsyncStorage.getItem('disciplinasFeitas')
         .then(data => {
             console.log(JSON.parse(data))
-            this.setState({ disciplinasFeitas: JSON.parse(data) });
+            this.setState({ disciplinasFeitas: JSON.parse(data), originalFeitas: JSON.parse(data) });
         })
+
+        AsyncStorage.getItem('userData')
+        .then(data =>this.setState({ userData: JSON.parse(data) }))
 
         this.setNome();
 
@@ -121,6 +126,8 @@ class Semester extends Component {
         ? disciplinasFeitas.filter(item => item.Id !== classId)
         : [...disciplinasFeitas, { Id: classId, IdSemestre: this.props.semestre.Id }];
         
+        console.log(newdisciplinasFeitas);
+
         this.setState({ disciplinasFeitas: newdisciplinasFeitas });
     }
 
@@ -267,6 +274,50 @@ class Semester extends Component {
 
     }
     
+    confirm() {
+
+        if(this.state.disciplinasFeitas === this.state.originalFeitas)
+        {
+            Actions.pop()
+            return
+        }
+        
+        this.state.disciplinasFeitas.map(nova => this.addToPost(nova));
+
+        console.log(this.state.userData.Id);
+        console.log(this.state.originalFeitas);
+            
+        fetch('http://104.41.36.75:3070/usuario/usuario-disciplina/', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                IdUsuario: this.state.userData.Id,
+                Disciplinas: this.state.originalFeitas
+            })
+        })
+        .then(response => response.json())
+        .then(data =>  {
+            AsyncStorage.setItem('disciplinasFeitas', JSON.stringify.data)
+            .then(Actions.pop());
+        })
+        .catch(error => console.log(error))
+    }
+
+    addToPost(nova) {
+        
+        let originais = this.state.originalFeitas
+        const alredyDone = originais.some(feita => feita.Id === nova.Id);
+        if(alredyDone)
+            return
+
+        originais.push({IdDisciplina: nova.Id, IdSemestre: this.props.semestre.Id})
+        this.setState({ originalFeitas: originais })        
+        console.log(originais)
+    }
+
     render() {
         return (
             <View style={styles.container}>
@@ -278,7 +329,7 @@ class Semester extends Component {
                     {this.renderOptativas()}
                 </ScrollView>
 
-                <ConfirmButton onPress={() => {}} />
+                <ConfirmButton onPress={this.confirm.bind(this)} />
             </View>
         );
     }

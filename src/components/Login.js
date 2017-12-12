@@ -270,9 +270,9 @@ class Login extends Component {
     setModal() {
         return(
             <Modal isVisible={this.state.isModalVisible}>
-                <View style={styles.modalContent}>
+                <View>
                     <ActivityIndicator size={'large'} />
-              </View>
+                </View>
             </Modal>
         )
     }

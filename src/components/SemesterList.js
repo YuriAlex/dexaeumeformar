@@ -10,7 +10,8 @@ class Semester extends Component {
         toggle: () => {this.setState({ isOpen: !this.state.isOpen })},
         menuState: (isOpen) => {this.setState({ isOpen })},
 
-        semestres: []
+        semestres: [],
+        disciplinasFeitas: []
     };
 
     componentWillMount() {
@@ -19,6 +20,12 @@ class Semester extends Component {
         AsyncStorage.getItem('semestres')
         .then(data => {
             this.setState({ semestres: this.sortByOrdem(JSON.parse(data)) });
+        })
+
+        AsyncStorage.getItem('disciplinasFeitas')
+        .then(data => {
+            this.setState({ disciplinasFeitas: this.sortByOrdem(JSON.parse(data)) });
+            console.log(JSON.parse(data))
         })
     }
 
@@ -59,11 +66,23 @@ class Semester extends Component {
             return;
         
         const semestres =  this.state.semestres;
+        let qntFeitasA = 0;
+        let qntFeitasB = 0;
+
+        this.state.disciplinasFeitas.map(item =>{
+            if(item.IdSemestre === semestres[a].Id)
+                qntFeitasA++;
+            else if((item.IdSemestre === semestres[b].Id))
+                qntFeitasB++
+        })
 
         return (
             <View style={rowStyle}>
-                <SemesterSquare semInfo={semestres[a]} semHeight={h} onPress={() => this.gotoSemester(semestres[a])} />
-                <SemesterSquare semInfo={semestres[b]} semHeight={h} onPress={() => this.gotoSemester(semestres[b])} />
+                <SemesterSquare semInfo={
+                    semestres[a]} semHeight={h} qtdFeitas={qntFeitasA} onPress={() => this.gotoSemester(semestres[a])} />
+                <SemesterSquare semInfo={
+                    semestres[b]} semHeight={h} qtdFeitas={qntFeitasB} onPress={() => this.gotoSemester(semestres[b])
+                } />
             </View>
         );
     }

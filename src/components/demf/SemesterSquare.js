@@ -12,16 +12,30 @@ const setNome = semInfo => {
     return nome;
 }
 
-const SemesterSquare = ({ semInfo, semHeight, onPress}) => {
-    const { containerStyle, titleStyle, subtextStyle, incompleteStyle } = styles;
+const SemesterSquare = ({ semInfo, semHeight, qtdFeitas, onPress }) => {
+
+    const { containerStyle, titleStyle, subtextStyle, completeStyle, incompleteStyle } = styles;
+    const qtdTotal = semInfo.QuantidadeObrigatorias + semInfo.QuantidadeEletivas + semInfo.QuantidadeOptativas;
+
+    let complete = false;
+    if(qtdFeitas === qtdTotal)
+        complete = true;
 
     return (
         <TouchableNativeFeedback onPress={onPress} >
             <View style={[containerStyle, {height: semHeight}]} >
 
                 <Text style={titleStyle}>{setNome(semInfo)}</Text>
-                <Text style={subtextStyle}>{applyLetterSpacing('0 DE 5 CONCLUÍDOS')}</Text>
-                <View style={incompleteStyle} />
+
+                {complete === true 
+                    ? <Text style={subtextStyle}>{applyLetterSpacing('CONCLUÍDO')}</Text>
+                    : <Text style={subtextStyle}>{applyLetterSpacing(qtdFeitas + ' DE ' + qtdTotal + ' CONCLUÍDOS')}</Text>
+                }
+
+                {complete === true 
+                    ? <View style={completeStyle} /> 
+                    : <View style={incompleteStyle} /> 
+                }
 
             </ View>
         </ TouchableNativeFeedback>
@@ -61,7 +75,14 @@ const styles = {
     incompleteStyle: {
         width: 12,
         marginTop: 10,
-        borderBottomColor: 'purple',
+        borderBottomColor: '#6563a4',
+        borderBottomWidth: 2.5,
+    },
+
+    completeStyle: {
+        width: 12,
+        marginTop: 10,
+        borderBottomColor: '#05b9c4',
         borderBottomWidth: 2.5,
     }
 };

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView, AsyncStorage, Text, TouchableNativeFeedback } from 'react-native';
+import { View, ScrollView, AsyncStorage, Text, TouchableNativeFeedback, ToastAndroid, ActivityIndicator } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import Modal from 'react-native-modal';
 import { ConfirmButton, HeaderSemester } from './demf';
@@ -39,6 +39,7 @@ class Semester extends Component {
 
         typeToShow: 2,
         isModalVisible: false,
+        isLoadingVisible: false,
         userData: null
     };
     
@@ -46,7 +47,6 @@ class Semester extends Component {
         
         AsyncStorage.getItem('disciplinasFeitas')
         .then(data => {
-            console.log(JSON.parse(data))
             this.setState({ disciplinasFeitas: JSON.parse(data), originalFeitas: JSON.parse(data) });
         })
 
@@ -118,15 +118,13 @@ class Semester extends Component {
         this.setState({ ordem: str });
     }
 
-    handleClassItemPress = classId => {
+    handleClassItemPress = clickedClassId => {
 
-        const { disciplinasFeitas } = this.state;
+        const { disciplinasFeitas, userData } = this.state;
 
-        const newdisciplinasFeitas = disciplinasFeitas.some(item => item.Id == classId) //disciplinasFeitas.indexOf(classId) == -1
-        ? disciplinasFeitas.filter(item => item.Id !== classId)
-        : [...disciplinasFeitas, { Id: classId, IdSemestre: this.props.semestre.Id }];
-        
-        console.log(newdisciplinasFeitas);
+        const newdisciplinasFeitas = disciplinasFeitas.some(item => item.IdDisciplina === clickedClassId) //disciplinasFeitas.indexOf(classId) == -1
+        ? disciplinasFeitas.filter(item => item.IdDisciplina !== clickedClassId)
+        : [...disciplinasFeitas, { Id: '', IdDisciplina: clickedClassId, IdSemestre: this.props.semestre.Id, IdUsuario: userData.Id }];
 
         this.setState({ disciplinasFeitas: newdisciplinasFeitas });
     }
@@ -138,8 +136,7 @@ class Semester extends Component {
 
         return (
             this.state.obrigatorias.map(info => {
-                
-                const done = this.state.disciplinasFeitas.some(item => item.Id == info.Id);
+                const done = this.state.disciplinasFeitas.some(item => item.IdDisciplina === info.Id);
 
                 return (
                     <ClassItem
@@ -219,11 +216,7 @@ class Semester extends Component {
         );
     }
 
-    _showModal = () => this.setState({ isModalVisible: true })
-    
-    _hideModal = () => this.setState({ isModalVisible: false })
-
-    setModal() {
+    setClassesModal() {
         return(
             <Modal isVisible={this.state.isModalVisible}>
                 <View style={styles.modalContent}>
@@ -282,11 +275,10 @@ class Semester extends Component {
             return
         }
         
+        
+        this.setState({isLoadingVisible: true})
         this.state.disciplinasFeitas.map(nova => this.addToPost(nova));
 
-        console.log(this.state.userData.Id);
-        console.log(this.state.originalFeitas);
-            
         fetch('http://104.41.36.75:3070/usuario/usuario-disciplina/', {
             method: 'POST',
             headers: {
@@ -295,15 +287,23 @@ class Semester extends Component {
             },
             body: JSON.stringify({
                 IdUsuario: this.state.userData.Id,
-                Disciplinas: this.state.originalFeitas
+                Disciplinas: this.state.disciplinasFeitas
             })
         })
         .then(response => response.json())
         .then(data =>  {
-            AsyncStorage.setItem('disciplinasFeitas', JSON.stringify.data)
-            .then(Actions.pop());
+            AsyncStorage.setItem('disciplinasFeitas', JSON.stringify(data))
+            .then(() => {
+                this.setState({isLoadingVisible: false})
+                ToastAndroid.show('Salvo com sucesso!', ToastAndroid.SHORT)
+                Actions.semesterList()
+            });
         })
-        .catch(error => console.log(error))
+        .catch(error => {
+            this.setState({isLoadingVisible: false})
+            ToastAndroid.show('Ocorreu um erro! :(', ToastAndroid.SHORT)
+            console.log(error)
+        })
     }
 
     addToPost(nova) {
@@ -314,15 +314,25 @@ class Semester extends Component {
             return
 
         originais.push({IdDisciplina: nova.Id, IdSemestre: this.props.semestre.Id})
-        this.setState({ originalFeitas: originais })        
-        console.log(originais)
+        this.setState({ originalFeitas: originais })
+    }
+
+    setLoadingModal() {
+        return(
+            <Modal isVisible={this.state.isLoadingVisible}>
+                    <View>
+                        <ActivityIndicator size={'large'} />
+                    </View>
+            </Modal>
+        )
     }
 
     render() {
         return (
             <View style={styles.container}>
                 <HeaderSemester headerText={this.state.ordem + ' Semestre'} iconPress={() => Actions.pop()} />
-                {this.setModal()}
+                {this.setLoadingModal()}
+                {this.setClassesModal()}
                 <ScrollView>                    
                     {this.renderObrigatorias()}
                     {this.renderEletivas()}

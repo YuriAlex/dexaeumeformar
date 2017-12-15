@@ -49,7 +49,7 @@ class Semester extends Component {
             if(semestre.QuantidadeOptativas === 0)
                 Actions.semester({ semestre: semestre, disciplinas: disc })
             else {
-                AsyncStorage.getItem('optativas')
+                AsyncStorage.getItem('optativasModal')
                 .then(data => {
                     Actions.semester({ semestre: semestre, disciplinas: disc, modalOptativas: JSON.parse(data) });
                 })

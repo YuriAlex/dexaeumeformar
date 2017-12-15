@@ -106,9 +106,7 @@ class Login extends Component {
                 console.log(data)
                 this.setState({ disciplinasFeitas: data })
                 this.onLoad(data, 'disciplinasFeitas')
-
-                let selec = data.filter(item => item.Tipo != 1)
-                this.onLoad(selec, 'selecionadasElOp')
+                this.onLoad([], 'selecionadasElOp')
             })
 
         //SEMESTRES DO CURSO
@@ -134,9 +132,12 @@ class Login extends Component {
                 })
             })
             .then(() => {
-                this.setState({ disciplinas: this.sortByNome(disc), optativas: this.sortByNome(op) })
+                this.setState({ disciplinas: this.sortByNome(disc), optativas: op })
                 this.onLoad(disc, 'disciplinas')
                 this.onLoad(op, 'optativas')
+
+                
+                this.onLoad(op, 'optativasModal')
             })
 
         //FAQ

@@ -60,14 +60,21 @@ class Eletivas extends Component {
             return;
 
         return (
-            this.state.holder[pos].map(item =>
-                <ClassItemMatriz
-                    key={item.Id}
-                    classInfo={item}
-                    onPress={() => {}}
-                    done={false}
-                />
-            )
+            this.state.holder[pos].map(item =>{
+
+                let done = false;
+                if(this.props.feitas !== [])
+                    done = this.props.feitas.some(f => f.IdDisciplina === item.Id)
+
+                return(
+                    <ClassItemMatriz
+                        key={item.Id}
+                        classInfo={item}
+                        onPress={() => {}}
+                        done={done}
+                    />
+                )
+            })
         );
     };
 

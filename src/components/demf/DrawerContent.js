@@ -39,7 +39,7 @@ class DrawerContent extends Component {
 
     ExitButton = () => {
         return (
-            <TouchableNativeFeedback onPress={this.props.closeDrawer} >
+            <TouchableNativeFeedback onPress={() => Actions.login()} >
                 <View style={styles.exitStyle} >
                     <Image source={require('../../assets/images/iconSair.png')} style={{ height: 40, width: 40, marginLeft: 5}} />
                     <Text style={{ fontSize: 10, color: '#fff' }}>SAIR</Text>

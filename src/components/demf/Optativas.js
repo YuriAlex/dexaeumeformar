@@ -9,14 +9,21 @@ class Optativas extends Component {
             return;
 
         return (
-            this.props.disciplinas.map(info =>
-                <ClassItemMatriz
-                    key={info.Id}
-                    classInfo={info}
-                    onPress={() => {}}
-                    done={false}
-                />
-            )
+            this.props.disciplinas.map(item =>{
+
+                let done = false;
+                if(this.props.feitas !== [])
+                    done = this.props.feitas.some(f => f.IdDisciplina === item.Id)
+
+                return(
+                    <ClassItemMatriz
+                        key={item.Id}
+                        classInfo={item}
+                        onPress={() => {}}
+                        done={done}
+                    />
+                )
+            })
         );
     };
 

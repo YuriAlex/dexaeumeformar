@@ -42,23 +42,39 @@ class Home extends Component {
         this.setState({ userName: data.Nome })
     }
 
-    handleDisciplinas(data) { 
-        if(data.length === 0){ 
+    handleDisciplinas(feitas) { 
+        if(feitas.length === 0){ 
             console.log("nao tem disciplinas feitas");
             return;
         }
-
+        
+        console.log(feitas)
+        
         let ob = 0; let el = 0; let op = 0;
-        data.map(item =>{
-            if(item.Tipo === 1)
-                ob++;
-            else if(item.Tipo === 2)
-                el++;
-            else(item.Tipo === 3)
-                op++;
+
+        AsyncStorage.getItem('disciplinas')
+        .then(oBeL => {
+            console.log(JSON.parse(oBeL))
+            JSON.parse(oBeL).map(item =>{
+                if(feitas.some(d => d.IdDisciplina === item.Id) && item.Tipo === 1)
+                    ob++;
+                else if(feitas.some(d => d.IdDisciplina === item.Id) && item.Tipo === 2)
+                    el++;
+            })
+        })
+        .then(() => {
+            AsyncStorage.getItem('optativas')
+            .then(opt => {
+                JSON.parse(opt).map(item =>{
+                    if(feitas.some(d => d.IdDisciplina === item.Id) && item.Tipo === 3)
+                        op++;
+                })
+            })
+            .then(() => this.setState({obFeitas: ob, elFeitas: el, opFeitas: op, totalFeitas: (ob+el+op)}))
         })
 
-        this.setState({obFeitas: ob, elFeitas: el, opFeitas: op, totalFeitas: (ob+el+op)})
+        
+
     }
 
     applyLetterSpacing(string, count = 1) {

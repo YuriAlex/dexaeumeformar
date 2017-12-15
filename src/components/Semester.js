@@ -49,7 +49,6 @@ class Semester extends Component {
             this.setNome();
 
         //PUXAS TODAS AS FEITAS E COLOCA NO ESTADO
-        console.log(this.props)
             let totalOb = [];
             let totalEl = [];
 
@@ -75,18 +74,6 @@ class Semester extends Component {
                     obrigatorias: totalOb
                 })
             })
-        //FILTRANDO OPTATIVAS
-            // const numOp = this.props.semestre.QuantidadeOptativas
-
-            // if(numOp > 0)
-            // {
-            //     let op = []
-                
-            //     for(let i = 0; i < numOp; i++)
-            //         op.push({ disciplina: null })
-                
-            //     this.setState({ optativas: op, modalOptativas:    });
-            // }
     }
 
     manageEletivasList(discFeitas, totalEl, selec) {
@@ -129,44 +116,47 @@ class Semester extends Component {
 
     manageOptativasList(discFeitas, selec) {
         
-        const totalOp = this.props.modalOptativas
-        if(totalOp === undefined)
+        if(this.props.modalOptativas === undefined)
             return;
-
+    
         let feitas = []
-        let mod = []
+        mod = this.props.modalOptativas
 
-        selec = selec.filter(item => item.Tipo === 3 && item.IdSemestre === this.props.semestre.Id)
-        
-        if(discFeitas !== null){
+        AsyncStorage.getItem('optativas')
+        .then(data => {
+            totalOp = JSON.parse(data)
+    
+            selec = selec.filter(item => item.Tipo === 3 && item.IdSemestre === this.props.semestre.Id)
 
-            totalOp.map(info => {
-                if(discFeitas.some(item => item.IdDisciplina === info.Id && item.IdSemestre === this.props.semestre.Id))
-                    feitas.push(info)
-                else
-                    mod.push(info)
+            if(discFeitas !== null){
+    
+                totalOp.map(info => {
+                    if(discFeitas.some(item => item.IdDisciplina === info.Id && item.IdSemestre === this.props.semestre.Id)) {
+                        feitas.push(info)
+                        mod = mod.filter(m => m.Id !== info.IdDisciplina)
+                    }
+                })
+
+                feitas.map(info =>{
+                    if(selec.filter(item => item.Id === info.Id && item.IdSemestre === this.props.semestre.Id).length === 0)
+                        selec.push(info)
+                })
+    
+                // selec.map(info => {
+                //     mod = mod.filter(item => item.Id !== info.Id && item.IdSemestre !== this.props.semestre.Id)
+                // })
+            }
+            else {
+                selec.map(info => { mod = mod.filter(item => item.Id !== info.Id && item.IdSemestre !== this.props.semestre.Id) })
+            }
+    
+            this.setState({
+                optativasSelecionadas: selec,
+                modalOptativas: mod
             })
-
-            feitas.map(info =>{
-                if(selec.filter(item => item.Id === info.Id && item.IdSemestre === this.props.semestre.Id).length === 0)
-                    selec.push(info)
-            })
-
-            selec.map(info => {
-                mod = mod.filter(item => item.Id !== info.Id && item.IdSemestre === this.props.semestre.Id)
-            })
-        }
-        else {
-            mod = totalOp
-            selec.map(info => { mod = mod.filter(item => item.Id !== info.Id && item.IdSemestre === this.props.semestre.Id) })
-        }
-
-        this.setState({
-            optativasSelecionadas: selec,
-            modalOptativas: mod
+    
+            this.resetOptativas()
         })
-
-        this.resetOptativas()
     }
 
     setNome(){
@@ -312,7 +302,7 @@ class Semester extends Component {
         if(this.state.typeToShow === 2)
         {
             return (
-                this.state.modalEletivas.map((info, index, array) => {
+                this.sortByNome(this.state.modalEletivas).map((info, index, array) => {
                     return (
                         <ClassItem
                             key={index}
@@ -327,7 +317,7 @@ class Semester extends Component {
         else if(this.state.typeToShow === 3)
         {
             return (
-                this.state.modalOptativas.map((info, index, array) => {
+                this.sortByNome(this.state.modalOptativas).map((info, index, array) => {
                     return (
                         <ClassItem
                             key={index}
@@ -342,7 +332,6 @@ class Semester extends Component {
     }
     
     removeFromModal(info) {
-        console.log(info)
         ToastAndroid.show('Para remover a disciplina, basta pressionar e segurá-la.', ToastAndroid.SHORT)
         
         if(info.Tipo == 2) {
@@ -365,8 +354,9 @@ class Semester extends Component {
 
             let { modalOptativas, optativas, optativasSelecionadas } = this.state;
             
-            info.IdSemestre = this.props.semestre.IdSemestre
-            optativasSelecionadas.push(info)
+            let op = info
+            op.IdSemestre = this.props.semestre.Id
+            optativasSelecionadas.push(op)
             modalOptativas = modalOptativas.filter(item => item.Id !== info.Id)
     
             this.setState({
@@ -394,7 +384,7 @@ class Semester extends Component {
     
             this.setState({
                 eletivasSelecionadas: eletivasSelecionadas,
-                modalEletivas: modalEletivas
+                modalEletivas: this.sortByNome(modalEletivas)
             })
 
             this.resetEletivas()
@@ -403,10 +393,17 @@ class Semester extends Component {
         if(info.Tipo == 3) {
             
             let { modalOptativas, optativas, optativasSelecionadas } = this.state;
-            
-            info.IdSemestre = null
-            optativasSelecionadas = optativasSelecionadas.filter(item => item.Id !== info.Id)
-            modalOptativas.push(info)
+            let op = info
+
+            console.log(optativasSelecionadas)
+            console.log(modalOptativas)
+
+            op.IdSemestre = null
+            optativasSelecionadas = optativasSelecionadas.filter(item => item.Id !== op.Id)
+            modalOptativas.push(op)
+
+            console.log(optativasSelecionadas)
+            console.log(modalOptativas)
 
             if(done) {
                 this.handleClassItemPress(info.Id)
@@ -414,7 +411,7 @@ class Semester extends Component {
     
             this.setState({
                 optativasSelecionadas: optativasSelecionadas,
-                modalOptativas: modalOptativas
+                modalOptativas: this.sortByNome(modalOptativas)
             })
 
             this.resetOptativas()
@@ -454,8 +451,6 @@ class Semester extends Component {
                 else
                     op.push({ disciplina: null })
             }
-            
-            console.log(op)
 
             this.setState({ optativas: op });
         }
@@ -515,9 +510,16 @@ class Semester extends Component {
 
     setSelecionadasStorage(data){
         const{ eletivasSelecionadas, optativasSelecionadas} = this.state;
+        data = data.filter(item => item.IdSemestre !== this.props.semestre.Id)
 
-        if(eletivasSelecionadas.length === 0 && optativasSelecionadas.length === 0)
+        if(eletivasSelecionadas.length === 0 && optativasSelecionadas.length === 0) {
+
+            AsyncStorage.setItem('selecionadasElOp', JSON.stringify(this.sortByNome(data)))
+            if(this.state.modalOptativas !== [])
+                AsyncStorage.setItem('optativasModal', JSON.stringify(this.state.modalOptativas))
+            
             return;
+        }
 
         if(data.length === 0) {
             eletivasSelecionadas.map(item => data.push(item))
@@ -525,22 +527,21 @@ class Semester extends Component {
             AsyncStorage.setItem('selecionadasElOp', JSON.stringify(data))
             return;
         }
-        
+
+        data = data.filter(item => item.IdSemestre !== this.props.semestre.Id)
+
         eletivasSelecionadas.map(el => {
-            if(data.filter(item => item.Id === el.Id).length === 0) {
-                data.push(el)
-            } else{
-                data = data.filter(item => item.Id === el.Id)
-            }
+            data.push(el)
         })
 
+        console.log(optativasSelecionadas)
         optativasSelecionadas.map(op => {
-            if(data.filter(item => item.Id === op.Id).length === 0) {
-                data.push(el)
-            }
+            data.push(op)
         })
 
-        AsyncStorage.setItem('selecionadasElOp', JSON.stringify(data))
+        AsyncStorage.setItem('selecionadasElOp', JSON.stringify(this.sortByNome(data)))
+        if(this.state.modalOptativas !== [])
+            AsyncStorage.setItem('optativasModal', JSON.stringify(this.state.modalOptativas))
     }
 
     setLoadingModal() {
@@ -568,6 +569,17 @@ class Semester extends Component {
                 <ConfirmButton onPress={this.confirm.bind(this)} />
             </View>
         );
+    }
+
+    diff (a, b){
+        return b.filter(function (i) {
+            return a.indexOf(i) === -1;
+        });
+    }
+
+    sortByNome(array) {
+        array = array.sort((a, b) => a.Nome.localeCompare(b.Nome));
+        return array;
     }
 }
 

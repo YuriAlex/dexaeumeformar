@@ -28,7 +28,7 @@ class ClassItem extends Component{
 
     render() {
         return (
-            <TouchableNativeFeedback onPress={this.props.onPress} >
+            <TouchableNativeFeedback onPress={this.props.onPress} onLongPress={this.props.onLongPress}>
                 <View style={styles.containerStyle} >
                     {this.renderIcon(this.props.done)}
                     <View style={styles.textContainer}>

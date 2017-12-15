@@ -106,6 +106,9 @@ class Login extends Component {
                 console.log(data)
                 this.setState({ disciplinasFeitas: data })
                 this.onLoad(data, 'disciplinasFeitas')
+
+                let selec = data.filter(item => item.Tipo != 1)
+                this.onLoad(selec, 'selecionadasElOp')
             })
 
         //SEMESTRES DO CURSO
@@ -115,8 +118,6 @@ class Login extends Component {
                 this.setState({ semestres: data })
                 this.onLoad(data, 'semestres')
             })
-
-            
 
         //DISCIPLINAS OBRIGATORIAS,ELETIVAS E OPTATIVAS
             let disc = []

@@ -25,7 +25,6 @@ class Semester extends Component {
         AsyncStorage.getItem('disciplinasFeitas')
         .then(data => {
             this.setState({ disciplinasFeitas: this.sortByOrdem(JSON.parse(data)) });
-            console.log(JSON.parse(data))
         })
     }
 
